@@ -1,4 +1,4 @@
-# Django Blog Project
+# Django Blog Project - Alexander Lawson
 
 A simple blog application built with Django featuring blog post listing, detail views, and Django admin integration.
 
@@ -125,3 +125,4 @@ python manage.py check
 
 - ADR: `docs/ADR-basic_blog.md`
 - Brief: `docs/COPILOT-BRIEF-blog-view.md`
+
