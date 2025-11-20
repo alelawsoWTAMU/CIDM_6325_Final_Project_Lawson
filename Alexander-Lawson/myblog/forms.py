@@ -5,7 +5,7 @@ from .models import Post, Comment
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'author', 'content']
+        fields = ['title', 'author', 'content', 'featured_image']
         widgets = {
             'title': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -24,6 +24,11 @@ class PostForm(forms.ModelForm):
                 'placeholder': 'Write your post content here...',
                 'aria-label': 'Post content',
                 'aria-required': 'true'
+            }),
+            'featured_image': forms.FileInput(attrs={
+                'class': 'form-control',
+                'aria-label': 'Featured image',
+                'accept': 'image/*'
             }),
         }
     
