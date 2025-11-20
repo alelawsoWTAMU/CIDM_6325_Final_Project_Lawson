@@ -1,0 +1,24 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Delete Post - {{ post.title }}{% endblock %}
+
+{% block content %}
+    <h2>Delete Post</h2>
+    
+    <p>Are you sure you want to delete the following post?</p>
+    
+    <article>
+        <h3>{{ post.title }}</h3>
+        <p><strong>By:</strong> {{ post.author.username }}</p>
+        <p><strong>Published:</strong> {{ post.date_created|date:"F j, Y" }}</p>
+    </article>
+    
+    <form method="post">
+        {% csrf_token %}
+        <p><strong>Warning:</strong> This action cannot be undone!</p>
+        <div>
+            <button type="submit" class="btn btn-danger">Yes, Delete Post</button>
+            <a href="{% url 'blog:post_detail' post.pk %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+{% endblock %}

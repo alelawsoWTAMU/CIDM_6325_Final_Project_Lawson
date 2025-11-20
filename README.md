@@ -1,6 +1,7 @@
 # Django Blog Project - Alexander Lawson
 
-A simple blog application built with Django featuring blog post listing, detail views, and Django admin integration.
+## Description
+This is an attempt to resubmit Module 3 without any merge conflicts and receive a potential regrade in Canvas. The project is a simple blog application built with Django featuring blog post listing, detail views, and Django admin integration.
 
 ## Project Structure
 
@@ -68,6 +69,11 @@ python manage.py createsuperuser
 ```
 
 Follow the prompts to create an admin account.
+
+**Default Superuser Credentials:**
+- Username: `admin`
+- Email: `admin@wtamu.edu`
+- Password: `mDitka89` (change in production)
 
 ### 6. Run Development Server
 
