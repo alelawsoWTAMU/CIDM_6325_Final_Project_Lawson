@@ -1,7 +1,7 @@
-# Django Blog Project - Alexander Lawson
+# Django Blog Project Module 4 RETRY- Alexander Lawson
 
 ## Description
-This is an attempt to resubmit Module 3 without any merge conflicts and receive a potential regrade in Canvas. The project is a simple blog application built with Django featuring blog post listing, detail views, and Django admin integration.
+This is an attempt to resubmit Module 4 without any merge conflicts and receive a potential regrade in Canvas. The project is a simple blog application built with Django featuring blog post listing, detail views, and Django admin integration.
 
 ## Project Structure
 
