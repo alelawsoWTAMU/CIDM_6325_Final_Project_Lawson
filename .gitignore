@@ -1,4 +1,5 @@
 # Python
+<<<<<<< HEAD
 __pycache__/
 *.py[cod]
 *$py.class
@@ -49,3 +50,166 @@ Thumbs.db
 .coverage
 htmlcov/
 .pytest_cache/
+=======
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+bin/
+var/
+sdist/
+develop-eggs/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+*.egg
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+hmlcov/
+htmlcov/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+.ipython/
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# poetry
+poetry.lock
+
+# PEP 582; used by e.g. python-local
+__pypackages__/
+
+# Celery beat schedule file
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+site/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre
+.pyre/
+
+# pytype
+.pytype/
+
+# Caches
+*.pyc
+*.pyo
+*.pyd
+*.cache
+
+# IDEs and editors
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+.history/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# dotenv
+.env
+.env.*
+
+# credentials and secrets
+secrets.yaml
+credentials.json
+
+# Logs
+*.log
+
+# Temporary and backup files
+*.swp
+*.bak
+*.tmp
+*~
+
+# Large or sensitive data (uncomment if you have data folders)
+# data/
+# datasets/
+
+# End of .gitignore
+>>>>>>> 8da30f24e3226ce0eedcdda6706e8cb2c1a81dd7
