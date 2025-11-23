@@ -1,0 +1,22 @@
+databases:
+  - name: home_maintenance_compass_db
+    databaseName: home_maintenance_compass
+    user: home_maintenance_compass
+
+services:
+  - type: web
+    name: home-maintenance-compass
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn home_maintenance_compass.wsgi:application"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: home_maintenance_compass_db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: DEBUG
+        value: False

@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome to Home Maintenance Compass{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <!-- Hero Section -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-primary">
+                <i class="bi bi-house-heart-fill"></i> Welcome to Home Maintenance Compass
+            </h1>
+            <p class="lead">Your guide to proactive home maintenance and local expert advice</p>
+        </div>
+
+        {% if user.is_authenticated %}
+            <!-- Authenticated User Dashboard -->
+            <div class="row g-4 mb-5">
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="bi bi-house-door display-3 text-primary"></i>
+                            <h5 class="card-title mt-3">My Homes</h5>
+                            <p class="card-text">Manage your properties and their details</p>
+                            <a href="{% url 'homes:home_list' %}" class="btn btn-primary">View Homes</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="bi bi-calendar-check display-3 text-success"></i>
+                            <h5 class="card-title mt-3">My Schedule</h5>
+                            <p class="card-text">Track your maintenance tasks</p>
+                            <a href="{% url 'maintenance:schedule_list' %}" class="btn btn-success">View Schedule</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="bi bi-lightbulb display-3 text-warning"></i>
+                            <h5 class="card-title mt-3">Community Tips</h5>
+                            <p class="card-text">Learn from local homeowners</p>
+                            <a href="{% url 'tips:tip_list' %}" class="btn btn-warning">Browse Tips</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card shadow-sm mb-5">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'homes:home_create' %}" class="btn btn-outline-primary">
+                            <i class="bi bi-plus-circle"></i> Add a New Home
+                        </a>
+                        <a href="{% url 'maintenance:task_list' %}" class="btn btn-outline-success">
+                            <i class="bi bi-list-task"></i> Browse Maintenance Tasks
+                        </a>
+                        <a href="{% url 'tips:tip_create' %}" class="btn btn-outline-warning">
+                            <i class="bi bi-lightbulb"></i> Share a Tip
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <!-- Anonymous User Landing -->
+            <div class="card shadow-lg mb-5">
+                <div class="card-body p-5">
+                    <h2 class="card-title mb-4">New to Home Ownership?</h2>
+                    <p class="lead">Home Maintenance Compass helps first-time homeowners:</p>
+                    <ul class="fs-5">
+                        <li>Create personalized maintenance schedules based on your home's specifics</li>
+                        <li>Access step-by-step guides for common maintenance tasks</li>
+                        <li>Learn from experienced homeowners in your community</li>
+                        <li>Keep track of service providers and home information</li>
+                    </ul>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-4">
+                        <a href="{% url 'accounts:register' %}" class="btn btn-primary btn-lg px-4">
+                            Get Started <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a href="{% url 'accounts:login' %}" class="btn btn-outline-secondary btn-lg px-4">
+                            Login
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features -->
+            <h2 class="text-center mb-4">Why Use Home Maintenance Compass?</h2>
+            <div class="row g-4 mb-5">
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="bi bi-calendar-event text-primary"></i> Personalized Schedules
+                            </h5>
+                            <p class="card-text">
+                                Generate maintenance schedules tailored to your home's age, construction type, 
+                                climate zone, and features. Never miss an important task again.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="bi bi-book text-success"></i> Step-by-Step Guides
+                            </h5>
+                            <p class="card-text">
+                                Access detailed instructions, tool lists, and safety tips for common maintenance 
+                                tasks. Build confidence in DIY home care.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="bi bi-people text-warning"></i> Local Community Tips
+                            </h5>
+                            <p class="card-text">
+                                Learn from homeowners in your area who understand local climate challenges 
+                                and best practices. Upvote helpful tips.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="bi bi-folder text-info"></i> Home Information Database
+                            </h5>
+                            <p class="card-text">
+                                Keep all your home info, appliance details, and trusted service provider 
+                                contacts in one organized place.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Browse Public Content -->
+        <div class="text-center mt-5">
+            <h3 class="mb-4">Explore Without an Account</h3>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                <a href="{% url 'maintenance:task_list' %}" class="btn btn-outline-primary">
+                    <i class="bi bi-list-task"></i> Browse Maintenance Tasks
+                </a>
+                <a href="{% url 'tips:tip_list' %}" class="btn btn-outline-success">
+                    <i class="bi bi-lightbulb"></i> View Community Tips
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

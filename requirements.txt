@@ -1,0 +1,21 @@
+asgiref==3.10.0
+beautifulsoup4==4.14.2
+Django==5.2.7
+django-taggit==6.1.0
+django-widget-tweaks==1.5.0
+et_xmlfile==2.0.0
+markdownify==1.2.2
+openpyxl==3.1.5
+six==1.17.0
+soupsieve==2.8
+sqlparse==0.5.3
+typing_extensions==4.15.0
+tzdata==2025.2
+XlsxWriter==3.2.0
+
+# Production dependencies
+gunicorn==21.2.0
+psycopg2-binary==2.9.9
+whitenoise==6.6.0
+dj-database-url==2.1.0
+python-decouple==3.8
