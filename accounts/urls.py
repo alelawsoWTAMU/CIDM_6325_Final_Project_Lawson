@@ -25,7 +25,19 @@ urlpatterns = [
     path('password-reset-complete/', auth_views.PasswordResetCompleteView.as_view(
         template_name='accounts/password_reset_complete.html'), name='password_reset_complete'),
     
+    # Password change URLs (for logged-in users)
+    path('password-change/', auth_views.PasswordChangeView.as_view(
+        template_name='accounts/password_change.html',
+        success_url='/accounts/password-change/done/'), name='password_change'),
+    path('password-change/done/', auth_views.PasswordChangeDoneView.as_view(
+        template_name='accounts/password_change_done.html'), name='password_change_done'),
+    
     # Profile URLs
     path('profile/', views.ProfileView.as_view(), name='profile'),
     path('profile/edit/', views.ProfileEditView.as_view(), name='profile_edit'),
+    
+    # Expert Profile URLs
+    path('expert/apply/', views.ExpertProfileCreateView.as_view(), name='expert_profile_create'),
+    path('expert/edit/', views.ExpertProfileUpdateView.as_view(), name='expert_profile_edit'),
+    path('expert/<str:username>/', views.ExpertProfileDetailView.as_view(), name='expert_profile_detail'),
 ]

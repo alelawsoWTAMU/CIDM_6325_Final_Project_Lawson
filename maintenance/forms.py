@@ -10,34 +10,32 @@ from homes.models import Home
 
 class ScheduleForm(forms.ModelForm):
     """
-    Form for creating and editing scheduled maintenance tasks.
+    Form for creating and editing scheduled maintenance schedules.
     """
     class Meta:
         model = Schedule
         fields = [
-            'home',
-            'task',
             'scheduled_date',
             'notes',
-            'recurs',
         ]
         widgets = {
-            'scheduled_date': forms.DateInput(attrs={'type': 'date'}),
-            'notes': forms.Textarea(attrs={'rows': 3}),
+            'scheduled_date': forms.DateInput(attrs={
+                'type': 'date',
+                'class': 'form-control'
+            }),
+            'notes': forms.Textarea(attrs={
+                'rows': 3,
+                'class': 'form-control',
+                'placeholder': 'Add notes about this maintenance schedule...'
+            }),
         }
     
     def __init__(self, *args, **kwargs):
         """
-        Filter homes to only those owned by the current user.
+        Initialize form.
         """
         user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
-        
-        if user:
-            self.fields['home'].queryset = Home.objects.filter(owner=user)
-        
-        # Filter to active tasks
-        self.fields['task'].queryset = MaintenanceTask.objects.filter(is_active=True)
 
 
 class TaskCompletionForm(forms.Form):

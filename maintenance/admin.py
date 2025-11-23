@@ -44,20 +44,26 @@ class ScheduleAdmin(admin.ModelAdmin):
     """
     Admin interface for schedules.
     """
-    list_display = ['task', 'home', 'scheduled_date', 'status', 'completed_date', 'recurs']
-    list_filter = ['status', 'recurs', 'scheduled_date']
-    search_fields = ['task__title', 'home__name', 'home__owner__username']
+    list_display = ['home', 'scheduled_date', 'is_completed', 'completed_at', 'task_count']
+    list_filter = ['is_completed', 'scheduled_date']
+    search_fields = ['home__name', 'home__owner__username', 'notes']
     date_hierarchy = 'scheduled_date'
+    filter_horizontal = ['tasks']
+    
+    def task_count(self, obj):
+        """Display the number of tasks in this schedule."""
+        return obj.tasks.count()
+    task_count.short_description = 'Tasks'
     
     fieldsets = (
         ('Schedule Information', {
-            'fields': ('home', 'task', 'scheduled_date', 'status'),
+            'fields': ('home', 'tasks', 'scheduled_date'),
         }),
         ('Completion Details', {
-            'fields': ('completed_date', 'performed_by', 'cost'),
+            'fields': ('is_completed', 'completed_at'),
         }),
         ('Additional Information', {
-            'fields': ('notes', 'recurs'),
+            'fields': ('notes',),
         }),
     )
 

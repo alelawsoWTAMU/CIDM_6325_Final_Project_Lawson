@@ -143,84 +143,55 @@ class Schedule(models.Model):
     A personalized maintenance schedule for a specific home.
     Links tasks to homes with custom scheduling.
     """
-    STATUS_CHOICES = [
-        ('pending', 'Pending'),
-        ('completed', 'Completed'),
-        ('skipped', 'Skipped'),
-        ('overdue', 'Overdue'),
-    ]
-    
     home = models.ForeignKey(
         'homes.Home',
         on_delete=models.CASCADE,
-        related_name='schedules'
+        related_name='maintenance_schedules'
     )
     
-    task = models.ForeignKey(
+    tasks = models.ManyToManyField(
         MaintenanceTask,
-        on_delete=models.CASCADE,
-        related_name='schedules'
+        related_name='schedules',
+        help_text='Tasks included in this schedule'
     )
     
     scheduled_date = models.DateField(
-        help_text='When this task should be performed'
+        help_text='When these tasks should be performed'
     )
     
-    completed_date = models.DateField(
+    is_completed = models.BooleanField(
+        default=False,
+        help_text='Whether this schedule has been completed'
+    )
+    
+    completed_at = models.DateTimeField(
         null=True,
         blank=True,
-        help_text='When this task was actually completed'
-    )
-    
-    status = models.CharField(
-        max_length=20,
-        choices=STATUS_CHOICES,
-        default='pending'
+        help_text='When this schedule was marked complete'
     )
     
     notes = models.TextField(
         blank=True,
-        help_text='Notes about this specific instance of the task'
-    )
-    
-    cost = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        null=True,
-        blank=True,
-        help_text='Cost if professional service was used'
-    )
-    
-    performed_by = models.CharField(
-        max_length=200,
-        blank=True,
-        help_text='Who performed the task (DIY, professional name, etc.)'
-    )
-    
-    # For recurring tasks, track the next occurrence
-    recurs = models.BooleanField(
-        default=True,
-        help_text='Whether this task should automatically reschedule'
+        help_text='Notes about this maintenance schedule'
     )
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
     class Meta:
-        ordering = ['scheduled_date', 'status']
+        ordering = ['-scheduled_date']
         indexes = [
             models.Index(fields=['home', 'scheduled_date']),
-            models.Index(fields=['status', 'scheduled_date']),
         ]
     
     def __str__(self):
-        return f"{self.task.title} - {self.home.name} ({self.scheduled_date})"
+        return f"Schedule for {self.home.name} on {self.scheduled_date}"
     
     def mark_complete(self):
-        """Mark this task as completed."""
-        from datetime import date
-        self.status = 'completed'
-        self.completed_date = date.today()
+        """Mark this schedule as completed."""
+        from django.utils import timezone
+        self.is_completed = True
+        self.completed_at = timezone.now()
         self.save()
 
 
@@ -265,5 +236,6 @@ class TaskCompletion(models.Model):
         ordering = ['-completed_date']
     
     def __str__(self):
-        return f"{self.schedule.task.title} completed on {self.completed_date.date()}"
+        task_count = self.schedule.tasks.count()
+        return f"Schedule for {self.schedule.home.name} completed on {self.completed_date.date()} ({task_count} tasks)"
 

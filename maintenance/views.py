@@ -20,7 +20,7 @@ class TaskListView(ListView):
     """
     model = MaintenanceTask
     template_name = 'maintenance/task_list.html'
-    context_object_name = 'tasks'
+    context_object_name = 'task_list'
     paginate_by = 20
     
     def get_queryset(self):
@@ -49,7 +49,7 @@ class ScheduleListView(LoginRequiredMixin, ListView):
     """
     model = Schedule
     template_name = 'maintenance/schedule_list.html'
-    context_object_name = 'schedules'
+    context_object_name = 'schedule_list'
     paginate_by = 50
     
     def get_queryset(self):
@@ -57,19 +57,20 @@ class ScheduleListView(LoginRequiredMixin, ListView):
         Return schedules for the user's homes.
         """
         user_homes = Home.objects.filter(owner=self.request.user)
-        queryset = Schedule.objects.filter(home__in=user_homes)
+        queryset = Schedule.objects.filter(home__in=user_homes).prefetch_related('tasks')
         
-        # Filter by status if provided
-        status = self.request.GET.get('status')
-        if status:
-            queryset = queryset.filter(status=status)
+        # Filter by completion status if provided
+        if self.request.GET.get('completed') == 'true':
+            queryset = queryset.filter(is_completed=True)
+        elif self.request.GET.get('completed') == 'false':
+            queryset = queryset.filter(is_completed=False)
         
         # Filter by home if provided
         home_id = self.request.GET.get('home')
         if home_id:
             queryset = queryset.filter(home_id=home_id)
         
-        return queryset.select_related('task', 'home')
+        return queryset
     
     def get_context_data(self, **kwargs):
         """
@@ -207,17 +208,7 @@ class GenerateScheduleView(LoginRequiredMixin, View):
     """
     def get(self, request, *args, **kwargs):
         """
-        Display the schedule generation page.
-        """
-        home = get_object_or_404(Home, pk=self.kwargs['home_pk'], owner=request.user)
-        context = {
-            'home': home,
-        }
-        return render(request, 'maintenance/generate_schedule.html', context)
-    
-    def post(self, request, *args, **kwargs):
-        """
-        Generate schedule items based on home characteristics.
+        Display the schedule generation page with applicable tasks.
         """
         home = get_object_or_404(Home, pk=self.kwargs['home_pk'], owner=request.user)
         
@@ -226,7 +217,7 @@ class GenerateScheduleView(LoginRequiredMixin, View):
         
         # Filter tasks based on home characteristics
         home_age = home.get_age()
-        filtered_tasks = []
+        applicable_tasks = []
         
         for task in tasks:
             # Check age requirements
@@ -245,45 +236,53 @@ class GenerateScheduleView(LoginRequiredMixin, View):
             if task.requires_septic and not home.has_septic:
                 continue
             
-            filtered_tasks.append(task)
+            applicable_tasks.append(task)
         
-        # Create schedule items
-        created_count = 0
-        today = date.today()
+        # Create form for schedule details
+        form = ScheduleForm(user=request.user, initial={'home': home})
         
-        for task in filtered_tasks:
-            # Check if already scheduled
-            if Schedule.objects.filter(home=home, task=task, status='pending').exists():
-                continue
-            
-            # Calculate scheduled date based on frequency
-            if task.frequency == 'weekly':
-                scheduled_date = today + timedelta(days=7)
-            elif task.frequency == 'monthly':
-                scheduled_date = today + timedelta(days=30)
-            elif task.frequency == 'quarterly':
-                scheduled_date = today + timedelta(days=90)
-            elif task.frequency == 'biannual':
-                scheduled_date = today + timedelta(days=180)
-            elif task.frequency == 'annual':
-                scheduled_date = today + timedelta(days=365)
-            elif task.frequency == 'biennial':
-                scheduled_date = today + timedelta(days=730)
-            else:  # as_needed
-                scheduled_date = today + timedelta(days=30)
-            
-            # Create the schedule
-            Schedule.objects.create(
-                home=home,
-                task=task,
-                scheduled_date=scheduled_date,
-                status='pending'
-            )
-            created_count += 1
+        context = {
+            'home': home,
+            'applicable_tasks': applicable_tasks,
+            'form': form,
+        }
+        return render(request, 'maintenance/generate_schedule.html', context)
+    
+    def post(self, request, *args, **kwargs):
+        """
+        Create schedule with selected tasks.
+        """
+        home = get_object_or_404(Home, pk=self.kwargs['home_pk'], owner=request.user)
+        
+        # Get form data
+        form = ScheduleForm(request.POST, user=request.user)
+        
+        if not form.is_valid():
+            messages.error(request, "Please correct the errors in the form.")
+            return self.get(request, *args, **kwargs)
+        
+        # Get selected tasks
+        selected_task_ids = request.POST.getlist('tasks')
+        
+        if not selected_task_ids:
+            messages.warning(request, "Please select at least one task to include in the schedule.")
+            return self.get(request, *args, **kwargs)
+        
+        # Create the schedule
+        schedule = Schedule.objects.create(
+            home=home,
+            scheduled_date=form.cleaned_data['scheduled_date'],
+            notes=form.cleaned_data.get('notes', ''),
+            is_completed=False
+        )
+        
+        # Add selected tasks to the schedule
+        tasks = MaintenanceTask.objects.filter(id__in=selected_task_ids)
+        schedule.tasks.set(tasks)
         
         messages.success(
             request,
-            f"Generated {created_count} maintenance tasks for {home.name}!"
+            f"Successfully created maintenance schedule with {tasks.count()} tasks for {home.name}!"
         )
-        return redirect('maintenance:schedule_list')
+        return redirect('maintenance:schedule_detail', pk=schedule.pk)
 

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}My Schedules - Home Maintenance Compass{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-calendar-check"></i> My Maintenance Schedules</h2>
+        {% if home %}
+            <a href="{% url 'maintenance:generate_schedule' home_pk=home.pk %}" class="btn btn-success">
+                <i class="bi bi-plus-circle"></i> Generate New Schedule
+            </a>
+        {% endif %}
+    </div>
+    
+    {% if schedule_list %}
+        <div class="row">
+            {% for schedule in schedule_list %}
+                <div class="col-md-12 mb-3">
+                    <div class="card shadow">
+                        <div class="card-header {% if schedule.is_completed %}bg-success text-white{% else %}bg-primary text-white{% endif %}">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">
+                                    <i class="bi bi-house"></i> {{ schedule.home.name }}
+                                    {% if schedule.is_completed %}
+                                        <span class="badge bg-light text-success">Completed</span>
+                                    {% endif %}
+                                </h5>
+                                <span class="badge bg-light text-dark">{{ schedule.tasks.count }} tasks</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Scheduled Date:</strong> {{ schedule.scheduled_date|date:"F d, Y" }}</p>
+                            {% if schedule.is_completed %}
+                                <p><strong>Completed:</strong> {{ schedule.completed_at|date:"F d, Y" }}</p>
+                            {% endif %}
+                            {% if schedule.notes %}
+                                <p><strong>Notes:</strong> {{ schedule.notes|truncatewords:30 }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="card-footer">
+                            <a href="{% url 'maintenance:schedule_detail' pk=schedule.pk %}" class="btn btn-sm btn-primary">
+                                <i class="bi bi-eye"></i> View Details
+                            </a>
+                            {% if not schedule.is_completed %}
+                                <a href="{% url 'maintenance:schedule_update' pk=schedule.pk %}" class="btn btn-sm btn-secondary">
+                                    <i class="bi bi-pencil"></i> Edit
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            <h4><i class="bi bi-info-circle"></i> No Schedules Yet</h4>
+            <p>You haven't created any maintenance schedules yet. Visit your home's detail page and click "Generate Schedule" to create one!</p>
+            <a href="{% url 'homes:home_list' %}" class="btn btn-primary">
+                <i class="bi bi-houses"></i> Go to My Homes
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,309 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Register - Home Maintenance Compass{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0"><i class="bi bi-person-plus"></i> Create Your Account</h2>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" id="registrationForm" novalidate>
+                        {% csrf_token %}
+                        
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+                        
+                        <!-- Account Type Selection -->
+                        <div class="mb-4 p-3 bg-light rounded">
+                            <label class="form-label fw-bold">I am registering as a:</label>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="account_type" 
+                                       id="homeowner" value="homeowner" 
+                                       {% if form.account_type.value == 'homeowner' or not form.account_type.value %}checked{% endif %}
+                                       required>
+                                <label class="form-check-label" for="homeowner">
+                                    <strong>Homeowner</strong>
+                                    <br><small class="text-muted">Get maintenance tips and track your home projects</small>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="account_type" 
+                                       id="expert" value="expert"
+                                       {% if form.account_type.value == 'expert' %}checked{% endif %}
+                                       required>
+                                <label class="form-check-label" for="expert">
+                                    <strong>Local Expert (Requires Verification)</strong>
+                                    <br><small class="text-muted">Share professional tips and connect with homeowners</small>
+                                </label>
+                            </div>
+                            {% if form.account_type.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.account_type.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Basic Account Information (Always Visible) -->
+                        <h5 class="mb-3">Account Information</h5>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.username.id_for_label }}" class="form-label">Username <span class="text-danger">*</span></label>
+                            {{ form.username }}
+                            {% if form.username.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.username.errors }}
+                                </div>
+                            {% endif %}
+                            <small class="form-text text-muted">150 characters or fewer. Letters, digits and @/./+/-/_ only.</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.email.id_for_label }}" class="form-label">Email <span class="text-danger">*</span></label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.email.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.location.id_for_label }}" class="form-label">Location (City, State)</label>
+                            {{ form.location }}
+                            {% if form.location.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.location.errors }}
+                                </div>
+                            {% endif %}
+                            <small class="form-text text-muted">Optional: Helps us show relevant local experts</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.password1.id_for_label }}" class="form-label">Password <span class="text-danger">*</span></label>
+                            {{ form.password1 }}
+                            {% if form.password1.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.password1.errors }}
+                                </div>
+                            {% endif %}
+                            <small class="form-text text-muted">Your password must contain at least 8 characters and can't be entirely numeric.</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.password2.id_for_label }}" class="form-label">Confirm Password <span class="text-danger">*</span></label>
+                            {{ form.password2 }}
+                            {% if form.password2.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.password2.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Homeowner-Specific Fields -->
+                        <div id="homeownerFields">
+                            <hr class="my-4">
+                            <h5 class="mb-3">Homeowner Information</h5>
+                            <div class="form-check mb-3">
+                                {{ form.is_first_time_homeowner }}
+                                <label class="form-check-label" for="{{ form.is_first_time_homeowner.id_for_label }}">
+                                    I am a first-time homeowner
+                                </label>
+                                <small class="form-text text-muted d-block mt-1">
+                                    First-time homeowners get additional guidance and beginner-friendly tips.
+                                </small>
+                            </div>
+                        </div>
+
+                        <!-- Expert-Specific Fields (Hidden by Default) -->
+                        <div id="expertFields" style="display: none;">
+                            <hr class="my-4">
+                            
+                            <div class="alert alert-info" role="alert">
+                                <strong><i class="bi bi-info-circle"></i> Expert Verification Required</strong><br>
+                                After submitting your application, an administrator will review your information. 
+                                You'll be notified by email when your account is approved and you can begin sharing tips.
+                            </div>
+
+                            <!-- Company Information -->
+                            <h5 class="mb-3">Company Information</h5>
+                            
+                            <div class="mb-3">
+                                <label for="{{ form.company_name.id_for_label }}" class="form-label">Company Name <span class="text-danger">*</span></label>
+                                {{ form.company_name }}
+                                {% if form.company_name.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ form.company_name.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ form.trade.id_for_label }}" class="form-label">Trade/Specialty <span class="text-danger">*</span></label>
+                                {{ form.trade }}
+                                {% if form.trade.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ form.trade.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Contact Information -->
+                            <h5 class="mb-3 mt-4">Business Contact</h5>
+                            
+                            <div class="mb-3">
+                                <label for="{{ form.business_phone.id_for_label }}" class="form-label">Business Phone <span class="text-danger">*</span></label>
+                                {{ form.business_phone }}
+                                {% if form.business_phone.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ form.business_phone.errors }}
+                                    </div>
+                                {% endif %}
+                                <small class="form-text text-muted">Format: (123) 456-7890</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ form.business_email.id_for_label }}" class="form-label">Business Email <span class="text-danger">*</span></label>
+                                {{ form.business_email }}
+                                {% if form.business_email.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ form.business_email.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ form.website.id_for_label }}" class="form-label">Website</label>
+                                {{ form.website }}
+                                {% if form.website.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ form.website.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Business Address -->
+                            <h5 class="mb-3 mt-4">Business Address</h5>
+                            
+                            <div class="mb-3">
+                                <label for="{{ form.street_address.id_for_label }}" class="form-label">Street Address <span class="text-danger">*</span></label>
+                                {{ form.street_address }}
+                                {% if form.street_address.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ form.street_address.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.city.id_for_label }}" class="form-label">City <span class="text-danger">*</span></label>
+                                    {{ form.city }}
+                                    {% if form.city.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ form.city.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="{{ form.state.id_for_label }}" class="form-label">State <span class="text-danger">*</span></label>
+                                    {{ form.state }}
+                                    {% if form.state.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ form.state.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="{{ form.zip_code.id_for_label }}" class="form-label">ZIP Code <span class="text-danger">*</span></label>
+                                    {{ form.zip_code }}
+                                    {% if form.zip_code.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ form.zip_code.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- Credentials -->
+                            <h5 class="mb-3 mt-4">Professional Credentials</h5>
+                            
+                            <div class="mb-3">
+                                <label for="{{ form.license_number.id_for_label }}" class="form-label">License Number</label>
+                                {{ form.license_number }}
+                                {% if form.license_number.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ form.license_number.errors }}
+                                    </div>
+                                {% endif %}
+                                <small class="form-text text-muted">If applicable</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ form.years_in_business.id_for_label }}" class="form-label">Years in Business <span class="text-danger">*</span></label>
+                                {{ form.years_in_business }}
+                                {% if form.years_in_business.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ form.years_in_business.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-check-circle"></i> <span id="submitButtonText">Create Account</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <p class="mb-0">
+                        Already have an account? 
+                        <a href="{% url 'accounts:login' %}" class="text-decoration-none">
+                            <i class="bi bi-box-arrow-in-right"></i> Log In
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const homeownerRadio = document.getElementById('homeowner');
+    const expertRadio = document.getElementById('expert');
+    const homeownerFields = document.getElementById('homeownerFields');
+    const expertFields = document.getElementById('expertFields');
+    const submitButton = document.getElementById('submitButtonText');
+    
+    function updateFieldsVisibility() {
+        if (expertRadio.checked) {
+            homeownerFields.style.display = 'none';
+            expertFields.style.display = 'block';
+            submitButton.textContent = 'Submit Expert Application';
+        } else {
+            homeownerFields.style.display = 'block';
+            expertFields.style.display = 'none';
+            submitButton.textContent = 'Create Account';
+        }
+    }
+    
+    // Set initial state
+    updateFieldsVisibility();
+    
+    // Listen for changes
+    homeownerRadio.addEventListener('change', updateFieldsVisibility);
+    expertRadio.addEventListener('change', updateFieldsVisibility);
+});
+</script>
+{% endblock %}

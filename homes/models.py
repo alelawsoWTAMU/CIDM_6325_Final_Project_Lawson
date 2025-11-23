@@ -51,7 +51,25 @@ class Home(models.Model):
     
     address = models.TextField(
         blank=True,
-        help_text='Physical address of the property'
+        help_text='Street address of the property'
+    )
+    
+    city = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text='City where the property is located'
+    )
+    
+    state = models.CharField(
+        max_length=50,
+        blank=True,
+        help_text='State/Province where the property is located'
+    )
+    
+    zip_code = models.CharField(
+        max_length=10,
+        blank=True,
+        help_text='ZIP or postal code'
     )
     
     year_built = models.IntegerField(

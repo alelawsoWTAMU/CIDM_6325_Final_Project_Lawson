@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block title %}{{ home.name }} - Home Maintenance Compass{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow mb-4">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0"><i class="bi bi-house-fill"></i> {{ home.name }}</h3>
+                    <div>
+                        <a href="{% url 'homes:home_update' pk=home.pk %}" class="btn btn-light btn-sm">
+                            <i class="bi bi-pencil"></i> Edit
+                        </a>
+                        <a href="{% url 'homes:home_delete' pk=home.pk %}" class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash"></i> Delete
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5><i class="bi bi-geo-alt-fill"></i> Location</h5>
+                    <p class="mb-1">{{ home.address }}</p>
+                    <p class="mb-3">{{ home.city }}{% if home.state %}, {{ home.state }}{% endif %}{% if home.zip_code %} {{ home.zip_code }}{% endif %}</p>
+                    
+                    <hr>
+                    
+                    <h5><i class="bi bi-info-circle-fill"></i> Property Details</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li><strong>Year Built:</strong> {{ home.year_built }} ({{ home.get_age }} years old)</li>
+                                <li><strong>Construction Type:</strong> {{ home.get_construction_type_display }}</li>
+                                <li><strong>Climate Zone:</strong> {{ home.get_climate_zone_display }}</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                {% if home.square_footage %}<li><strong>Square Footage:</strong> {{ home.square_footage|floatformat:0 }} sq ft</li>{% endif %}
+                                <li><strong>Bedrooms:</strong> {{ home.num_bedrooms }}</li>
+                                <li><strong>Bathrooms:</strong> {{ home.num_bathrooms }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <h5><i class="bi bi-house-check-fill"></i> Home Features</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" disabled {% if home.has_basement %}checked{% endif %}>
+                                <label class="form-check-label">Basement</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" disabled {% if home.has_attic %}checked{% endif %}>
+                                <label class="form-check-label">Attic</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" disabled {% if home.has_garage %}checked{% endif %}>
+                                <label class="form-check-label">Garage</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" disabled {% if home.has_hvac %}checked{% endif %}>
+                                <label class="form-check-label">HVAC</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" disabled {% if home.has_septic %}checked{% endif %}>
+                                <label class="form-check-label">Septic System</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" disabled {% if home.has_well %}checked{% endif %}>
+                                <label class="form-check-label">Well Water</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% if home.notes %}
+                    <hr>
+                    <h5><i class="bi bi-journal-text"></i> Notes</h5>
+                    <p>{{ home.notes|linebreaks }}</p>
+                    {% endif %}
+                    
+                    <hr>
+                    
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'maintenance:generate_schedule' home_pk=home.pk %}" class="btn btn-success btn-lg">
+                            <i class="bi bi-calendar-check"></i> Generate Maintenance Schedule
+                        </a>
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                    <small>
+                        <i class="bi bi-clock"></i> Created: {{ home.created_at|date:"F d, Y" }}
+                        {% if home.updated_at != home.created_at %}
+                        | Updated: {{ home.updated_at|date:"F d, Y" }}
+                        {% endif %}
+                    </small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card shadow mb-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="bi bi-lightning-charge"></i> Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'maintenance:schedule_list' %}" class="btn btn-outline-primary">
+                            <i class="bi bi-list-check"></i> View Schedules
+                        </a>
+                        <a href="{% url 'maintenance:generate_schedule' home_pk=home.pk %}" class="btn btn-outline-success">
+                            <i class="bi bi-plus-circle"></i> New Schedule
+                        </a>
+                        <a href="{% url 'homes:home_list' %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Back to Homes
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card shadow">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0"><i class="bi bi-info-circle"></i> About This Home</h5>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted mb-2">
+                        This home is <strong>{{ home.get_age }} years old</strong>.
+                    </p>
+                    <p class="small text-muted mb-2">
+                        Based on your home's age and features, we recommend reviewing maintenance tasks regularly.
+                    </p>
+                    <p class="small text-muted mb-0">
+                        Click "Generate Maintenance Schedule" to create a personalized maintenance plan.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

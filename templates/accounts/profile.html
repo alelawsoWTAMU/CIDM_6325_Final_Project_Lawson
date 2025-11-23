@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+
+{% block title %}{{ profile_user.username }}'s Profile - Home Maintenance Compass{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <!-- Profile Information Card -->
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="mb-0">
+                            <i class="bi bi-person-circle"></i> {{ profile_user.username }}
+                            {% if profile_user.is_verified_expert %}
+                                <span class="badge bg-success">
+                                    <i class="bi bi-patch-check"></i> Verified Expert
+                                </span>
+                            {% endif %}
+                        </h3>
+                        {% if user == profile_user %}
+                            <a href="{% url 'accounts:profile_edit' %}" class="btn btn-light btn-sm">
+                                <i class="bi bi-pencil"></i> Edit Profile
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p><strong><i class="bi bi-envelope"></i> Email:</strong> {{ profile_user.email|default:"Not provided" }}</p>
+                            {% if profile_user.first_name or profile_user.last_name %}
+                                <p><strong><i class="bi bi-person"></i> Name:</strong> {{ profile_user.get_full_name }}</p>
+                            {% endif %}
+                            {% if profile_user.location %}
+                                <p><strong><i class="bi bi-geo-alt"></i> Location:</strong> {{ profile_user.location }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong><i class="bi bi-house"></i> Homeowner Status:</strong> 
+                                {% if profile_user.is_first_time_homeowner %}
+                                    <span class="badge bg-info">First-Time Homeowner</span>
+                                {% else %}
+                                    <span class="badge bg-primary">Experienced</span>
+                                {% endif %}
+                            </p>
+                            {% if profile_user.years_of_homeownership > 0 %}
+                                <p><strong><i class="bi bi-calendar-check"></i> Years Owning:</strong> {{ profile_user.years_of_homeownership }}</p>
+                            {% endif %}
+                            {% if profile_user.expertise_areas %}
+                                <p><strong><i class="bi bi-tools"></i> Expertise:</strong> {{ profile_user.expertise_areas }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    {% if profile_user.bio %}
+                        <hr>
+                        <h5>About</h5>
+                        <p>{{ profile_user.bio|linebreaks }}</p>
+                    {% endif %}
+                    
+                    {% if user == profile_user %}
+                        <hr>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="mb-1">Expert Status</h5>
+                                {% if profile_user.is_verified_expert %}
+                                    <p class="text-success mb-0">
+                                        <i class="bi bi-check-circle-fill"></i> You are a verified local expert!
+                                    </p>
+                                {% else %}
+                                    <p class="text-muted mb-0">
+                                        Apply to become a verified local expert and share professional tips.
+                                    </p>
+                                {% endif %}
+                            </div>
+                            {% if profile_user.is_verified_expert %}
+                                {% if profile_user.expert_profile %}
+                                    <a href="{% url 'accounts:expert_profile_edit' %}" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-pencil"></i> Edit Expert Profile
+                                    </a>
+                                {% endif %}
+                            {% else %}
+                                {% if profile_user.expert_profile %}
+                                    <a href="{% url 'accounts:expert_profile_edit' %}" class="btn btn-sm btn-warning">
+                                        <i class="bi bi-hourglass-split"></i> Application Pending
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'accounts:expert_profile_create' %}" class="btn btn-sm btn-success">
+                                        <i class="bi bi-award"></i> Apply for Expert Status
+                                    </a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="card-footer text-muted">
+                    <small>Member since {{ profile_user.date_joined|date:"F Y" }}</small>
+                </div>
+            </div>
+            
+            {% if profile_user.is_verified_expert and profile_user.expert_profile %}
+                <!-- Expert Profile Card (for verified experts) -->
+                <div class="card shadow mt-4 border-success">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-building"></i> Expert Business Profile
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <h4>{{ profile_user.expert_profile.company_name }}</h4>
+                        <p class="text-muted">{{ profile_user.expert_profile.get_trade_display }}</p>
+                        
+                        <h6 class="mt-3"><i class="bi bi-telephone"></i> Contact</h6>
+                        <p class="mb-1">Phone: {{ profile_user.expert_profile.business_phone }}</p>
+                        <p class="mb-1">Email: {{ profile_user.expert_profile.business_email }}</p>
+                        {% if profile_user.expert_profile.website %}
+                            <p class="mb-1">Website: <a href="{{ profile_user.expert_profile.website }}" target="_blank">{{ profile_user.expert_profile.website }}</a></p>
+                        {% endif %}
+                        
+                        <h6 class="mt-3"><i class="bi bi-geo-alt"></i> Location</h6>
+                        <p>{{ profile_user.expert_profile.full_address }}</p>
+                        
+                        <div class="mt-3">
+                            <span class="badge bg-primary">{{ profile_user.expert_profile.years_in_business }} years in business</span>
+                            {% if profile_user.expert_profile.license_number %}
+                                <span class="badge bg-secondary">License: {{ profile_user.expert_profile.license_number }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+                </div>
+                <div class="card-footer text-muted">
+                    <small>Member since {{ profile_user.date_joined|date:"F Y" }}</small>
+                </div>
+            </div>
+            
+            <!-- Activity Stats Card -->
+            <div class="card shadow mt-4">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0"><i class="bi bi-graph-up"></i> Activity Stats</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-3">
+                            <h3 class="text-primary">{{ profile_user.homes.count }}</h3>
+                            <p class="text-muted">Homes</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h3 class="text-success">{{ profile_user.maintenance_schedules.count }}</h3>
+                            <p class="text-muted">Schedules</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h3 class="text-info">{{ profile_user.tips_authored.count }}</h3>
+                            <p class="text-muted">Tips Shared</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h3 class="text-warning">{{ profile_user.tip_comments.count }}</h3>
+                            <p class="text-muted">Comments</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Tips -->
+            {% if profile_user.tips_authored.all %}
+                <div class="card shadow mt-4">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="bi bi-lightbulb"></i> Recent Tips</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            {% for tip in profile_user.tips_authored.all|slice:":5" %}
+                                <a href="{% url 'tips:tip_detail' pk=tip.pk %}" class="list-group-item list-group-item-action">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <h6 class="mb-1">{{ tip.title }}</h6>
+                                            <small class="text-muted">{{ tip.created_at|date:"M d, Y" }}</small>
+                                        </div>
+                                        <span class="badge bg-primary">{{ tip.upvotes }} upvotes</span>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="col-md-4">
+            <!-- Quick Actions -->
+            <div class="card shadow mb-3">
+                <div class="card-header bg-secondary text-white">
+                    <h6 class="mb-0">Quick Actions</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'homes:home_list' %}" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-houses"></i> My Homes
+                        </a>
+                        <a href="{% url 'maintenance:schedule_list' %}" class="btn btn-outline-success btn-sm">
+                            <i class="bi bi-calendar-check"></i> My Schedules
+                        </a>
+                        <a href="{% url 'tips:tip_list' %}" class="btn btn-outline-info btn-sm">
+                            <i class="bi bi-lightbulb"></i> Browse Tips
+                        </a>
+                        {% if user == profile_user %}
+                            <a href="{% url 'tips:tip_create' %}" class="btn btn-outline-success btn-sm">
+                                <i class="bi bi-plus-circle"></i> Share a Tip
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Preferences -->
+            {% if user == profile_user %}
+                <div class="card shadow">
+                    <div class="card-header bg-secondary text-white">
+                        <h6 class="mb-0">Preferences</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" disabled {% if profile_user.email_notifications %}checked{% endif %}>
+                            <label class="form-check-label small">
+                                Email Notifications
+                            </label>
+                        </div>
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" disabled {% if profile_user.newsletter_subscription %}checked{% endif %}>
+                            <label class="form-check-label small">
+                                Newsletter Subscription
+                            </label>
+                        </div>
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" disabled {% if profile_user.public_profile %}checked{% endif %}>
+                            <label class="form-check-label small">
+                                Public Profile
+                            </label>
+                        </div>
+                        <hr>
+                        <a href="{% url 'accounts:profile_edit' %}" class="btn btn-sm btn-secondary w-100">
+                            <i class="bi bi-gear"></i> Edit Preferences
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}{{ task.title }} - Home Maintenance Compass{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h3 class="mb-0"><i class="bi bi-wrench"></i> {{ task.title }}</h3>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <span class="badge bg-secondary">{{ task.get_category_display }}</span>
+                        <span class="badge bg-primary">{{ task.get_frequency_display }}</span>
+                        <span class="badge bg-success">{{ task.get_season_display }}</span>
+                    </div>
+                    
+                    <h5>Description</h5>
+                    <p>{{ task.description }}</p>
+                    
+                    <h5>Instructions</h5>
+                    <p>{{ task.instructions|linebreaks }}</p>
+                    
+                    {% if task.tools_needed %}
+                    <h5>Tools Needed</h5>
+                    <p>{{ task.tools_needed }}</p>
+                    {% endif %}
+                    
+                    {% if task.safety_notes %}
+                    <div class="alert alert-warning">
+                        <h6><i class="bi bi-exclamation-triangle"></i> Safety Notes</h6>
+                        <p class="mb-0">{{ task.safety_notes }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if task.estimated_duration %}
+                    <p><strong>Estimated Duration:</strong> {{ task.estimated_duration }} minutes</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">Applicability</h5>
+                </div>
+                <div class="card-body">
+                    <p class="small"><strong>Home Age:</strong> {{ task.min_home_age_years }}+ years</p>
+                    <p class="small"><strong>Climate:</strong> {{ task.climate_applicability|default:"All" }}</p>
+                    
+                    <h6 class="mt-3">Required Features:</h6>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" disabled {% if task.requires_basement %}checked{% endif %}>
+                        <label class="form-check-label small">Basement</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" disabled {% if task.requires_attic %}checked{% endif %}>
+                        <label class="form-check-label small">Attic</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" disabled {% if task.requires_hvac %}checked{% endif %}>
+                        <label class="form-check-label small">HVAC</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" disabled {% if task.requires_septic %}checked{% endif %}>
+                        <label class="form-check-label small">Septic</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

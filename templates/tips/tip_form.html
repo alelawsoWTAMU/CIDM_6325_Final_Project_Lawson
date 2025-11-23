@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}{% if form.instance.pk %}Edit{% else %}Share{% endif %} Tip - Home Maintenance Compass{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h3 class="mb-0">
+                        <i class="bi bi-lightbulb"></i> 
+                        {% if form.instance.pk %}Edit Your Tip{% else %}Share a Maintenance Tip{% endif %}
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.title.id_for_label }}" class="form-label">
+                                Tip Title <span class="text-danger">*</span>
+                            </label>
+                            {{ form.title }}
+                            {% if form.title.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.title.errors }}
+                                </div>
+                            {% endif %}
+                            <small class="form-text text-muted">Make it clear and descriptive</small>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.content.id_for_label }}" class="form-label">
+                                Tip Content <span class="text-danger">*</span>
+                            </label>
+                            {{ form.content }}
+                            {% if form.content.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.content.errors }}
+                                </div>
+                            {% endif %}
+                            <small class="form-text text-muted">Share your knowledge and experience</small>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.tags.id_for_label }}" class="form-label">
+                                Tags
+                            </label>
+                            {{ form.tags }}
+                            {% if form.tags.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.tags.errors }}
+                                </div>
+                            {% endif %}
+                            <small class="form-text text-muted">Add relevant tags (comma-separated, e.g., "plumbing, diy, winter")</small>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-check-circle"></i> {% if form.instance.pk %}Update Tip{% else %}Share Tip{% endif %}
+                            </button>
+                            <a href="{% if form.instance.pk %}{% url 'tips:tip_detail' pk=form.instance.pk %}{% else %}{% url 'tips:tip_list' %}{% endif %}" class="btn btn-secondary">
+                                <i class="bi bi-x-circle"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

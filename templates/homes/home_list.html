@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}My Homes - Home Maintenance Compass{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-houses"></i> My Homes</h2>
+        <a href="{% url 'homes:home_create' %}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Add New Home
+        </a>
+    </div>
+    
+    {% if home_list %}
+        <div class="row">
+            {% for home in home_list %}
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card shadow h-100">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">{{ home.name }}</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <i class="bi bi-geo-alt"></i> {{ home.city }}{% if home.state %}, {{ home.state }}{% endif %}
+                            </p>
+                            <p class="card-text">
+                                <i class="bi bi-calendar"></i> Built: {{ home.year_built }} ({{ home.get_age }} years)
+                            </p>
+                            <p class="card-text">
+                                <i class="bi bi-building"></i> {{ home.get_construction_type_display }}
+                            </p>
+                            {% if home.square_footage %}
+                                <p class="card-text">
+                                    <i class="bi bi-rulers"></i> {{ home.square_footage|floatformat:0 }} sq ft
+                                </p>
+                            {% endif %}
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-grid gap-2">
+                                <a href="{% url 'homes:home_detail' pk=home.pk %}" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i> View Details
+                                </a>
+                                <a href="{% url 'maintenance:generate_schedule' home_pk=home.pk %}" class="btn btn-sm btn-success">
+                                    <i class="bi bi-calendar-check"></i> Generate Schedule
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            <h4><i class="bi bi-info-circle"></i> No Homes Yet</h4>
+            <p>You haven't added any homes yet. Click the "Add New Home" button above to get started!</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

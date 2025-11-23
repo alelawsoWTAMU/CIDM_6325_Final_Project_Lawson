@@ -19,7 +19,7 @@ class TipListView(ListView):
     """
     model = LocalTip
     template_name = 'tips/tip_list.html'
-    context_object_name = 'tips'
+    context_object_name = 'tip_list'
     paginate_by = 20
     
     def get_queryset(self):
@@ -100,13 +100,29 @@ class TipDetailView(DetailView):
         return context
 
 
-class TipCreateView(LoginRequiredMixin, CreateView):
+class TipCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     """
-    Create a new tip.
+    Create a new tip. Only verified experts can create tips.
     """
     model = LocalTip
     form_class = LocalTipForm
     template_name = 'tips/tip_form.html'
+    
+    def test_func(self):
+        """
+        Only verified experts can create tips.
+        """
+        return self.request.user.is_verified_expert
+    
+    def handle_no_permission(self):
+        """
+        Redirect non-experts with helpful message.
+        """
+        messages.error(
+            self.request,
+            "Only verified local experts can share tips. Apply for expert status in your profile."
+        )
+        return redirect('tips:tip_list')
     
     def form_valid(self, form):
         """

@@ -17,7 +17,7 @@ class HomeListView(LoginRequiredMixin, ListView):
     """
     model = Home
     template_name = 'homes/home_list.html'
-    context_object_name = 'homes'
+    context_object_name = 'home_list'
     
     def get_queryset(self):
         """

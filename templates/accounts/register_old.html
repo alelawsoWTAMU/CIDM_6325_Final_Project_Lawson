@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Register - Home Maintenance Compass{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0"><i class="bi bi-person-plus"></i> Create Your Account</h3>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-4">Join Home Maintenance Compass to track your home maintenance and get personalized schedules.</p>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.username.id_for_label }}" class="form-label">
+                                Username <span class="text-danger">*</span>
+                            </label>
+                            {{ form.username }}
+                            {% if form.username.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.username.errors }}
+                                </div>
+                            {% endif %}
+                            <small class="form-text text-muted">
+                                150 characters or fewer. Letters, digits and @/./+/-/_ only.
+                            </small>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.email.id_for_label }}" class="form-label">
+                                Email Address <span class="text-danger">*</span>
+                            </label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.email.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.password1.id_for_label }}" class="form-label">
+                                Password <span class="text-danger">*</span>
+                            </label>
+                            {{ form.password1 }}
+                            {% if form.password1.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.password1.errors }}
+                                </div>
+                            {% endif %}
+                            <small class="form-text text-muted">
+                                Your password must contain at least 8 characters and can't be entirely numeric.
+                            </small>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.password2.id_for_label }}" class="form-label">
+                                Confirm Password <span class="text-danger">*</span>
+                            </label>
+                            {{ form.password2 }}
+                            {% if form.password2.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.password2.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="form-check">
+                                {{ form.is_first_time_homeowner }}
+                                <label for="{{ form.is_first_time_homeowner.id_for_label }}" class="form-check-label">
+                                    I am a first-time homeowner
+                                </label>
+                                {% if form.is_first_time_homeowner.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ form.is_first_time_homeowner.errors }}
+                                    </div>
+                                {% endif %}
+                                <small class="form-text text-muted d-block">
+                                    First-time homeowners get additional guidance and beginner-friendly tips.
+                                </small>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-check-circle"></i> Create Account
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <p class="mb-0">
+                        Already have an account? 
+                        <a href="{% url 'accounts:login' %}" class="text-decoration-none">
+                            <i class="bi bi-box-arrow-in-right"></i> Log In
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

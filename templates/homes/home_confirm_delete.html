@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Delete {{ home.name }}? - Home Maintenance Compass{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Confirm Deletion</h3>
+                </div>
+                <div class="card-body">
+                    <h5>Are you sure you want to delete "{{ home.name }}"?</h5>
+                    <p class="text-muted">This action cannot be undone. All associated data including:</p>
+                    <ul class="text-muted">
+                        <li>Maintenance schedules</li>
+                        <li>Appliances</li>
+                        <li>Service providers</li>
+                    </ul>
+                    <p class="text-danger"><strong>...will be permanently deleted.</strong></p>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash"></i> Yes, Delete This Home
+                            </button>
+                            <a href="{% url 'homes:home_detail' pk=home.pk %}" class="btn btn-secondary">
+                                <i class="bi bi-x-circle"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

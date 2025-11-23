@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Tip? - Home Maintenance Compass{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Confirm Deletion</h3>
+                </div>
+                <div class="card-body">
+                    <h5>Are you sure you want to delete this tip?</h5>
+                    <p><strong>Title:</strong> {{ tip.title }}</p>
+                    <p><strong>Upvotes:</strong> {{ tip.upvotes }}</p>
+                    <p><strong>Comments:</strong> {{ tip.comments.count }}</p>
+                    <p class="text-danger mt-3"><strong>This action cannot be undone. All comments will also be deleted.</strong></p>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash"></i> Yes, Delete This Tip
+                            </button>
+                            <a href="{% url 'tips:tip_detail' pk=tip.pk %}" class="btn btn-secondary">
+                                <i class="bi bi-x-circle"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

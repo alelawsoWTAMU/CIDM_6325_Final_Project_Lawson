@@ -16,6 +16,9 @@ class HomeForm(forms.ModelForm):
         fields = [
             'name',
             'address',
+            'city',
+            'state',
+            'zip_code',
             'year_built',
             'construction_type',
             'climate_zone',
@@ -31,8 +34,24 @@ class HomeForm(forms.ModelForm):
             'notes',
         ]
         widgets = {
-            'notes': forms.Textarea(attrs={'rows': 4}),
-            'address': forms.Textarea(attrs={'rows': 3}),
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'e.g., My First House'}),
+            'address': forms.Textarea(attrs={'class': 'form-control', 'rows': 2, 'placeholder': '123 Main St'}),
+            'city': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'e.g., Austin'}),
+            'state': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'e.g., TX'}),
+            'zip_code': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'e.g., 78701'}),
+            'year_built': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'e.g., 1995'}),
+            'construction_type': forms.Select(attrs={'class': 'form-select'}),
+            'climate_zone': forms.Select(attrs={'class': 'form-select'}),
+            'square_footage': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'e.g., 1500'}),
+            'num_bedrooms': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'e.g., 3'}),
+            'num_bathrooms': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'e.g., 2', 'step': '0.5'}),
+            'has_basement': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'has_attic': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'has_garage': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'has_hvac': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'has_septic': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'has_well': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'notes': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Any additional notes...'}),
         }
 
 

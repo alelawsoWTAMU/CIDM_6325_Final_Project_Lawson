@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Home Maintenance Compass
 
 A Django web application designed to help first-time homeowners adopt a proactive approach to home maintenance through personalized schedules, step-by-step task guides, and community-driven local knowledge sharing.

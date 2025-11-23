@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Schedule for {{ schedule.home.name }} - Home Maintenance Compass{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header {% if schedule.is_completed %}bg-success text-white{% else %}bg-primary text-white{% endif %}">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="mb-0">
+                    <i class="bi bi-calendar-check"></i> Schedule for {{ schedule.home.name }}
+                </h3>
+                <div>
+                    {% if not schedule.is_completed %}
+                        <a href="{% url 'maintenance:schedule_update' pk=schedule.pk %}" class="btn btn-light btn-sm">
+                            <i class="bi bi-pencil"></i> Edit
+                        </a>
+                        <form method="post" action="{% url 'maintenance:schedule_complete' pk=schedule.pk %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success btn-sm">
+                                <i class="bi bi-check-circle"></i> Mark Complete
+                            </button>
+                        </form>
+                    {% endif %}
+                    <a href="{% url 'maintenance:schedule_delete' pk=schedule.pk %}" class="btn btn-danger btn-sm">
+                        <i class="bi bi-trash"></i> Delete
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <p><strong>Scheduled Date:</strong> {{ schedule.scheduled_date|date:"F d, Y" }}</p>
+                    <p><strong>Status:</strong> 
+                        {% if schedule.is_completed %}
+                            <span class="badge bg-success">Completed</span>
+                        {% else %}
+                            <span class="badge bg-warning">Pending</span>
+                        {% endif %}
+                    </p>
+                    {% if schedule.is_completed %}
+                        <p><strong>Completed:</strong> {{ schedule.completed_at|date:"F d, Y" }}</p>
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Home:</strong> <a href="{% url 'homes:home_detail' pk=schedule.home.pk %}">{{ schedule.home.name }}</a></p>
+                    <p><strong>Total Tasks:</strong> {{ schedule.tasks.count }}</p>
+                </div>
+            </div>
+            
+            {% if schedule.notes %}
+                <div class="alert alert-info">
+                    <h6>Notes:</h6>
+                    <p class="mb-0">{{ schedule.notes|linebreaks }}</p>
+                </div>
+            {% endif %}
+            
+            <h5 class="mt-4">Tasks in This Schedule</h5>
+            {% if schedule.tasks.all %}
+                <div class="list-group">
+                    {% for task in schedule.tasks.all %}
+                        <div class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="mb-1">{{ task.title }}</h6>
+                                    <p class="mb-1 small text-muted">{{ task.description|truncatewords:20 }}</p>
+                                    <span class="badge bg-secondary">{{ task.get_category_display }}</span>
+                                    <span class="badge bg-primary">{{ task.get_frequency_display }}</span>
+                                </div>
+                                <a href="{% url 'maintenance:task_detail' slug=task.slug %}" class="btn btn-sm btn-outline-primary">
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-muted">No tasks in this schedule.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
