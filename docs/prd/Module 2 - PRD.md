@@ -1,7 +1,7 @@
 # Product Requirements Document (PRD)
 
 ## 1. Document Information
-- Product/Feature Name: Home Maintenance Compass
+- Product/Feature Name: Homestead Compass
 - Author(s): Alexander J Lawson
 - Date Created: 2025-09-21
 - Last Updated: 2025-09-21
@@ -9,7 +9,7 @@
 ---
 ## 2. Overview
 - **Summary:**
-  This tool is called the Home Maintenance Compass. It's purpose is to assist new homeowners in creating a personalized preventative maintenance, in addition to provided verified knowledge from nearby experts. The philosophy behind this tool is to prevent homeowners from having to make stressful and costly repairs by providing them an organized plan and access to local resources. The primary target audience are first-time buyers, specifically Millenials and Gen Z, who may never have received guidance or been mentored on what it takes to take care of a property.
+  This tool is called the Homestead Compass. It's purpose is to assist new homeowners in creating a personalized preventative maintenance, in addition to provided verified knowledge from nearby experts. The philosophy behind this tool is to prevent homeowners from having to make stressful and costly repairs by providing them an organized plan and access to local resources. The primary target audience are first-time buyers, specifically Millenials and Gen Z, who may never have received guidance or been mentored on what it takes to take care of a property.
   
 - **Problem Statement:**
 The problem we are trying to solve can be split into two parts: 1) new homeowners are often overwhelmed when it comes to taking care of their new property, which results in a reactive and stressful approach akin to whack-a-mole and 2) the advice they may get is very generic from strangers on the internet and said advice is not tailored to their specific situations or local climate.

@@ -1,7 +1,7 @@
-# Home Maintenance Compass - Project Summary
+# Homestead Compass - Project Summary
 
 ## Project Overview
-Home Maintenance Compass is a Django web application designed to help first-time homeowners proactively manage their property maintenance through personalized schedules, educational resources, and community knowledge sharing.
+Homestead Compass is a Django web application designed to help first-time homeowners proactively manage their property maintenance through personalized schedules, educational resources, and community knowledge sharing.
 
 ## Completion Status: ✅ COMPLETE
 
@@ -238,6 +238,6 @@ For deployment, the following should be addressed:
 
 ## Conclusion
 
-The Home Maintenance Compass application successfully implements all required features from the PRD and meets all rubric requirements for the final project. The application demonstrates comprehensive Django knowledge across models, views, templates, forms, authentication, admin customization, and follows best practices from Matt Layman's "Understand Django" book.
+The Homestead Compass application successfully implements all required features from the PRD and meets all rubric requirements for the final project. The application demonstrates comprehensive Django knowledge across models, views, templates, forms, authentication, admin customization, and follows best practices from Matt Layman's "Understand Django" book.
 
 The codebase is well-structured, documented, and ready for further development or deployment.

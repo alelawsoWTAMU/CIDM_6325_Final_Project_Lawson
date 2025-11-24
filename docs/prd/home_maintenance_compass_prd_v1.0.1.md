@@ -2,7 +2,7 @@
 
 ## 1. Document information
 
-- Product or feature name: Home Maintenance Compass
+- Product or feature name: Homestead Compass
 - Author(s): Alexander J Lawson
 - Date created: 2025-09-21
 - Last updated: 2025-11-23
@@ -12,7 +12,7 @@
 
 ## 2. Overview
 
-- **Summary**: Home Maintenance Compass is a web application designed to assist first-time homeowners in creating personalized preventative maintenance schedules while providing access to verified, localized knowledge from nearby experts. The application empowers new homeowners to adopt a proactive approach to home maintenance, reducing stress and costly repairs through organized planning and community-driven resources.
+- **Summary**: Homestead Compass is a web application designed to assist first-time homeowners in creating personalized preventative maintenance schedules while providing access to verified, localized knowledge from nearby experts. The application empowers new homeowners to adopt a proactive approach to home maintenance, reducing stress and costly repairs through organized planning and community-driven resources.
 
 - **Problem statement**: New homeowners, particularly Millennials and Gen Z first-time buyers, face two critical challenges: (1) they are overwhelmed by home maintenance responsibilities, leading to reactive "whack-a-mole" crisis management, and (2) they receive generic advice from internet strangers that is not tailored to their specific situations, home characteristics, or local climate conditions.
 

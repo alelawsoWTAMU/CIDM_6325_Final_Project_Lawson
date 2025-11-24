@@ -30,7 +30,7 @@ Define the Django project module boundaries using multiple domain-focused apps t
 ## Problem and forces
 
 ### Problem Statement
-The Home Maintenance Compass application addresses multiple distinct domains: user accounts, home property management, maintenance scheduling, and community knowledge sharing. We need clear separation of concerns for maintainability, testability, and future extensibility.
+The Homestead Compass application addresses multiple distinct domains: user accounts, home property management, maintenance scheduling, and community knowledge sharing. We need clear separation of concerns for maintainability, testability, and future extensibility.
 
 ### Forces
 - **Clarity**: First-time homeowners need intuitive navigation matching their mental model (My Homes, My Schedule, Community Tips)

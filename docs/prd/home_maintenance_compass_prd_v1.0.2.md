@@ -1,4 +1,4 @@
-# Home Maintenance Compass - Product Requirements Document
+# Homestead Compass - Product Requirements Document
 
 **Version**: 1.0.2  
 **Date**: November 23, 2025  
@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-Home Maintenance Compass is a Django web application helping first-time homeowners manage property maintenance through personalized schedules, task tracking, and community knowledge sharing. This PRD defines functional requirements, user stories, acceptance criteria, and implementation status.
+Homestead Compass is a Django web application helping first-time homeowners manage property maintenance through personalized schedules, task tracking, and community knowledge sharing. This PRD defines functional requirements, user stories, acceptance criteria, and implementation status.
 
 **Current Status**: Fully functional MVP deployed locally with:
 - ✅ 4 Django apps (accounts, homes, maintenance, tips)

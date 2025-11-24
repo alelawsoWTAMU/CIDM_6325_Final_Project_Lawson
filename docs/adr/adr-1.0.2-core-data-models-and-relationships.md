@@ -222,7 +222,7 @@ from django.db import models
 
 class User(AbstractUser):
     """
-    Custom user model for Home Maintenance Compass.
+    Custom user model for Homestead Compass.
     
     Extends Django's AbstractUser to add homeowner-specific fields:
     - bio: User biography for community credibility

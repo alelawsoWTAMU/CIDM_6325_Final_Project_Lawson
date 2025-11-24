@@ -1,4 +1,4 @@
-# Quick Start Guide - Home Maintenance Compass
+# Quick Start Guide - Homestead Compass
 
 ## Prerequisites
 - Python 3.8 or higher installed

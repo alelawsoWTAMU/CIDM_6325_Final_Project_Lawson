@@ -290,7 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
 - Badge is Bootstrap 5 success badge with custom styling
 
 #### Messaging
-- Clear success message for homeowners: "Welcome to Home Maintenance Compass!"
+- Clear success message for homeowners: "Welcome to Homestead Compass!"
 - Informative message for experts: "Your expert application has been submitted. An administrator will review..."
 - Error message when unverified expert tries to create tip: "Only verified experts can share tips."
 

@@ -85,7 +85,7 @@ def form_valid(self, form):
     
     if account_type == 'homeowner':
         login(self.request, self.object)
-        messages.success(self.request, "Welcome to Home Maintenance Compass!")
+        messages.success(self.request, "Welcome to Homestead Compass!")
     elif account_type == 'expert':
         messages.info(
             self.request,
@@ -200,7 +200,7 @@ Created three views:
 4. Check "I am a first-time homeowner" if applicable
 5. Click "Create Account"
 6. **Logged in automatically** → Redirected to home page
-7. Success message: "Welcome to Home Maintenance Compass!"
+7. Success message: "Welcome to Homestead Compass!"
 
 ### Expert Registration Flow
 1. Visit `/accounts/register/`

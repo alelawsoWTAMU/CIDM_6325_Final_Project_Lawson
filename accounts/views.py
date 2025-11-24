@@ -36,7 +36,7 @@ class RegisterView(CreateView):
             login(self.request, self.object)
             messages.success(
                 self.request,
-                f"Welcome to Home Maintenance Compass, {self.object.username}!"
+                f"Welcome to Homestead Compass, {self.object.username}!"
             )
         elif account_type == 'expert':
             # Experts must wait for admin verification

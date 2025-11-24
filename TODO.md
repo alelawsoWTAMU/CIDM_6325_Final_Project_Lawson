@@ -1,4 +1,4 @@
-# Home Maintenance Compass - To Do List
+# Homestead Compass - To Do List
 
 ## Outstanding Development Tasks
 

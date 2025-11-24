@@ -1,6 +1,6 @@
 # AI Usage Disclosure
 
-**Project**: Home Maintenance Compass  
+**Project**: Homestead Compass  
 **Author**: Alexander J Lawson  
 **Date**: November 23, 2025  
 **AI Tool**: GitHub Copilot (Claude Sonnet 4.5)  
@@ -10,7 +10,7 @@
 
 ## Executive Summary
 
-This document provides comprehensive disclosure of artificial intelligence usage in the development of the Home Maintenance Compass Django web application. GitHub Copilot, powered by Claude Sonnet 4.5, was used extensively throughout the project lifecycle for code generation, architectural decisions, documentation, debugging, and problem-solving. This disclosure details the nature of AI assistance, specific prompts used, human oversight applied, and areas where AI recommendations were accepted, modified, or rejected.
+This document provides comprehensive disclosure of artificial intelligence usage in the development of the Homestead Compass Django web application. GitHub Copilot, powered by Claude Sonnet 4.5, was used extensively throughout the project lifecycle for code generation, architectural decisions, documentation, debugging, and problem-solving. This disclosure details the nature of AI assistance, specific prompts used, human oversight applied, and areas where AI recommendations were accepted, modified, or rejected.
 
 **Project Status**: Functional MVP with all baseline features implemented, 30+ templates created, authentication system complete, and community tips functionality operational.
 
@@ -81,7 +81,7 @@ The development process followed this general pattern:
 
 ### 3.1 Project Initialization (November 23, 2025 - Morning)
 
-**Task**: Read PRD, rubric, checklists and build the Home Maintenance Compass project
+**Task**: Read PRD, rubric, checklists and build the Homestead Compass project
 
 **AI Prompts & Actions**:
 - "Read and analyze Module 2 - PRD.md to understand requirements"
@@ -430,7 +430,7 @@ class LocalTipAdmin(admin.ModelAdmin):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Home Maintenance Compass{% endblock %}</title>
+    <title>{% block title %}Homestead Compass{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 </head>
@@ -460,7 +460,7 @@ class LocalTipAdmin(admin.ModelAdmin):
         <h2>Welcome back, {{ user.username }}!</h2>
         <!-- Dashboard content -->
     {% else %}
-        <h1>Home Maintenance Compass</h1>
+        <h1>Homestead Compass</h1>
         <p class="lead">Your guide to stress-free home maintenance</p>
         <!-- Marketing content -->
     {% endif %}
@@ -569,7 +569,7 @@ py manage.py migrate
 
 **AI Prompts**:
 - "Read prd_template_v1.0.1.md and copilot_brief_template_v1.0.0.md templates"
-- "Fill out formal PRD using template with Home Maintenance Compass details from Module 2 - PRD.md"
+- "Fill out formal PRD using template with Homestead Compass details from Module 2 - PRD.md"
 - "Generate Copilot briefs for major features: schedule generation, community tips with moderation, home database, task completion tracking"
 - "Compose comprehensive AI_USAGE_DISCLOSURE.md documenting GitHub Copilot usage throughout project"
 

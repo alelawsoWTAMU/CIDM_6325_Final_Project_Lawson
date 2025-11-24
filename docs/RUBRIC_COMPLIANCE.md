@@ -1,8 +1,8 @@
 # Final Project Rubric Compliance Assessment
-# Home Maintenance Compass
+# Homestead Compass
 
 **Student**: Alexander J Lawson  
-**Project**: Home Maintenance Compass  
+**Project**: Homestead Compass  
 **Assessment Date**: November 23, 2025  
 **Estimated Grade**: **95/100 (A)**
 

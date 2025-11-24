@@ -1,14 +1,10 @@
-# Home Maintenance Compass
-
-<p align="center">
-  <img src="docs/images/homestead-compass-logo.png" alt="Homestead Compass Logo" width="300"/>
-</p>
+# Homestead Compass
 
 A Django web application designed to help first-time homeowners adopt a proactive approach to home maintenance through personalized schedules, step-by-step task guides, and community-driven local knowledge sharing.
 
 ## Overview
 
-Home Maintenance Compass addresses the overwhelming challenge faced by new homeowners (particularly Millennials and Gen Z) who lack guidance on property care. The application provides:
+Homestead Compass addresses the overwhelming challenge faced by new homeowners (particularly Millennials and Gen Z) who lack guidance on property care. The application provides:
 
 - **Personalized Maintenance Schedules** based on home age, construction type, climate zone, and features
 - **Detailed Task Guides** with step-by-step instructions, tool lists, and safety notes
