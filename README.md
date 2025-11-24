@@ -1,5 +1,9 @@
 # Home Maintenance Compass
 
+<p align="center">
+  <img src="docs/images/homestead-compass-logo.png" alt="Homestead Compass Logo" width="300"/>
+</p>
+
 A Django web application designed to help first-time homeowners adopt a proactive approach to home maintenance through personalized schedules, step-by-step task guides, and community-driven local knowledge sharing.
 
 ## Overview
@@ -10,23 +14,19 @@ Home Maintenance Compass addresses the overwhelming challenge faced by new homeo
 - **Detailed Task Guides** with step-by-step instructions, tool lists, and safety notes
 - **Community Tips Module** for localized, peer-reviewed home maintenance advice
 - **Home Information Database** to track appliances, service providers, and property details
-=======
-# Django Blog Project Module 3 RETRY - Alexander Lawson
+- **Expert Verification System** with verified local professionals sharing tips and advice
 
-## Description
-This is an attempt to resubmit Module 3 without any merge conflicts and receive a potential regrade in Canvas. The project is a simple blog application built with Django featuring blog post listing, detail views, and Django admin integration.
->>>>>>> 8da30f24e3226ce0eedcdda6706e8cb2c1a81dd7
+> **📋 See [TODO.md](TODO.md) for upcoming features and development roadmap**
 
 ## Project Structure
 
 ```
-<<<<<<< HEAD
 Final_Project/
 ├── accounts/               # User authentication and profile management
-│   ├── models.py          # Custom User model with homeowner fields
-│   ├── views.py           # Registration, login, profile views
-│   ├── forms.py           # User registration and profile forms
-│   ├── admin.py           # Admin configuration for users
+│   ├── models.py          # Custom User model with homeowner & expert fields
+│   ├── views.py           # Registration, login, profile, expert views
+│   ├── forms.py           # Combined registration and profile forms
+│   ├── admin.py           # Admin configuration with expert approval
 │   └── urls.py            # Authentication URL patterns
 ├── homes/                  # Home and property management
 │   ├── models.py          # Home, Appliance, ServiceProvider models
@@ -48,6 +48,18 @@ Final_Project/
 │   └── urls.py            # Tips URL patterns
 ├── templates/              # Project-wide templates
 │   ├── base.html          # Base template with Bootstrap 5
+│   └── home.html          # Landing page
+├── home_maintenance_compass/  # Project configuration
+│   ├── settings.py        # Django settings with custom user model
+│   ├── urls.py            # Root URL configuration
+│   └── wsgi.py            # WSGI application
+├── manage.py               # Django management script
+├── docs/                   # Project documentation
+│   ├── adr/               # Architecture Decision Records
+│   ├── briefs/            # Copilot development briefs
+│   └── prd/               # Product Requirements Documents
+└── TODO.md                 # Development roadmap and pending features
+```
 │   └── home.html          # Landing page
 ├── home_maintenance_compass/  # Project configuration
 │   ├── settings.py        # Django settings with custom user model
@@ -471,131 +483,23 @@ Alexander J Lawson
 ---
 
 **Note**: This README documents all features as implemented in the codebase. Some advanced features may require additional configuration or data seeding to be fully functional.
-=======
-Module 3/
-├── Alexander-Lawson/          # Django project root
-│   ├── blog_project/          # Project configuration
-│   │   ├── settings.py
-│   │   ├── urls.py
-│   │   └── ...
-│   ├── myblog/                # Blog app
-│   │   ├── models.py          # Post model
-│   │   ├── views.py           # List and detail views
-│   │   ├── urls.py            # URL patterns
-│   │   ├── admin.py           # Admin configuration
-│   │   └── templates/myblog/  # Templates
-│   │       ├── base.html
-│   │       ├── post_list.html
-│   │       └── post_detail.html
-│   └── manage.py
-└── .venv/                     # Virtual environment
-```
 
-## Features
+## Next Steps & Development Roadmap
 
-- **Blog Post Model**: Title, content, author, timestamps
-- **List View**: Display all posts ordered by creation date
-- **Detail View**: Full post content with metadata
-- **Django Admin**: Create, edit, and delete posts
-- **Clean Templates**: Responsive design with minimal styling
+See [TODO.md](TODO.md) for the complete list of upcoming features including:
+- 📚 Expanding the maintenance task library
+- 📋 Creating user onboarding surveys for appliances and home features
+- 🛠️ Enhancing admin page capabilities
+- ⚙️ Refining PM schedule generation
+- 📝 Implementing expert blog posts
+- 🔒 Adding user role restrictions (Q&A for homeowners)
+- 🎨 Designing project logo and branding
+- ✅ Comprehensive testing and bug verification
 
-## Setup Instructions
+---
 
-### 1. Activate Virtual Environment
+**Last Updated:** November 23, 2025  
+**Django Version:** 5.2.7  
+**Python Version:** 3.12.3  
+**License:** Educational Project
 
-```powershell
-.\.venv\Scripts\Activate.ps1
-```
-
-### 2. Install Dependencies
-
-```powershell
-pip install django
-```
-
-### 3. Navigate to Project Directory
-
-```powershell
-cd Alexander-Lawson
-```
-
-### 4. Run Migrations (Already Done)
-
-The database migrations have been created and applied. If needed:
-
-```powershell
-python manage.py makemigrations
-python manage.py migrate
-```
-
-### 5. Create Superuser (For Admin Access)
-
-```powershell
-python manage.py createsuperuser
-```
-
-Follow the prompts to create an admin account.
-
-**Default Superuser Credentials:**
-- Username: `admin`
-- Email: `admin@wtamu.edu`
-- Password: `mDitka89` (change in production)
-
-### 6. Run Development Server
-
-```powershell
-python manage.py runserver
-```
-
-## Usage
-
-### Access the Blog
-
-- **Blog List**: http://localhost:8000/blog/
-- **Blog Post Detail**: http://localhost:8000/blog/1/ (replace 1 with post ID)
-- **Admin Interface**: http://localhost:8000/admin/
-
-### Create Blog Posts
-
-1. Navigate to http://localhost:8000/admin/
-2. Log in with your superuser credentials
-3. Click on "Blog Posts" under the MYBLOG section
-4. Click "Add Blog Post"
-5. Fill in title, author, and content
-6. Click "Save"
-
-### View Blog Posts
-
-1. Navigate to http://localhost:8000/blog/
-2. Click on any post title to view full content
-3. Use "Back to all posts" link to return to list
-
-## Development Notes
-
-- **Architecture**: Function-Based Views (FBV) per ADR-0001
-- **Database**: SQLite (default Django database)
-- **Django Version**: 5.2+
-- **Python Version**: 3.12.3
-
-## Testing
-
-Run Django system checks:
-
-```powershell
-python manage.py check
-```
-
-## Next Steps
-
-- Add pagination to post list
-- Implement categories/tags
-- Add comment system
-- Rich text editor for content
-- User authentication for post creation
-
-## Documentation
-
-- ADR: `docs/ADR-basic_blog.md`
-- Brief: `docs/COPILOT-BRIEF-blog-view.md`
-
->>>>>>> 8da30f24e3226ce0eedcdda6706e8cb2c1a81dd7
