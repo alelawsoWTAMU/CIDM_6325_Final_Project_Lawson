@@ -13,13 +13,14 @@ Homestead Compass is a Django web application helping first-time homeowners mana
 
 **Current Status**: Fully functional MVP deployed locally with:
 - ✅ 4 Django apps (accounts, homes, maintenance, tips)
-- ✅ 30+ templates with Bootstrap 5 styling
+- ✅ 35+ templates with Bootstrap 5 styling
 - ✅ Complete authentication system (register, login, password reset)
 - ✅ Home management CRUD with appliances and service providers
 - ✅ 12 seeded maintenance tasks
 - ✅ Schedule generation with multi-task batching
-- ✅ Community tips with moderation workflow
-- ✅ 5 sample approved tips
+- ✅ Community tips with moderation workflow (17 tips, 11 questions)
+- ✅ Expert Blog Posts with rich text editor (4 articles, 2 featured)
+- ✅ 7 verified expert user accounts created
 - ⏳ Deployment to Render.com (pending)
 
 ---
@@ -207,6 +208,56 @@ Homestead Compass is a Django web application helping first-time homeowners mana
 - Authorization: UserPassesTestMixin ensures home.owner == request.user
 - Template: home_detail.html lists appliances and providers with edit/delete buttons
 - Admin: Tabular inline editing for appliances and providers
+
+---
+
+### F-007: Expert Blog Posts
+**Priority**: Better (Nice-to-Have)  
+**Status**: ✅ Complete
+
+**Description**: Verified experts can publish longer-form educational articles with rich text formatting, images, and engagement features.
+
+**Requirements**:
+- FR-F-007-1: Verified experts can create blog posts with rich text editor (WYSIWYG)
+- FR-F-007-2: Blog posts support featured images, meta descriptions, and tags
+- FR-F-007-3: Blog posts have approval workflow: draft → pending → approved/rejected
+- FR-F-007-4: Blog homepage features carousel with selected articles
+- FR-F-007-5: Users can upvote blog posts and add comments
+- FR-F-007-6: Blog posts track view count and calculate reading time
+- FR-F-007-7: Users can filter by category, search by keywords, sort by popular/recent/views
+
+**Acceptance Criteria**:
+- [x] BlogPost model with RichTextField (django-ckeditor)
+- [x] BlogComment model for discussions
+- [x] Expert-only creation (UserPassesTestMixin on BlogCreateView)
+- [x] CKEditor configured with custom toolbar (Bold, Italic, Lists, Links, Blockquote)
+- [x] Featured image upload with ImageField and Pillow
+- [x] Approval workflow with admin bulk actions
+- [x] Featured posts carousel on blog homepage (2 articles rotating)
+- [x] Upvote toggle functionality (ManyToManyField)
+- [x] Comment creation and deletion (author-only delete)
+- [x] View count increment on detail page view
+- [x] Reading time calculation (@property: word_count / 200)
+- [x] get_tags_list() method for tag parsing and display
+- [x] Filter sidebar: category, search, sort options
+- [x] Expert dashboard showing all posts grouped by status
+- [x] 4 sample blog posts created (2 featured)
+- [x] Navigation link added to main menu
+
+**Implementation Notes**:
+- Package: django-ckeditor 6.7.3, Pillow 12.0.0
+- Models: tips/models.py - BlogPost with RichTextField content, BlogComment
+- Views: 9 CBVs (list, detail, create, edit, delete, my-posts, upvote, comment, delete-comment)
+- Templates: 5 templates (blog_list, blog_detail, blog_form, blog_confirm_delete, my_posts)
+- URL Structure: `/tips/blog/` for list, `/tips/blog/<slug>/` for detail
+- Admin: BlogPostAdmin with bulk approve/reject/feature actions
+- Bug Fixes: Changed upvote_count from @property to method, added get_tags_list(), fixed Featured Articles text contrast
+
+**Sample Content**:
+1. "Complete Guide to HVAC Maintenance: Save Money and Extend System Life" (HVAC1234, featured)
+2. "10 Home Safety Devices Every Homestead Should Have" (SafetyInspector, featured)
+3. "Home Electrical Safety: Essential Tips Every Homeowner Should Know" (ElectricianExpert)
+4. Additional HVAC maintenance guide
 
 ---
 

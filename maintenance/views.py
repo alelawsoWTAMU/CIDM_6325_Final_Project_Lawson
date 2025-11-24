@@ -16,7 +16,7 @@ from .forms import ScheduleForm
 
 class TaskListView(ListView):
     """
-    Browse all available maintenance tasks.
+    Browse all available maintenance tasks with filtering.
     """
     model = MaintenanceTask
     template_name = 'maintenance/task_list.html'
@@ -25,13 +25,54 @@ class TaskListView(ListView):
     
     def get_queryset(self):
         """
-        Filter active tasks, optionally by category.
+        Filter active tasks by category, difficulty, frequency, and search.
         """
         queryset = MaintenanceTask.objects.filter(is_active=True)
+        
+        # Category filter
         category = self.request.GET.get('category')
         if category:
             queryset = queryset.filter(category=category)
+        
+        # Difficulty filter
+        difficulty = self.request.GET.get('difficulty')
+        if difficulty:
+            queryset = queryset.filter(difficulty=difficulty)
+        
+        # Frequency filter
+        frequency = self.request.GET.get('frequency')
+        if frequency:
+            queryset = queryset.filter(frequency=frequency)
+        
+        # Search filter
+        search = self.request.GET.get('search')
+        if search:
+            queryset = queryset.filter(
+                title__icontains=search
+            ) | queryset.filter(
+                description__icontains=search
+            )
+        
+        # Sort
+        sort = self.request.GET.get('sort', 'title')
+        if sort == 'difficulty':
+            queryset = queryset.order_by('difficulty')
+        elif sort == 'frequency':
+            queryset = queryset.order_by('frequency')
+        else:  # default: alphabetical by title
+            queryset = queryset.order_by('title')
+        
         return queryset
+    
+    def get_context_data(self, **kwargs):
+        """
+        Add filter choices to context.
+        """
+        context = super().get_context_data(**kwargs)
+        context['categories'] = MaintenanceTask.CATEGORY_CHOICES
+        context['difficulties'] = MaintenanceTask.DIFFICULTY_LEVELS
+        context['frequencies'] = MaintenanceTask.FREQUENCY_CHOICES
+        return context
 
 
 class TaskDetailView(DetailView):

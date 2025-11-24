@@ -12,7 +12,7 @@
 
 This document provides comprehensive disclosure of artificial intelligence usage in the development of the Homestead Compass Django web application. GitHub Copilot, powered by Claude Sonnet 4.5, was used extensively throughout the project lifecycle for code generation, architectural decisions, documentation, debugging, and problem-solving. This disclosure details the nature of AI assistance, specific prompts used, human oversight applied, and areas where AI recommendations were accepted, modified, or rejected.
 
-**Project Status**: Functional MVP with all baseline features implemented, 30+ templates created, authentication system complete, and community tips functionality operational.
+**Project Status**: Functional MVP with all baseline features implemented, 35+ templates created, authentication system complete, community tips functionality operational, and Expert Blog Posts CMS fully deployed with rich text editing, approval workflow, and engagement features.
 
 ---
 
@@ -23,13 +23,14 @@ This document provides comprehensive disclosure of artificial intelligence usage
 GitHub Copilot was actively used in the following project areas:
 
 - **Project Architecture & Planning**: Initial Django project structure, app boundaries (accounts, homes, maintenance, tips), model relationships
-- **Code Generation**: Models (Home, Appliance, ServiceProvider, MaintenanceTask, Schedule, LocalTip), views (30+ CBVs), forms (20+ ModelForms), admin customization, URL routing, management commands (seed_tasks)
-- **Template Development**: 30+ templates with Bootstrap 5 (base, landing, authentication, profiles, homes, maintenance, tips), complete password reset flow (4 templates), responsive navigation
+- **Code Generation**: Models (Home, Appliance, ServiceProvider, MaintenanceTask, Schedule, LocalTip, BlogPost, BlogComment), views (40+ CBVs including 9 blog views), forms (25+ ModelForms), admin customization with bulk actions, URL routing, management commands (seed_tasks)
+- **Template Development**: 35+ templates with Bootstrap 5 (base, landing, authentication, profiles, homes, maintenance, tips, blog), complete password reset flow (4 templates), responsive navigation, featured posts carousel
+- **Rich Text Integration**: django-ckeditor installation and configuration, WYSIWYG editor setup, toolbar customization
 - **Data Model Refactoring**: Major Schedule model restructure from single-task ForeignKey to ManyToManyField for multiple tasks per schedule, migration 0002 generation and application
-- **Documentation**: README.md, PROJECT_SUMMARY.md, QUICKSTART.md, ADRs, Copilot briefs, this AI_USAGE_DISCLOSURE.md, PRD updates
-- **Problem Solving**: Debugging context_object_name mismatches (homes → home_list, tasks → task_list, tips → tip_list), fixing URL routing errors (slug vs pk parameters), resolving template rendering issues, database query debugging
+- **Documentation**: README.md, PROJECT_SUMMARY.md, QUICKSTART.md, ADRs (including ADR-1.0.7 for blog CMS), Copilot briefs, this AI_USAGE_DISCLOSURE.md, PRD updates
+- **Problem Solving**: Debugging context_object_name mismatches (homes → home_list, tasks → task_list, tips → tip_list), fixing URL routing errors (slug vs pk parameters), resolving template rendering issues, database query debugging, fixing property/annotation conflicts (upvote_count), template syntax errors (tags.split), CSS contrast issues
 - **Standards Compliance**: Following Matt Layman's "Understand Django" patterns, PEP 8 style, conventional commit messages, Bootstrap 5 best practices
-- **Testing & Validation**: Database seeding (12 maintenance tasks, 5 community tips), user flow testing, form validation, authentication flow testing
+- **Testing & Validation**: Database seeding (12 maintenance tasks, 5 community tips, 4 blog posts), user flow testing, form validation, authentication flow testing, expert permission testing
 
 ### 1.2 Areas Where AI Was NOT Used
 
@@ -372,6 +373,175 @@ class TipListView(ListView):
 - Views should match: `context_object_name = 'home_list'` etc.
 
 **Best Practice Established**: Always use `{model_name}_list` pattern for ListView context names to match Django conventions and template expectations.
+
+### 3.10 Expert Blog Posts Implementation (November 23, 2025 - Evening)
+
+**Task**: Implement comprehensive blog CMS for verified experts
+
+**Human Request**: "Implement Expert Blog Posts from TODO.md"
+
+**AI Prompts & Actions**:
+1. "Install django-ckeditor and Pillow for rich text and image support"
+2. "Create BlogPost model with RichTextField, featured_image, status workflow"
+3. "Generate 9 blog views: list, detail, create, edit, delete, my-posts, upvote, comment, delete-comment"
+4. "Configure CKEditor with custom toolbar in settings.py"
+5. "Create 5 blog templates with featured posts carousel"
+6. "Implement approval workflow: draft → pending → approved/rejected"
+
+**AI Contributions**:
+
+**Models** (`tips/models.py`):
+```python
+class BlogPost(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=200, unique=True)
+    slug = models.SlugField(max_length=220, unique=True)
+    excerpt = models.TextField(max_length=500)
+    content = RichTextField()  # django-ckeditor
+    featured_image = models.ImageField(upload_to='blog_images/', blank=True)
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
+    meta_description = models.CharField(max_length=160, blank=True)
+    tags = models.CharField(max_length=200, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='draft')
+    is_featured = models.BooleanField(default=False)
+    upvotes = models.ManyToManyField(User, related_name='blog_upvotes', blank=True)
+    view_count = models.PositiveIntegerField(default=0)
+    published_at = models.DateTimeField(null=True, blank=True)
+    
+    def get_upvote_count(self):
+        return self.upvotes.count()
+    
+    @property
+    def reading_time(self):
+        word_count = len(self.content.split())
+        return max(1, round(word_count / 200))
+    
+    def get_tags_list(self):
+        if not self.tags:
+            return []
+        return [tag.strip() for tag in self.tags.split(',') if tag.strip()]
+
+class BlogComment(models.Model):
+    blog_post = models.ForeignKey(BlogPost, on_delete=models.CASCADE, related_name='comments')
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+```
+
+**Views** (`tips/views.py`):
+- BlogListView: Featured carousel, filtering (category, search, sort), pagination
+- BlogDetailView: View tracking, upvote status, comments display
+- BlogCreateView: UserPassesTestMixin restricts to experts, auto-slug generation
+- BlogUpdateView: Author-only editing
+- BlogDeleteView: Confirmation page
+- BlogMyPostsView: Expert dashboard grouped by status
+- BlogUpvoteView: Toggle upvote with redirect
+- BlogCommentCreateView: Add comments
+- BlogCommentDeleteView: Delete own comments
+
+**CKEditor Configuration** (`settings.py`):
+```python
+INSTALLED_APPS = [
+    'ckeditor',
+    # ... other apps
+]
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline', 'Strike'],
+            ['NumberedList', 'BulletedList', 'Blockquote'],
+            ['Link', 'Unlink'],
+            ['RemoveFormat', 'Source']
+        ],
+        'height': 400,
+        'width': '100%',
+    }
+}
+```
+
+**Templates**:
+- blog_list.html: Featured articles carousel with gold header, category/search/sort filters
+- blog_detail.html: Full article with engagement features
+- blog_form.html: CKEditor integration with image upload
+- blog_confirm_delete.html: Deletion confirmation
+- Added "Expert Blog" nav link to base.html
+
+**Admin** (`tips/admin.py`):
+```python
+class BlogPostAdmin(admin.ModelAdmin):
+    list_display = ('title', 'author', 'category', 'status', 'is_featured', 
+                   'get_upvote_count', 'view_count', 'published_at')
+    list_filter = ('status', 'category', 'is_featured', 'author')
+    search_fields = ('title', 'content', 'excerpt', 'author__username')
+    actions = ['approve_posts', 'reject_posts', 'feature_posts']
+    readonly_fields = ('created_at', 'updated_at', 'get_upvote_count', 'view_count')
+```
+
+**Human Testing & Bug Reports**:
+
+**Bug 1: Property Conflict**
+- **Error**: `AttributeError: property 'upvote_count' of 'BlogPost' object has no setter`
+- **Cause**: Used `@property` for upvote_count, but view used `.annotate(upvote_count=Count('upvotes'))`
+- **AI Fix**: Changed from `@property upvote_count` to method `get_upvote_count()`
+- **Files Updated**: tips/models.py, tips/admin.py, templates/tips/blog_detail.html
+
+**Bug 2: Template Syntax Error**
+- **Error**: `TemplateSyntaxError: Could not parse the remainder: ':','' from 'blog_post.tags.split:',''`
+- **Cause**: Django template syntax doesn't support `{% for tag in tags.split:',' %}`
+- **AI Fix**: Added `get_tags_list()` method to BlogPost model
+- **Template Update**: Changed to `{% for tag in blog_post.get_tags_list %}`
+
+**Bug 3: Featured Articles Text Unreadable**
+- **Issue**: Dark text on gold background (`--compass-gold: #C9A961`) had insufficient contrast
+- **User Feedback**: "Featured Articles text is unreadable"
+- **AI Fix**: Changed card-header and h4 to `color: white !important;`
+- **File**: templates/tips/blog_list.html
+
+**Human Validation**:
+- ✅ Expert users can create rich text blog posts
+- ✅ Non-experts redirected from create page
+- ✅ Draft posts not visible to public
+- ✅ Pending posts visible to admins for review
+- ✅ Approved posts display in list
+- ✅ Featured posts appear in carousel
+- ✅ Upvote toggle works correctly
+- ✅ Comments can be added and deleted
+- ✅ View count increments on page view
+- ✅ Reading time calculates correctly
+- ✅ Tags render as badges
+- ✅ Search and filtering work properly
+- ✅ Edit/delete restricted to post author
+- ✅ Admin bulk actions function correctly
+- ✅ Featured image uploads successfully
+
+**Sample Data Created**:
+Created 4 blog posts with 2 featured:
+1. "Complete Guide to HVAC Maintenance: Save Money and Extend System Life" (HVAC1234, featured)
+2. "10 Home Safety Devices Every Homestead Should Have" (SafetyInspector, featured)
+3. "Home Electrical Safety: Essential Tips Every Homeowner Should Know" (ElectricianExpert)
+4. Additional HVAC guide
+
+**Rationale for Design Decisions**:
+- **Separate from LocalTip**: Blogs serve different purpose than quick tips; warrant dedicated model
+- **Rich Text Editor**: Experts need formatting capabilities for educational content
+- **Approval Workflow**: Maintains content quality without micromanaging experts
+- **Featured Posts**: Highlights best content and drives engagement
+- **ManyToMany Upvotes**: Allows tracking who upvoted for future analytics
+- **Reading Time**: Helps users decide time commitment before reading
+- **View Tracking**: Provides engagement metrics for authors and admins
+
+**Documentation Created**:
+- ADR-1.0.7-expert-blog-posts-cms.md (comprehensive decision record)
+- brief-expert-blog-posts.md (implementation guide)
+- Updated TODO.md marking feature COMPLETE
+- Updated AI_USAGE_DISCLOSURE.md with blog implementation details
+- Updated README.md with blog feature description
+
+---
+
+## 4. Pattern Recognition: context_object_name Consistency
     list_display = ('name', 'owner', 'year_built', 'construction_type', 'climate_zone')
     list_filter = ('construction_type', 'climate_zone', 'has_hvac', 'has_basement')
     search_fields = ('name', 'address', 'owner__username')

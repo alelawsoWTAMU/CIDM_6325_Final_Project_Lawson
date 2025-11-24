@@ -5,7 +5,7 @@ Includes moderation features for community content.
 
 from django.contrib import admin
 from django.utils import timezone
-from .models import LocalTip, TipComment, TipReport
+from .models import LocalTip, TipComment, TipReport, BlogPost, BlogComment
 
 
 @admin.register(LocalTip)
@@ -13,8 +13,8 @@ class LocalTipAdmin(admin.ModelAdmin):
     """
     Admin interface for local tips with moderation features.
     """
-    list_display = ['title', 'author', 'category', 'location', 'status', 'upvote_count', 'views', 'is_featured', 'created_at']
-    list_filter = ['status', 'category', 'is_featured', 'created_at']
+    list_display = ['title', 'post_type', 'author', 'category', 'location', 'status', 'upvote_count', 'views', 'is_featured', 'created_at']
+    list_filter = ['post_type', 'status', 'category', 'is_featured', 'created_at']
     search_fields = ['title', 'content', 'author__username', 'location']
     prepopulated_fields = {'slug': ('title',)}
     list_editable = ['status', 'is_featured']
@@ -23,7 +23,7 @@ class LocalTipAdmin(admin.ModelAdmin):
     
     fieldsets = (
         ('Content', {
-            'fields': ('title', 'slug', 'author', 'category', 'content'),
+            'fields': ('post_type', 'title', 'slug', 'author', 'category', 'content'),
         }),
         ('Location', {
             'fields': ('location', 'climate_zone'),
@@ -130,4 +130,100 @@ class TipReportAdmin(admin.ModelAdmin):
         )
         self.message_user(request, f"{updated} reports were marked as resolved.")
     mark_resolved.short_description = "Mark selected reports as resolved"
+
+
+@admin.register(BlogPost)
+class BlogPostAdmin(admin.ModelAdmin):
+    """
+    Admin interface for blog posts with approval workflow.
+    """
+    list_display = ['title', 'author', 'category', 'status', 'is_featured', 'get_upvote_count', 'view_count', 'published_at']
+    list_filter = ['status', 'category', 'is_featured', 'created_at', 'published_at']
+    search_fields = ['title', 'excerpt', 'content', 'author__username', 'tags']
+    prepopulated_fields = {'slug': ('title',)}
+    list_editable = ['status', 'is_featured']
+    date_hierarchy = 'published_at'
+    readonly_fields = ['view_count', 'created_at', 'updated_at', 'published_at']
+    
+    def get_upvote_count(self, obj):
+        """Display upvote count."""
+        return obj.upvotes.count()
+    get_upvote_count.short_description = 'Upvotes'
+    get_upvote_count.admin_order_field = 'upvotes'
+    
+    fieldsets = (
+        ('Content', {
+            'fields': ('title', 'slug', 'author', 'category', 'excerpt', 'content'),
+        }),
+        ('Media & SEO', {
+            'fields': ('featured_image', 'meta_description', 'tags'),
+        }),
+        ('Publishing', {
+            'fields': ('status', 'is_featured', 'published_at'),
+        }),
+        ('Moderation', {
+            'fields': ('moderated_by', 'moderated_at', 'moderation_notes'),
+        }),
+        ('Metrics', {
+            'fields': ('view_count',),
+        }),
+        ('Timestamps', {
+            'fields': ('created_at', 'updated_at'),
+        }),
+    )
+    
+    actions = ['approve_posts', 'reject_posts', 'feature_posts', 'unfeature_posts']
+    
+    def approve_posts(self, request, queryset):
+        """Approve selected blog posts."""
+        updated = 0
+        for post in queryset:
+            if post.status != 'approved':
+                post.status = 'approved'
+                post.moderated_by = request.user
+                post.moderated_at = timezone.now()
+                if not post.published_at:
+                    post.published_at = timezone.now()
+                post.save()
+                updated += 1
+        self.message_user(request, f"{updated} blog posts were approved.")
+    approve_posts.short_description = "Approve selected blog posts"
+    
+    def reject_posts(self, request, queryset):
+        """Reject selected blog posts."""
+        updated = queryset.update(
+            status='rejected',
+            moderated_by=request.user,
+            moderated_at=timezone.now()
+        )
+        self.message_user(request, f"{updated} blog posts were rejected.")
+    reject_posts.short_description = "Reject selected blog posts"
+    
+    def feature_posts(self, request, queryset):
+        """Feature selected blog posts."""
+        updated = queryset.filter(status='approved').update(is_featured=True)
+        self.message_user(request, f"{updated} blog posts were featured.")
+    feature_posts.short_description = "Feature selected blog posts"
+    
+    def unfeature_posts(self, request, queryset):
+        """Remove feature status from selected blog posts."""
+        updated = queryset.update(is_featured=False)
+        self.message_user(request, f"{updated} blog posts were unfeatured.")
+    unfeature_posts.short_description = "Remove feature status"
+
+
+@admin.register(BlogComment)
+class BlogCommentAdmin(admin.ModelAdmin):
+    """
+    Admin interface for blog comments.
+    """
+    list_display = ['blog_post', 'author', 'content_preview', 'created_at']
+    list_filter = ['created_at']
+    search_fields = ['blog_post__title', 'author__username', 'content']
+    date_hierarchy = 'created_at'
+    
+    def content_preview(self, obj):
+        """Show a preview of the comment content."""
+        return obj.content[:50] + '...' if len(obj.content) > 50 else obj.content
+    content_preview.short_description = 'Content'
 

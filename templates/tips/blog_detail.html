@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ blog_post.title }} - Homestead Compass{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'tips:blog_list' %}">Blog</a></li>
+            <li class="breadcrumb-item active">{{ blog_post.title|truncatewords:5 }}</li>
+        </ol>
+    </nav>
+
+    <!-- Article Header -->
+    <article class="mb-5">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <span class="badge bg-success mb-2">{{ blog_post.get_category_display }}</span>
+                <h1 class="mb-3" style="color: white !important;">{{ blog_post.title }}</h1>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="mb-0" style="color: white !important;">
+                            <strong>By {{ blog_post.author.username }}</strong>
+                            <span class="badge bg-warning text-dark"><i class="bi bi-patch-check"></i> Verified Expert</span>
+                            <br>
+                            <small>Published {{ blog_post.published_at|date:"F d, Y" }}</small>
+                            {% if blog_post.updated_at > blog_post.created_at %}
+                            <br><small>Updated {{ blog_post.updated_at|date:"F d, Y" }}</small>
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="text-end">
+                        <div><i class="bi bi-eye"></i> {{ blog_post.view_count }} views</div>
+                        <div><i class="bi bi-clock"></i> {{ blog_post.reading_time }} min read</div>
+                    </div>
+                </div>
+            </div>
+
+            {% if blog_post.featured_image %}
+            <img src="{{ blog_post.featured_image.url }}" class="card-img-top" alt="{{ blog_post.title }}" style="max-height: 400px; object-fit: cover;">
+            {% endif %}
+
+            <div class="card-body">
+                <!-- Article Content -->
+                <div class="article-content mb-4">
+                    {{ blog_post.content|safe }}
+                </div>
+
+                <!-- Tags -->
+                {% if blog_post.tags %}
+                <div class="mb-3">
+                    <strong>Tags:</strong>
+                    {% for tag in blog_post.get_tags_list %}
+                    <span class="badge bg-secondary">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- Actions -->
+                <div class="d-flex justify-content-between align-items-center border-top pt-3">
+                    <div>
+                        {% if user.is_authenticated %}
+                        <form method="post" action="{% url 'tips:blog_upvote' slug=blog_post.slug %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn {% if user_has_upvoted %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                                <i class="bi bi-hand-thumbs-up"></i>
+                                {% if user_has_upvoted %}Upvoted{% else %}Upvote{% endif %}
+                                ({{ blog_post.get_upvote_count }})
+                            </button>
+                        </form>
+                        {% else %}
+                        <a href="{% url 'accounts:login' %}?next={{ request.path }}" class="btn btn-outline-primary">
+                            <i class="bi bi-hand-thumbs-up"></i> Upvote ({{ blog_post.get_upvote_count }})
+                        </a>
+                        {% endif %}
+                    </div>
+                    {% if user == blog_post.author %}
+                    <div>
+                        <a href="{% url 'tips:blog_update' slug=blog_post.slug %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-pencil"></i> Edit
+                        </a>
+                        <a href="{% url 'tips:blog_delete' slug=blog_post.slug %}" class="btn btn-outline-danger">
+                            <i class="bi bi-trash"></i> Delete
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <!-- Comments Section -->
+    <div class="card mb-4">
+        <div class="card-header" style="background-color: var(--compass-teal); color: white;">
+            <h4 class="mb-0" style="color: white !important;">
+                <i class="bi bi-chat-dots"></i> Comments ({{ comments.count }})
+            </h4>
+        </div>
+        <div class="card-body">
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'tips:blog_comment_create' slug=blog_post.slug %}" class="mb-4">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {{ comment_form.content }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-send"></i> Post Comment
+                    </button>
+                </form>
+            {% else %}
+                <div class="alert alert-info">
+                    <a href="{% url 'accounts:login' %}?next={{ request.path }}">Log in</a> to leave a comment.
+                </div>
+            {% endif %}
+
+            <!-- Existing Comments -->
+            {% if comments %}
+                {% for comment in comments %}
+                <div class="border-bottom pb-3 mb-3">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <strong>{{ comment.author.username }}</strong>
+                            {% if comment.author.is_verified_expert %}
+                                <span class="badge bg-success"><i class="bi bi-patch-check"></i> Expert</span>
+                            {% endif %}
+                            <br>
+                            <small class="text-muted">{{ comment.created_at|date:"F d, Y g:i A" }}</small>
+                        </div>
+                        {% if user == comment.author %}
+                        <form method="post" action="{% url 'tips:blog_comment_delete' pk=comment.pk %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this comment?')">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+                    <p class="mt-2 mb-0">{{ comment.content }}</p>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-muted">No comments yet. Be the first to comment!</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Related Posts -->
+    {% if related_posts %}
+    <div class="card">
+        <div class="card-header" style="background-color: var(--compass-gold); color: var(--compass-dark);">
+            <h4 class="mb-0">Related Articles</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                {% for post in related_posts %}
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        {% if post.featured_image %}
+                        <img src="{{ post.featured_image.url }}" class="card-img-top" alt="{{ post.title }}" style="height: 150px; object-fit: cover;">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ post.title|truncatewords:8 }}</h5>
+                            <p class="card-text small">{{ post.excerpt|truncatewords:15 }}</p>
+                            <a href="{% url 'tips:blog_detail' slug=post.slug %}" class="btn btn-sm btn-outline-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.article-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+.article-content h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: var(--compass-dark);
+}
+.article-content h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--compass-dark);
+}
+.article-content p {
+    margin-bottom: 1rem;
+}
+.article-content ul, .article-content ol {
+    margin-bottom: 1rem;
+    padding-left: 2rem;
+}
+.article-content img {
+    max-width: 100%;
+    height: auto;
+    margin: 1rem 0;
+}
+</style>
+{% endblock %}

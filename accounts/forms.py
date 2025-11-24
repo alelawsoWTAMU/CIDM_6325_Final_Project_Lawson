@@ -166,7 +166,7 @@ class CombinedRegistrationForm(UserCreationForm):
             user.is_active = True  # Homeowners are active immediately
         elif account_type == 'expert':
             user.is_first_time_homeowner = False
-            user.is_active = False  # Experts must be verified by admin
+            user.is_active = True  # Experts can log in but see pending message
             user.is_verified_expert = False  # Will be set to True by admin
         
         if commit:

@@ -9,6 +9,7 @@ Homestead Compass addresses the overwhelming challenge faced by new homeowners (
 - **Personalized Maintenance Schedules** based on home age, construction type, climate zone, and features
 - **Detailed Task Guides** with step-by-step instructions, tool lists, and safety notes
 - **Community Tips Module** for localized, peer-reviewed home maintenance advice
+- **Expert Blog Posts** with rich text articles, approval workflow, and engagement features
 - **Home Information Database** to track appliances, service providers, and property details
 - **Expert Verification System** with verified local professionals sharing tips and advice
 
@@ -37,11 +38,11 @@ Final_Project/
 │   ├── admin.py           # Admin for tasks and schedules
 │   └── urls.py            # Maintenance URL patterns
 ├── tips/                   # Community tips and knowledge sharing
-│   ├── models.py          # LocalTip, TipComment, TipReport models
-│   ├── views.py           # Tip CRUD, upvoting, commenting, reporting
-│   ├── forms.py           # Tip submission and comment forms
-│   ├── admin.py           # Moderation tools for tips
-│   └── urls.py            # Tips URL patterns
+│   ├── models.py          # LocalTip, TipComment, TipReport, BlogPost, BlogComment models
+│   ├── views.py           # Tip CRUD, upvoting, commenting, reporting, blog views
+│   ├── forms.py           # Tip submission, comment, and blog forms
+│   ├── admin.py           # Moderation tools for tips and blog posts
+│   └── urls.py            # Tips and blog URL patterns
 ├── templates/              # Project-wide templates
 │   ├── base.html          # Base template with Bootstrap 5
 │   └── home.html          # Landing page
@@ -212,6 +213,22 @@ Features:
 - Appliance tracking: type, manufacturer, warranty dates
 - Service provider contacts: category, phone, email, notes, verification status
 
+### ✅ FR-006: Expert Blog Posts
+**Implementation:** `tips/models.py` - `BlogPost`, `BlogComment`; `tips/views.py` - 9 blog CBVs
+
+Features:
+- Rich text editor (django-ckeditor) for formatted articles
+- Featured image upload with Pillow
+- Approval workflow: draft → pending → approved/rejected
+- Upvoting system with ManyToManyField
+- Comment system for discussions
+- View count tracking and reading time calculation
+- Featured posts carousel on blog homepage
+- Category filtering, search, and sorting
+- Expert-only creation with author-only editing
+- Admin bulk actions for moderation
+- SEO optimization with meta descriptions and tags
+
 ## Models and Data Design
 
 ### Custom User Model (`accounts.User`)
@@ -247,6 +264,19 @@ Extends `AbstractUser` with homeowner-specific fields:
 - Moderation (status, moderated_by, moderation_notes)
 - Engagement (upvotes ManyToMany, views counter, is_featured)
 
+**BlogPost** - Expert long-form articles
+- Rich text content (RichTextField with CKEditor)
+- Featured image (ImageField with Pillow)
+- SEO fields (meta_description, tags)
+- Approval workflow (status: draft/pending/approved/rejected)
+- Engagement (upvotes ManyToMany, view_count, comments)
+- Author attribution and timestamps
+
+**BlogComment** - Blog post discussions
+- ForeignKey to BlogPost and User
+- Text content with timestamps
+- Delete own comments functionality
+
 ## Admin Interface
 
 All models are registered in Django admin with custom configurations:
@@ -255,6 +285,7 @@ All models are registered in Django admin with custom configurations:
 - **Home Admin**: Inlines for appliances and service providers
 - **Task Admin**: Prepopulated slug, list filters for category/frequency
 - **Tip Admin**: Moderation tools with bulk approve/reject/flag actions
+- **Blog Admin**: Approval workflow with bulk actions, readonly fields for metrics
 - **Schedule Admin**: Date hierarchy, status filtering
 
 ## URL Structure
@@ -290,6 +321,16 @@ All models are registered in Django admin with custom configurations:
     <slug:slug>/comment/    # Add comment
     <slug:slug>/report/     # Report tip
     category/<str:category>/ # Filter by category
+/tips/blog/
+    /                       # Browse blog posts
+    create/                 # Create blog post (experts only)
+    <slug:slug>/            # Blog post detail
+    <slug:slug>/edit/       # Edit blog post (author only)
+    <slug:slug>/delete/     # Delete blog post (author only)
+    <slug:slug>/upvote/     # Toggle blog upvote
+    <slug:slug>/comment/    # Add comment to blog post
+    comment/<int:pk>/delete/ # Delete comment
+    my-posts/               # Expert blog dashboard
 /admin/                     # Django admin interface
 ```
 
@@ -446,11 +487,27 @@ For production deployment:
 - **Backend**: Django 5.2+
 - **Database**: SQLite (development), PostgreSQL recommended (production)
 - **Frontend**: Bootstrap 5.3, Bootstrap Icons
+- **Rich Text Editor**: django-ckeditor 6.7.3 for blog posts
+- **Image Processing**: Pillow 12.0.0 for featured images
 - **Authentication**: Django's built-in auth system with custom User model
 - **Templates**: Django Template Language (DTL)
 
 ## Future Enhancements
 
+### Blog Enhancements
+- **Rich Media**: YouTube video embeds, image galleries within articles
+- **Tag Cloud**: Popular tags visualization on blog homepage
+- **Related Posts Algorithm**: Show similar articles based on tags/category
+- **Draft Auto-Save**: Prevent content loss during editing
+- **Version History**: Track edits over time with diff view
+- **Email Notifications**: Notify admins of pending posts, authors of approval/rejection
+- **Social Sharing**: Share buttons for Facebook, Twitter, LinkedIn
+- **Reading Progress Bar**: Visual indicator of scroll position
+- **Bookmarking**: Save articles for later reading
+- **Author Profiles**: Dedicated page showing all posts by expert
+- **RSS Feed**: Subscribe to new blog posts
+
+### Core Application
 - **Email Notifications**: Send reminders for upcoming tasks
 - **Calendar Integration**: Export schedules to iCal/Google Calendar
 - **Mobile App**: Native iOS/Android applications

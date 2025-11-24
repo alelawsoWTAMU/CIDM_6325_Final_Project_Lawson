@@ -7,17 +7,25 @@
     <div class="row">
         <div class="col-md-8">
             <div class="card shadow">
-                <div class="card-header bg-info text-white">
+                <div class="card-header {% if tip.post_type == 'question' %}bg-warning{% else %}bg-info{% endif %} text-white">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
-                            <h3 class="mb-1">{{ tip.title }}</h3>
-                            <p class="mb-0 small">By {{ tip.author.username }} | {{ tip.created_at|date:"F d, Y" }}</p>
-                        </div>
-                        {% if tip.is_verified %}
-                            <span class="badge bg-success">
-                                <i class="bi bi-check-circle"></i> Verified
+                            <span class="badge {% if tip.post_type == 'question' %}bg-dark{% else %}bg-success{% endif %} mb-2">
+                                {% if tip.post_type == 'question' %}
+                                    <i class="bi bi-question-circle"></i> Question
+                                {% else %}
+                                    <i class="bi bi-lightbulb"></i> Expert Tip
+                                {% endif %}
                             </span>
-                        {% endif %}
+                            <h3 class="mb-1" style="color: white !important;">{{ tip.title }}</h3>
+                            <p class="mb-0 small" style="color: white !important;">
+                                By {{ tip.author.username }}
+                                {% if tip.author.is_verified_expert %}
+                                    <span class="badge bg-success"><i class="bi bi-patch-check"></i> Verified Expert</span>
+                                {% endif %}
+                                | {{ tip.created_at|date:"F d, Y" }}
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body">
@@ -33,7 +41,7 @@
                     
                     <div class="d-flex align-items-center mb-3">
                         {% if user.is_authenticated %}
-                            <form method="post" action="{% url 'tips:tip_upvote' pk=tip.pk %}" class="me-2">
+                            <form method="post" action="{% url 'tips:tip_upvote' slug=tip.slug %}" class="me-2">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-sm btn-outline-primary">
                                     <i class="bi bi-hand-thumbs-up"></i> Upvote ({{ tip.upvotes }})
@@ -46,10 +54,10 @@
                         {% endif %}
                         
                         {% if user == tip.author %}
-                            <a href="{% url 'tips:tip_update' pk=tip.pk %}" class="btn btn-sm btn-secondary me-2">
+                            <a href="{% url 'tips:tip_update' slug=tip.slug %}" class="btn btn-sm btn-secondary me-2">
                                 <i class="bi bi-pencil"></i> Edit
                             </a>
-                            <a href="{% url 'tips:tip_delete' pk=tip.pk %}" class="btn btn-sm btn-danger">
+                            <a href="{% url 'tips:tip_delete' slug=tip.slug %}" class="btn btn-sm btn-danger">
                                 <i class="bi bi-trash"></i> Delete
                             </a>
                         {% endif %}
@@ -64,7 +72,7 @@
                 </div>
                 <div class="card-body">
                     {% if user.is_authenticated %}
-                        <form method="post" action="{% url 'tips:comment_create' tip_pk=tip.pk %}" class="mb-4">
+                        <form method="post" action="{% url 'tips:comment_create' slug=tip.slug %}" class="mb-4">
                             {% csrf_token %}
                             <div class="mb-3">
                                 <label for="id_content" class="form-label">Add a Comment</label>

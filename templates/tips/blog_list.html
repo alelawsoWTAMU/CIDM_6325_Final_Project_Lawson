@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Expert Blog - Homestead Compass{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="display-5 mb-2">
+                <i class="bi bi-journal-text"></i> Expert Blog
+            </h1>
+            <p class="text-muted">In-depth articles from verified home maintenance experts</p>
+        </div>
+        {% if user.is_authenticated and user.is_verified_expert %}
+            <div>
+                <a href="{% url 'tips:blog_my_posts' %}" class="btn btn-outline-secondary me-2">
+                    <i class="bi bi-file-earmark-text"></i> My Posts
+                </a>
+                <a href="{% url 'tips:blog_create' %}" class="btn btn-success">
+                    <i class="bi bi-plus-circle"></i> Write Article
+                </a>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Featured Posts -->
+    {% if featured_posts %}
+    <div class="card mb-4" style="background-color: var(--compass-light); border-color: var(--compass-gold);">
+        <div class="card-header" style="background-color: var(--compass-gold); color: white;">
+            <h4 class="mb-0" style="color: white !important;"><i class="bi bi-star-fill"></i> Featured Articles</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                {% for post in featured_posts %}
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        {% if post.featured_image %}
+                        <img src="{{ post.featured_image.url }}" class="card-img-top" alt="{{ post.title }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <span class="badge bg-info mb-2">{{ post.get_category_display }}</span>
+                            <h5 class="card-title">{{ post.title }}</h5>
+                            <p class="card-text text-muted small">{{ post.excerpt|truncatewords:20 }}</p>
+                            <p class="small text-muted mb-2">
+                                By {{ post.author.username }}
+                                <span class="badge bg-success"><i class="bi bi-patch-check"></i></span>
+                                | {{ post.reading_time }} min read
+                            </p>
+                            <a href="{% url 'tips:blog_detail' slug=post.slug %}" class="btn btn-sm btn-outline-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Filters -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Category</label>
+                    <select name="category" class="form-select">
+                        <option value="">All Categories</option>
+                        {% for value, label in categories %}
+                        <option value="{{ value }}" {% if request.GET.category == value %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Sort By</label>
+                    <select name="sort" class="form-select">
+                        <option value="recent" {% if request.GET.sort == 'recent' or not request.GET.sort %}selected{% endif %}>Most Recent</option>
+                        <option value="popular" {% if request.GET.sort == 'popular' %}selected{% endif %}>Most Popular</option>
+                        <option value="views" {% if request.GET.sort == 'views' %}selected{% endif %}>Most Viewed</option>
+                    </select>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label fw-bold">Search</label>
+                    <input type="text" name="search" class="form-control" placeholder="Search articles..." value="{{ request.GET.search }}">
+                </div>
+                <div class="col-md-1 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">Filter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Blog Posts -->
+    {% if blog_posts %}
+        <div class="row">
+            {% for post in blog_posts %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    {% if post.featured_image %}
+                    <img src="{{ post.featured_image.url }}" class="card-img-top" alt="{{ post.title }}" style="height: 200px; object-fit: cover;">
+                    {% endif %}
+                    <div class="card-body">
+                        <span class="badge bg-info mb-2">{{ post.get_category_display }}</span>
+                        <h4 class="card-title">
+                            <a href="{% url 'tips:blog_detail' slug=post.slug %}" class="text-decoration-none" style="color: var(--compass-dark);">
+                                {{ post.title }}
+                            </a>
+                        </h4>
+                        <p class="card-text">{{ post.excerpt|truncatewords:30 }}</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div class="small text-muted">
+                                <strong>{{ post.author.username }}</strong>
+                                <span class="badge bg-success"><i class="bi bi-patch-check"></i></span>
+                                <br>
+                                {{ post.published_at|date:"F d, Y" }}
+                            </div>
+                            <div class="text-end small text-muted">
+                                <div><i class="bi bi-eye"></i> {{ post.view_count }} views</div>
+                                <div><i class="bi bi-hand-thumbs-up"></i> {{ post.upvote_count }} upvotes</div>
+                                <div><i class="bi bi-clock"></i> {{ post.reading_time }} min read</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <a href="{% url 'tips:blog_detail' slug=post.slug %}" class="btn btn-outline-primary btn-sm">Read Full Article</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Previous</a>
+                </li>
+                {% endif %}
+                
+                <li class="page-item active">
+                    <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                </li>
+                
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Next</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    {% else %}
+        <div class="alert alert-info text-center">
+            <i class="bi bi-info-circle"></i>
+            <h4>No Blog Posts Yet</h4>
+            <p class="mb-0">
+                {% if user.is_authenticated and user.is_verified_expert %}
+                    Be the first to share your expertise! <a href="{% url 'tips:blog_create' %}">Write an article</a>
+                {% else %}
+                    Check back soon for expert articles on home maintenance.
+                {% endif %}
+            </p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

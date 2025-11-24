@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Blog Posts - Homestead Compass{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-5 mb-0">
+            <i class="bi bi-file-earmark-text"></i> My Blog Posts
+        </h1>
+        <a href="{% url 'tips:blog_create' %}" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Write New Article
+        </a>
+    </div>
+
+    <!-- Status Tabs -->
+    <ul class="nav nav-tabs mb-4">
+        <li class="nav-item">
+            <a class="nav-link {% if not request.GET.status %}active{% endif %}" href="{% url 'tips:blog_my_posts' %}">
+                All ({{ blog_posts.count }})
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'tips:blog_my_posts' %}?status=draft">
+                Drafts
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'tips:blog_my_posts' %}?status=pending">
+                Pending Review
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'tips:blog_my_posts' %}?status=approved">
+                Published
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'tips:blog_my_posts' %}?status=rejected">
+                Rejected
+            </a>
+        </li>
+    </ul>
+
+    <!-- Blog Posts Table -->
+    {% if blog_posts %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead style="background-color: var(--compass-teal); color: white;">
+                <tr>
+                    <th style="color: white !important;">Title</th>
+                    <th style="color: white !important;">Category</th>
+                    <th style="color: white !important;">Status</th>
+                    <th style="color: white !important;">Views</th>
+                    <th style="color: white !important;">Upvotes</th>
+                    <th style="color: white !important;">Created</th>
+                    <th style="color: white !important;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in blog_posts %}
+                <tr>
+                    <td>
+                        <strong>{{ post.title }}</strong>
+                        {% if post.is_featured %}
+                        <span class="badge bg-warning text-dark"><i class="bi bi-star-fill"></i> Featured</span>
+                        {% endif %}
+                        <br>
+                        <small class="text-muted">{{ post.excerpt|truncatewords:10 }}</small>
+                    </td>
+                    <td>{{ post.get_category_display }}</td>
+                    <td>
+                        {% if post.status == 'draft' %}
+                        <span class="badge bg-secondary">Draft</span>
+                        {% elif post.status == 'pending' %}
+                        <span class="badge bg-warning">Pending Review</span>
+                        {% elif post.status == 'approved' %}
+                        <span class="badge bg-success">Published</span>
+                        {% elif post.status == 'rejected' %}
+                        <span class="badge bg-danger">Rejected</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ post.view_count }}</td>
+                    <td>{{ post.upvote_count }}</td>
+                    <td>
+                        {{ post.created_at|date:"M d, Y" }}
+                        {% if post.updated_at > post.created_at %}
+                        <br><small class="text-muted">Updated {{ post.updated_at|date:"M d" }}</small>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            {% if post.status == 'approved' %}
+                            <a href="{% url 'tips:blog_detail' slug=post.slug %}" class="btn btn-outline-info" title="View">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            {% endif %}
+                            <a href="{% url 'tips:blog_update' slug=post.slug %}" class="btn btn-outline-primary" title="Edit">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a href="{% url 'tips:blog_delete' slug=post.slug %}" class="btn btn-outline-danger" title="Delete">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}">Previous</a>
+            </li>
+            {% endif %}
+            
+            <li class="page-item active">
+                <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+            </li>
+            
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}">Next</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+
+    {% else %}
+    <div class="alert alert-info text-center">
+        <i class="bi bi-info-circle"></i>
+        <h4>No Blog Posts Yet</h4>
+        <p class="mb-3">You haven't created any blog posts yet. Share your expertise with the community!</p>
+        <a href="{% url 'tips:blog_create' %}" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Write Your First Article
+        </a>
+    </div>
+    {% endif %}
+
+    <!-- Help Section -->
+    <div class="card mt-4">
+        <div class="card-header" style="background-color: var(--compass-light);">
+            <h5 class="mb-0"><i class="bi bi-question-circle"></i> Blog Post Status Guide</h5>
+        </div>
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-3"><span class="badge bg-secondary">Draft</span></dt>
+                <dd class="col-sm-9">Work in progress - not submitted for review. Only visible to you.</dd>
+                
+                <dt class="col-sm-3"><span class="badge bg-warning">Pending Review</span></dt>
+                <dd class="col-sm-9">Submitted and awaiting administrator approval before publication.</dd>
+                
+                <dt class="col-sm-3"><span class="badge bg-success">Published</span></dt>
+                <dd class="col-sm-9">Approved and visible to all users on the blog.</dd>
+                
+                <dt class="col-sm-3 mb-0"><span class="badge bg-danger">Rejected</span></dt>
+                <dd class="col-sm-9 mb-0">Not approved for publication. Check moderation notes and revise.</dd>
+            </dl>
+        </div>
+    </div>
+</div>
+{% endblock %}

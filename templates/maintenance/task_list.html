@@ -7,7 +7,74 @@
     <h2><i class="bi bi-tools"></i> Maintenance Tasks Library</h2>
     <p class="text-muted mb-4">Browse all available maintenance tasks. Generate a personalized schedule from your home's detail page.</p>
     
+    <!-- Filters -->
+    <div class="card mb-4">
+        <div class="card-header" style="background-color: var(--compass-teal); color: white;">
+            <h5 class="mb-0"><i class="bi bi-funnel"></i> Filter Tasks</h5>
+        </div>
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Category</label>
+                    <select name="category" class="form-select">
+                        <option value="">All Categories</option>
+                        {% for value, label in categories %}
+                        <option value="{{ value }}" {% if request.GET.category == value %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-bold">Difficulty</label>
+                    <select name="difficulty" class="form-select">
+                        <option value="">All Levels</option>
+                        {% for value, label in difficulties %}
+                        <option value="{{ value }}" {% if request.GET.difficulty == value %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-bold">Frequency</label>
+                    <select name="frequency" class="form-select">
+                        <option value="">All Frequencies</option>
+                        {% for value, label in frequencies %}
+                        <option value="{{ value }}" {% if request.GET.frequency == value %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-bold">Sort By</label>
+                    <select name="sort" class="form-select">
+                        <option value="title" {% if request.GET.sort == 'title' or not request.GET.sort %}selected{% endif %}>Title (A-Z)</option>
+                        <option value="difficulty" {% if request.GET.sort == 'difficulty' %}selected{% endif %}>Difficulty</option>
+                        <option value="frequency" {% if request.GET.sort == 'frequency' %}selected{% endif %}>Frequency</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-bold">Search</label>
+                    <input type="text" name="search" class="form-control" placeholder="Keywords..." value="{{ request.GET.search }}">
+                </div>
+                <div class="col-md-1 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">Apply</button>
+                </div>
+            </form>
+            {% if request.GET.category or request.GET.difficulty or request.GET.frequency or request.GET.search %}
+            <div class="mt-3">
+                <a href="{% url 'maintenance:task_list' %}" class="btn btn-sm btn-outline-secondary">
+                    <i class="bi bi-x-circle"></i> Clear Filters
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
     {% if task_list %}
+        <p class="text-muted mb-3">Showing {{ task_list|length }} task{{ task_list|length|pluralize }}</p>
         <div class="row">
             {% for task in task_list %}
                 <div class="col-md-6 col-lg-4 mb-4">
@@ -18,6 +85,15 @@
                         <div class="card-body">
                             <p class="small"><strong>Category:</strong> {{ task.get_category_display }}</p>
                             <p class="small"><strong>Frequency:</strong> {{ task.get_frequency_display }}</p>
+                            <p class="small"><strong>Difficulty:</strong> 
+                                <span class="badge 
+                                    {% if task.difficulty == 'beginner' %}bg-success
+                                    {% elif task.difficulty == 'intermediate' %}bg-warning
+                                    {% elif task.difficulty == 'advanced' %}bg-danger
+                                    {% else %}bg-dark{% endif %}">
+                                    {{ task.get_difficulty_display }}
+                                </span>
+                            </p>
                             <p class="small text-muted">{{ task.description|truncatewords:20 }}</p>
                         </div>
                         <div class="card-footer">
@@ -29,9 +105,38 @@
                 </div>
             {% endfor %}
         </div>
+        
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <nav>
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.difficulty %}&difficulty={{ request.GET.difficulty }}{% endif %}{% if request.GET.frequency %}&frequency={{ request.GET.frequency }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">First</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.difficulty %}&difficulty={{ request.GET.difficulty }}{% endif %}{% if request.GET.frequency %}&frequency={{ request.GET.frequency }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">Previous</a>
+                </li>
+                {% endif %}
+                
+                <li class="page-item active">
+                    <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                </li>
+                
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.difficulty %}&difficulty={{ request.GET.difficulty }}{% endif %}{% if request.GET.frequency %}&frequency={{ request.GET.frequency }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">Next</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.difficulty %}&difficulty={{ request.GET.difficulty }}{% endif %}{% if request.GET.frequency %}&frequency={{ request.GET.frequency }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">Last</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
     {% else %}
         <div class="alert alert-warning">
-            <p class="mb-0">No maintenance tasks found. Run the seed_tasks command to populate the database.</p>
+            <p class="mb-0">No maintenance tasks found matching your filters. <a href="{% url 'maintenance:task_list' %}">Clear filters</a> or try different criteria.</p>
         </div>
     {% endif %}
 </div>

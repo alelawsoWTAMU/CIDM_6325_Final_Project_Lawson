@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Welcome to Homestead Compass{% endblock %}
 
@@ -7,13 +8,42 @@
     <div class="col-lg-8 mx-auto">
         <!-- Hero Section -->
         <div class="text-center mb-5">
+            <img src="{% static 'images/homestead-compass-logo.png' %}" alt="Homestead Compass Logo" style="width: 200px; height: 200px; margin-bottom: 2rem; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));">
             <h1 class="display-4 fw-bold text-primary">
                 <i class="bi bi-house-heart-fill"></i> Welcome to Homestead Compass
             </h1>
             <p class="lead">Your guide to proactive home maintenance and local expert advice</p>
         </div>
 
-        {% if user.is_authenticated %}
+        {% if is_pending_expert %}
+            <!-- Pending Expert Approval Message -->
+            <div class="alert alert-warning border-3" role="alert">
+                <h4 class="alert-heading"><i class="bi bi-hourglass-split"></i> Application Under Review</h4>
+                <p class="mb-3">Thank you for registering as a Local Expert! Your application is currently under review by our administrators.</p>
+                <hr>
+                <p class="mb-2"><strong>What happens next?</strong></p>
+                <ul class="mb-3">
+                    <li>Our team will review your credentials and verify your information</li>
+                    <li>This typically takes 1-3 business days</li>
+                    <li>You'll receive an email notification once your account is approved</li>
+                    <li>After approval, you'll be able to contribute expert tips to the community</li>
+                </ul>
+                <p class="mb-0"><strong>Questions?</strong> Contact us at support@homesteadcompass.com</p>
+            </div>
+            
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-info-circle"></i> Your Expert Profile</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Company:</strong> {{ user.expert_profile.company_name }}</p>
+                    <p><strong>Trade:</strong> {{ user.expert_profile.get_trade_display }}</p>
+                    <p><strong>Location:</strong> {{ user.expert_profile.city }}, {{ user.expert_profile.state }}</p>
+                    <p><strong>Application Submitted:</strong> {{ user.expert_profile.application_submitted|date:"F d, Y" }}</p>
+                    <p class="mb-0 text-muted">Once approved, you'll have full access to share your expertise with homeowners in your area.</p>
+                </div>
+            </div>
+        {% elif user.is_authenticated %}
             <!-- Authenticated User Dashboard -->
             <div class="row g-4 mb-5">
                 <div class="col-md-4">

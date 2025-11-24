@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% if blog_post %}Edit Blog Post{% else %}Create Blog Post{% endif %} - Homestead Compass{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card">
+                <div class="card-header" style="background-color: var(--compass-teal); color: white;">
+                    <h2 class="mb-0" style="color: white !important;">
+                        <i class="bi bi-pencil-square"></i>
+                        {% if blog_post %}Edit Blog Post{% else %}Write New Blog Post{% endif %}
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ form.non_field_errors }}
+                        </div>
+                        {% endif %}
+
+                        <!-- Title -->
+                        <div class="mb-3">
+                            <label for="{{ form.title.id_for_label }}" class="form-label fw-bold">
+                                Title <span class="text-danger">*</span>
+                            </label>
+                            {{ form.title }}
+                            {% if form.title.errors %}
+                            <div class="text-danger small">{{ form.title.errors }}</div>
+                            {% endif %}
+                            <small class="text-muted">{{ form.title.help_text }}</small>
+                        </div>
+
+                        <!-- Category -->
+                        <div class="mb-3">
+                            <label for="{{ form.category.id_for_label }}" class="form-label fw-bold">
+                                Category <span class="text-danger">*</span>
+                            </label>
+                            {{ form.category }}
+                            {% if form.category.errors %}
+                            <div class="text-danger small">{{ form.category.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Excerpt -->
+                        <div class="mb-3">
+                            <label for="{{ form.excerpt.id_for_label }}" class="form-label fw-bold">
+                                Excerpt <span class="text-danger">*</span>
+                            </label>
+                            {{ form.excerpt }}
+                            {% if form.excerpt.errors %}
+                            <div class="text-danger small">{{ form.excerpt.errors }}</div>
+                            {% endif %}
+                            <small class="text-muted">{{ form.excerpt.help_text }}</small>
+                        </div>
+
+                        <!-- Content (Rich Text Editor) -->
+                        <div class="mb-3">
+                            <label for="{{ form.content.id_for_label }}" class="form-label fw-bold">
+                                Content <span class="text-danger">*</span>
+                            </label>
+                            {{ form.content }}
+                            {% if form.content.errors %}
+                            <div class="text-danger small">{{ form.content.errors }}</div>
+                            {% endif %}
+                            <small class="text-muted">{{ form.content.help_text }}</small>
+                        </div>
+
+                        <!-- Featured Image -->
+                        <div class="mb-3">
+                            <label for="{{ form.featured_image.id_for_label }}" class="form-label fw-bold">
+                                Featured Image
+                            </label>
+                            {{ form.featured_image }}
+                            {% if form.featured_image.errors %}
+                            <div class="text-danger small">{{ form.featured_image.errors }}</div>
+                            {% endif %}
+                            <small class="text-muted">{{ form.featured_image.help_text }}</small>
+                        </div>
+
+                        <!-- Meta Description -->
+                        <div class="mb-3">
+                            <label for="{{ form.meta_description.id_for_label }}" class="form-label fw-bold">
+                                Meta Description (SEO)
+                            </label>
+                            {{ form.meta_description }}
+                            {% if form.meta_description.errors %}
+                            <div class="text-danger small">{{ form.meta_description.errors }}</div>
+                            {% endif %}
+                            <small class="text-muted">{{ form.meta_description.help_text }}</small>
+                        </div>
+
+                        <!-- Tags -->
+                        <div class="mb-3">
+                            <label for="{{ form.tags.id_for_label }}" class="form-label fw-bold">
+                                Tags
+                            </label>
+                            {{ form.tags }}
+                            {% if form.tags.errors %}
+                            <div class="text-danger small">{{ form.tags.errors }}</div>
+                            {% endif %}
+                            <small class="text-muted">{{ form.tags.help_text }}</small>
+                        </div>
+
+                        <!-- Status -->
+                        <div class="mb-4">
+                            <label for="{{ form.status.id_for_label }}" class="form-label fw-bold">
+                                Status <span class="text-danger">*</span>
+                            </label>
+                            {{ form.status }}
+                            {% if form.status.errors %}
+                            <div class="text-danger small">{{ form.status.errors }}</div>
+                            {% endif %}
+                            <small class="text-muted">{{ form.status.help_text }}</small>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'tips:blog_my_posts' %}" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-circle"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle"></i>
+                                {% if blog_post %}Update{% else %}Create{% endif %} Blog Post
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Writing Tips -->
+            <div class="card mt-4">
+                <div class="card-header" style="background-color: var(--compass-light);">
+                    <h5 class="mb-0"><i class="bi bi-lightbulb"></i> Writing Tips</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="mb-0">
+                        <li><strong>Clear Title:</strong> Make it descriptive and engaging</li>
+                        <li><strong>Compelling Excerpt:</strong> Hook readers with a strong summary</li>
+                        <li><strong>Well-Structured Content:</strong> Use headings, lists, and short paragraphs</li>
+                        <li><strong>Actionable Advice:</strong> Give readers practical steps they can follow</li>
+                        <li><strong>Personal Experience:</strong> Share real-world examples from your expertise</li>
+                        <li><strong>SEO-Friendly:</strong> Include relevant keywords naturally</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Form styling */
+.form-control, .form-select, textarea {
+    border-color: var(--compass-teal);
+}
+.form-control:focus, .form-select:focus, textarea:focus {
+    border-color: var(--compass-gold);
+    box-shadow: 0 0 0 0.2rem rgba(201, 169, 97, 0.25);
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+{{ form.media }}
+{% endblock %}

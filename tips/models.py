@@ -7,6 +7,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.urls import reverse
+from ckeditor.fields import RichTextField
 
 User = get_user_model()
 
@@ -15,7 +16,13 @@ class LocalTip(models.Model):
     """
     User-submitted tips and advice specific to local areas.
     Community members can upvote helpful tips.
+    Supports both expert tips and homeowner questions.
     """
+    POST_TYPE_CHOICES = [
+        ('tip', 'Expert Tip'),
+        ('question', 'Question'),
+    ]
+    
     CATEGORY_CHOICES = [
         ('hvac', 'HVAC & Climate Control'),
         ('plumbing', 'Plumbing'),
@@ -37,6 +44,13 @@ class LocalTip(models.Model):
         ('flagged', 'Flagged for Review'),
     ]
     
+    post_type = models.CharField(
+        max_length=20,
+        choices=POST_TYPE_CHOICES,
+        default='tip',
+        help_text='Type of post: expert tip or homeowner question'
+    )
+    
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -45,7 +59,7 @@ class LocalTip(models.Model):
     
     title = models.CharField(
         max_length=200,
-        help_text='Brief, descriptive title for the tip'
+        help_text='Brief, descriptive title for the tip or question'
     )
     
     slug = models.SlugField(
@@ -56,7 +70,7 @@ class LocalTip(models.Model):
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
     
     content = models.TextField(
-        help_text='The actual tip or advice'
+        help_text='The tip content or question details'
     )
     
     location = models.CharField(
@@ -219,4 +233,181 @@ class TipReport(models.Model):
     
     def __str__(self):
         return f"Report on '{self.tip.title}' by {self.reporter.username}"
+
+
+class BlogPost(models.Model):
+    """
+    Long-form blog articles written by verified experts.
+    Includes rich text content and approval workflow.
+    """
+    STATUS_CHOICES = [
+        ('draft', 'Draft'),
+        ('pending', 'Pending Review'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    ]
+    
+    CATEGORY_CHOICES = [
+        ('hvac', 'HVAC & Climate Control'),
+        ('plumbing', 'Plumbing'),
+        ('electrical', 'Electrical'),
+        ('exterior', 'Exterior & Roof'),
+        ('interior', 'Interior'),
+        ('appliances', 'Appliances'),
+        ('yard', 'Yard & Landscaping'),
+        ('safety', 'Safety'),
+        ('seasonal', 'Seasonal'),
+        ('pest_control', 'Pest Control'),
+        ('diy', 'DIY Projects'),
+        ('general', 'General'),
+    ]
+    
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='blog_posts',
+        limit_choices_to={'is_verified_expert': True}
+    )
+    
+    title = models.CharField(
+        max_length=200,
+        help_text='Compelling title for the blog post'
+    )
+    
+    slug = models.SlugField(
+        max_length=200,
+        unique=True
+    )
+    
+    category = models.CharField(
+        max_length=50,
+        choices=CATEGORY_CHOICES,
+        help_text='Primary category for this article'
+    )
+    
+    excerpt = models.TextField(
+        max_length=500,
+        help_text='Brief summary (shown in listings, max 500 characters)'
+    )
+    
+    content = RichTextField(
+        help_text='Full article content with rich text formatting'
+    )
+    
+    featured_image = models.ImageField(
+        upload_to='blog_images/',
+        blank=True,
+        null=True,
+        help_text='Optional featured image for the article'
+    )
+    
+    # SEO and metadata
+    meta_description = models.CharField(
+        max_length=160,
+        blank=True,
+        help_text='SEO meta description (max 160 characters)'
+    )
+    
+    tags = models.CharField(
+        max_length=200,
+        blank=True,
+        help_text='Comma-separated tags'
+    )
+    
+    # Publishing and moderation
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='draft'
+    )
+    
+    is_featured = models.BooleanField(
+        default=False,
+        help_text='Featured on blog homepage'
+    )
+    
+    moderation_notes = models.TextField(
+        blank=True,
+        help_text='Internal notes from moderators'
+    )
+    
+    moderated_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='blog_posts_moderated'
+    )
+    
+    moderated_at = models.DateTimeField(null=True, blank=True)
+    
+    # Engagement metrics
+    view_count = models.PositiveIntegerField(default=0)
+    
+    upvotes = models.ManyToManyField(
+        User,
+        related_name='blog_posts_upvoted',
+        blank=True
+    )
+    
+    # Timestamps
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    published_at = models.DateTimeField(null=True, blank=True)
+    
+    class Meta:
+        ordering = ['-published_at', '-created_at']
+        indexes = [
+            models.Index(fields=['-published_at']),
+            models.Index(fields=['status']),
+            models.Index(fields=['category']),
+        ]
+    
+    def __str__(self):
+        return self.title
+    
+    def get_absolute_url(self):
+        return reverse('tips:blog_detail', kwargs={'slug': self.slug})
+    
+    def get_upvote_count(self):
+        """Get the number of upvotes for this blog post."""
+        return self.upvotes.count()
+    
+    @property
+    def reading_time(self):
+        """Estimate reading time in minutes based on word count."""
+        word_count = len(self.content.split())
+        return max(1, round(word_count / 200))  # Average reading speed
+    
+    def get_tags_list(self):
+        """Return tags as a list."""
+        if not self.tags:
+            return []
+        return [tag.strip() for tag in self.tags.split(',') if tag.strip()]
+
+
+class BlogComment(models.Model):
+    """Comments on blog posts."""
+    blog_post = models.ForeignKey(
+        BlogPost,
+        on_delete=models.CASCADE,
+        related_name='comments'
+    )
+    
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='blog_comments'
+    )
+    
+    content = models.TextField(max_length=2000)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['created_at']
+    
+    def __str__(self):
+        return f"Comment by {self.author.username} on '{self.blog_post.title}'"
 
