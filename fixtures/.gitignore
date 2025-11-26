@@ -1,0 +1,9 @@
+# Fixture files are included in git for production seeding
+# To exclude sensitive data, comment out specific files below
+
+# Include all fixtures by default
+# *.json
+
+# To exclude specific files, uncomment:
+# users.json
+# accounts.json

@@ -1,0 +1,31 @@
+[
+{
+  "model": "homes.home",
+  "pk": 5,
+  "fields": {
+    "owner": [
+      "alelawso3"
+    ],
+    "name": "My Home",
+    "address": "352 Cain Drive",
+    "city": "Valparaiso",
+    "state": "IN",
+    "zip_code": "46383",
+    "year_built": 1979,
+    "construction_type": "mixed",
+    "climate_zone": "midwest",
+    "square_footage": 1870,
+    "num_bedrooms": 3,
+    "num_bathrooms": "2.0",
+    "has_basement": true,
+    "has_attic": true,
+    "has_garage": true,
+    "has_hvac": true,
+    "has_septic": true,
+    "has_well": false,
+    "notes": "",
+    "created_at": "2025-11-23T16:56:23.317Z",
+    "updated_at": "2025-11-23T17:12:46.027Z"
+  }
+}
+]

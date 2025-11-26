@@ -1,0 +1,530 @@
+[
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$rfF0ZNzfNXYJrOjpZZ9oqj$6gMA58fkcQxPWrwv5bdOkmght4u7IJuUOkIkKqC/IHo=",
+    "last_login": "2025-11-24T03:27:02.464Z",
+    "is_superuser": false,
+    "username": "alelawso3",
+    "first_name": "",
+    "last_name": "",
+    "email": "Ditka@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-11-23T16:33:54.238Z",
+    "bio": "",
+    "location": "",
+    "is_first_time_homeowner": true,
+    "years_of_homeownership": 0,
+    "is_verified_expert": false,
+    "expertise_areas": "",
+    "email_notifications": true,
+    "newsletter_subscription": false,
+    "profile_updated_at": "2025-11-23T16:33:55.151Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$paW9JeUGH4ZRvGdze6yOYs$ffNx8x6P52amHgEF6AkN2Ojv8vVUrfUxFMgn64y8DUo=",
+    "last_login": "2025-11-24T01:47:12.788Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "admin@example.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-11-24T00:59:41.197Z",
+    "bio": "",
+    "location": "",
+    "is_first_time_homeowner": true,
+    "years_of_homeownership": 0,
+    "is_verified_expert": false,
+    "expertise_areas": "",
+    "email_notifications": true,
+    "newsletter_subscription": false,
+    "profile_updated_at": "2025-11-24T00:59:41.567Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$mPwk0MyCdFTTT6UOiH3CDr$Qn2q+VGXHE9JTLCnzSnEdAHjiJGoOp9NQ/UiAz5d2T8=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "HVAC123",
+    "first_name": "",
+    "last_name": "",
+    "email": "hvac123@gmail.com",
+    "is_staff": false,
+    "is_active": false,
+    "date_joined": "2025-11-24T01:10:02.666Z",
+    "bio": "",
+    "location": "Valparaiso, IN",
+    "is_first_time_homeowner": false,
+    "years_of_homeownership": 0,
+    "is_verified_expert": false,
+    "expertise_areas": "",
+    "email_notifications": true,
+    "newsletter_subscription": false,
+    "profile_updated_at": "2025-11-24T01:21:32.406Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$kn32GtnhpennRN4GXVelg1$zanjYto/zitvFf7/hATs0s+FQ9AZE+m+QlaZ2pYWlmQ=",
+    "last_login": "2025-11-24T01:50:35.369Z",
+    "is_superuser": false,
+    "username": "HVAC1234",
+    "first_name": "",
+    "last_name": "",
+    "email": "HVAC1234@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-11-24T01:24:24Z",
+    "bio": "",
+    "location": "Valparaiso, IN",
+    "is_first_time_homeowner": false,
+    "years_of_homeownership": 0,
+    "is_verified_expert": true,
+    "expertise_areas": "",
+    "email_notifications": true,
+    "newsletter_subscription": false,
+    "profile_updated_at": "2025-11-24T01:52:09.428Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$4itEyng6KVUvkmtSHQHVqF$PkHWDxMhiV0Sbazl4eOwilJ1ZU9x5yXlgwRNwxJrez4=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "homeowner1",
+    "first_name": "",
+    "last_name": "",
+    "email": "homeowner@example.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-11-24T02:30:46.421Z",
+    "bio": "",
+    "location": "Canyon, TX",
+    "is_first_time_homeowner": true,
+    "years_of_homeownership": 0,
+    "is_verified_expert": false,
+    "expertise_areas": "",
+    "email_notifications": true,
+    "newsletter_subscription": false,
+    "profile_updated_at": "2025-11-24T02:30:48.521Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$mp4Q66VIq6SuFsWttaP72P$VZfqVjJ/ihq/hTgDHzsB2CRv06auHCSKPnL4yfnWv/k=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "PlumbingPro",
+    "first_name": "",
+    "last_name": "",
+    "email": "plumber@example.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-11-24T02:36:41.350Z",
+    "bio": "",
+    "location": "Amarillo, TX",
+    "is_first_time_homeowner": true,
+    "years_of_homeownership": 0,
+    "is_verified_expert": true,
+    "expertise_areas": "",
+    "email_notifications": true,
+    "newsletter_subscription": false,
+    "profile_updated_at": "2025-11-24T02:36:41.719Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$i7bvrZdQ6tFkC5V2WYZUzy$Z4YiRnjm13Lj2ZY3c2m2KhVyxRxktZNL/Obbn/4vSGw=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "ElectricianExpert",
+    "first_name": "",
+    "last_name": "",
+    "email": "electric@example.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-11-24T02:36:41.745Z",
+    "bio": "",
+    "location": "Canyon, TX",
+    "is_first_time_homeowner": true,
+    "years_of_homeownership": 0,
+    "is_verified_expert": true,
+    "expertise_areas": "",
+    "email_notifications": true,
+    "newsletter_subscription": false,
+    "profile_updated_at": "2025-11-24T02:36:42.105Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$pHKocXQuCKmv8CkNuGbPeV$4Y5raV+vqxX5I5Eox+/KSSTU1aWUsSYTmHe6sQbmc6A=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "RoofingSpecialist",
+    "first_name": "",
+    "last_name": "",
+    "email": "roofing@example.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-11-24T02:36:42.122Z",
+    "bio": "",
+    "location": "Lubbock, TX",
+    "is_first_time_homeowner": true,
+    "years_of_homeownership": 0,
+    "is_verified_expert": true,
+    "expertise_areas": "",
+    "email_notifications": true,
+    "newsletter_subscription": false,
+    "profile_updated_at": "2025-11-24T02:36:42.513Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$jCqQWOAR3YzXdMDM7peOIm$89t3Rj2GGbWspHFnb4Qzsk/kIe5cT/X4sQObBySkrXQ=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "InteriorPro",
+    "first_name": "",
+    "last_name": "",
+    "email": "interior@example.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-11-24T02:36:42.532Z",
+    "bio": "",
+    "location": "Amarillo, TX",
+    "is_first_time_homeowner": true,
+    "years_of_homeownership": 0,
+    "is_verified_expert": true,
+    "expertise_areas": "",
+    "email_notifications": true,
+    "newsletter_subscription": false,
+    "profile_updated_at": "2025-11-24T02:36:42.950Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$b3Mh05xGjsPrAXZa7hK3SW$iR+uJgLZjxWUO1xKzkvvMWXcmPrzBfKsEmaJrExGx+w=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "ApplianceTech",
+    "first_name": "",
+    "last_name": "",
+    "email": "appliance@example.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-11-24T02:36:42.969Z",
+    "bio": "",
+    "location": "Canyon, TX",
+    "is_first_time_homeowner": true,
+    "years_of_homeownership": 0,
+    "is_verified_expert": true,
+    "expertise_areas": "",
+    "email_notifications": true,
+    "newsletter_subscription": false,
+    "profile_updated_at": "2025-11-24T02:36:43.365Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$Ql4u6JNyBkU6JeLRFPnnTb$NRF7C3wJ7O7o7zdzz8p564J7KP+5GYSX6hEhE8DAcsc=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "LandscapePro",
+    "first_name": "",
+    "last_name": "",
+    "email": "landscape@example.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-11-24T02:36:43.383Z",
+    "bio": "",
+    "location": "Lubbock, TX",
+    "is_first_time_homeowner": true,
+    "years_of_homeownership": 0,
+    "is_verified_expert": true,
+    "expertise_areas": "",
+    "email_notifications": true,
+    "newsletter_subscription": false,
+    "profile_updated_at": "2025-11-24T02:36:43.802Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$cdb2RgJYfEjfQgjIs504f8$VOi8ALmqE2vvKjgTW6V4o5nG8amY6wV6akhTCQba6LY=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "SafetyInspector",
+    "first_name": "",
+    "last_name": "",
+    "email": "safety@example.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-11-24T02:36:43.826Z",
+    "bio": "",
+    "location": "Amarillo, TX",
+    "is_first_time_homeowner": true,
+    "years_of_homeownership": 0,
+    "is_verified_expert": true,
+    "expertise_areas": "",
+    "email_notifications": true,
+    "newsletter_subscription": false,
+    "profile_updated_at": "2025-11-24T02:36:44.333Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.expertprofile",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "HVAC123"
+    ],
+    "company_name": "Example HVAC Co",
+    "trade": "hvac",
+    "business_phone": "1234567890",
+    "business_email": "examplehvacco@gmail.com",
+    "street_address": "123 Main St",
+    "city": "Valparaiso",
+    "state": "IN",
+    "zip_code": "46385",
+    "license_number": "123456789",
+    "years_in_business": 1,
+    "insurance_verified": true,
+    "website": "https://examplehvacco.com",
+    "application_submitted": "2025-11-24T01:10:03.685Z",
+    "approved_by": null,
+    "approved_at": null
+  }
+},
+{
+  "model": "accounts.expertprofile",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "HVAC1234"
+    ],
+    "company_name": "Test HVAC Co",
+    "trade": "hvac",
+    "business_phone": "1234567890",
+    "business_email": "examplehvacco@gmail.com",
+    "street_address": "123 Main St",
+    "city": "Valparaiso",
+    "state": "IN",
+    "zip_code": "46385",
+    "license_number": "1234567891",
+    "years_in_business": 1,
+    "insurance_verified": false,
+    "website": "https://examplehvacco.com",
+    "application_submitted": "2025-11-24T01:24:25.841Z",
+    "approved_by": null,
+    "approved_at": null
+  }
+},
+{
+  "model": "accounts.expertprofile",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "PlumbingPro"
+    ],
+    "company_name": "Texas Plumbing Solutions",
+    "trade": "Plumbing",
+    "business_phone": "806-555-1234",
+    "business_email": "plumber@example.com",
+    "street_address": "",
+    "city": "Amarillo",
+    "state": "TX",
+    "zip_code": "",
+    "license_number": "",
+    "years_in_business": 10,
+    "insurance_verified": false,
+    "website": "",
+    "application_submitted": "2025-11-24T02:36:41.739Z",
+    "approved_by": null,
+    "approved_at": "2025-11-24T02:36:41.738Z"
+  }
+},
+{
+  "model": "accounts.expertprofile",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "ElectricianExpert"
+    ],
+    "company_name": "Panhandle Electric",
+    "trade": "Electrician",
+    "business_phone": "806-555-1234",
+    "business_email": "electric@example.com",
+    "street_address": "",
+    "city": "Canyon",
+    "state": "TX",
+    "zip_code": "",
+    "license_number": "",
+    "years_in_business": 10,
+    "insurance_verified": false,
+    "website": "",
+    "application_submitted": "2025-11-24T02:36:42.118Z",
+    "approved_by": null,
+    "approved_at": "2025-11-24T02:36:42.118Z"
+  }
+},
+{
+  "model": "accounts.expertprofile",
+  "pk": 5,
+  "fields": {
+    "user": [
+      "RoofingSpecialist"
+    ],
+    "company_name": "High Plains Roofing",
+    "trade": "Roofing",
+    "business_phone": "806-555-1234",
+    "business_email": "roofing@example.com",
+    "street_address": "",
+    "city": "Lubbock",
+    "state": "TX",
+    "zip_code": "",
+    "license_number": "",
+    "years_in_business": 10,
+    "insurance_verified": false,
+    "website": "",
+    "application_submitted": "2025-11-24T02:36:42.518Z",
+    "approved_by": null,
+    "approved_at": "2025-11-24T02:36:42.518Z"
+  }
+},
+{
+  "model": "accounts.expertprofile",
+  "pk": 6,
+  "fields": {
+    "user": [
+      "InteriorPro"
+    ],
+    "company_name": "Texas Home Interiors",
+    "trade": "General Contractor",
+    "business_phone": "806-555-1234",
+    "business_email": "interior@example.com",
+    "street_address": "",
+    "city": "Amarillo",
+    "state": "TX",
+    "zip_code": "",
+    "license_number": "",
+    "years_in_business": 10,
+    "insurance_verified": false,
+    "website": "",
+    "application_submitted": "2025-11-24T02:36:42.964Z",
+    "approved_by": null,
+    "approved_at": "2025-11-24T02:36:42.964Z"
+  }
+},
+{
+  "model": "accounts.expertprofile",
+  "pk": 7,
+  "fields": {
+    "user": [
+      "ApplianceTech"
+    ],
+    "company_name": "Quick Fix Appliances",
+    "trade": "Appliance Repair",
+    "business_phone": "806-555-1234",
+    "business_email": "appliance@example.com",
+    "street_address": "",
+    "city": "Canyon",
+    "state": "TX",
+    "zip_code": "",
+    "license_number": "",
+    "years_in_business": 10,
+    "insurance_verified": false,
+    "website": "",
+    "application_submitted": "2025-11-24T02:36:43.378Z",
+    "approved_by": null,
+    "approved_at": "2025-11-24T02:36:43.378Z"
+  }
+},
+{
+  "model": "accounts.expertprofile",
+  "pk": 8,
+  "fields": {
+    "user": [
+      "LandscapePro"
+    ],
+    "company_name": "Green Thumb Landscaping",
+    "trade": "Landscaping",
+    "business_phone": "806-555-1234",
+    "business_email": "landscape@example.com",
+    "street_address": "",
+    "city": "Lubbock",
+    "state": "TX",
+    "zip_code": "",
+    "license_number": "",
+    "years_in_business": 10,
+    "insurance_verified": false,
+    "website": "",
+    "application_submitted": "2025-11-24T02:36:43.817Z",
+    "approved_by": null,
+    "approved_at": "2025-11-24T02:36:43.817Z"
+  }
+},
+{
+  "model": "accounts.expertprofile",
+  "pk": 9,
+  "fields": {
+    "user": [
+      "SafetyInspector"
+    ],
+    "company_name": "SafeHome Inspections",
+    "trade": "Home Inspector",
+    "business_phone": "806-555-1234",
+    "business_email": "safety@example.com",
+    "street_address": "",
+    "city": "Amarillo",
+    "state": "TX",
+    "zip_code": "",
+    "license_number": "",
+    "years_in_business": 10,
+    "insurance_verified": false,
+    "website": "",
+    "application_submitted": "2025-11-24T02:36:44.348Z",
+    "approved_by": null,
+    "approved_at": "2025-11-24T02:36:44.348Z"
+  }
+}
+]
