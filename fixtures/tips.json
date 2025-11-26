@@ -4,9 +4,7 @@
   "pk": 6,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "HVAC1234"
-    ],
+    "author": 6,
     "title": "Change Your Air Filter Every 3 Months",
     "slug": "change-air-filter-every-3-months",
     "category": "hvac",
@@ -29,9 +27,7 @@
   "pk": 7,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "HVAC1234"
-    ],
+    "author": 6,
     "title": "Schedule Bi-Annual HVAC Maintenance",
     "slug": "schedule-biannual-hvac-maintenance",
     "category": "hvac",
@@ -54,9 +50,7 @@
   "pk": 8,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "HVAC1234"
-    ],
+    "author": 6,
     "title": "Keep Outdoor Unit Clear of Debris",
     "slug": "keep-outdoor-unit-clear-debris",
     "category": "hvac",
@@ -79,9 +73,7 @@
   "pk": 9,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "HVAC1234"
-    ],
+    "author": 6,
     "title": "Use a Programmable Thermostat to Save Energy",
     "slug": "programmable-thermostat-save-energy",
     "category": "hvac",
@@ -104,9 +96,7 @@
   "pk": 10,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "HVAC1234"
-    ],
+    "author": 6,
     "title": "Check for Air Leaks Around Ductwork",
     "slug": "check-air-leaks-ductwork",
     "category": "hvac",
@@ -129,9 +119,7 @@
   "pk": 11,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "HVAC1234"
-    ],
+    "author": 6,
     "title": "Listen for Unusual HVAC Noises",
     "slug": "listen-unusual-hvac-noises",
     "category": "hvac",
@@ -154,9 +142,7 @@
   "pk": 12,
   "fields": {
     "post_type": "question",
-    "author": [
-      "homeowner1"
-    ],
+    "author": 7,
     "title": "How often should I replace my water heater?",
     "slug": "how-often-replace-water-heater",
     "category": "plumbing",
@@ -179,9 +165,7 @@
   "pk": 13,
   "fields": {
     "post_type": "question",
-    "author": [
-      "homeowner1"
-    ],
+    "author": 7,
     "title": "Strange noise from HVAC - should I be worried?",
     "slug": "strange-noise-from-hvac",
     "category": "hvac",
@@ -204,9 +188,7 @@
   "pk": 14,
   "fields": {
     "post_type": "question",
-    "author": [
-      "homeowner1"
-    ],
+    "author": 7,
     "title": "Best way to prevent frozen pipes this winter?",
     "slug": "prevent-frozen-pipes-winter",
     "category": "plumbing",
@@ -229,9 +211,7 @@
   "pk": 15,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "HVAC1234"
-    ],
+    "author": 6,
     "title": "Change Your Air Filter Every 90 Days",
     "slug": "change-air-filter-every-90-days",
     "category": "hvac",
@@ -254,9 +234,7 @@
   "pk": 16,
   "fields": {
     "post_type": "question",
-    "author": [
-      "homeowner1"
-    ],
+    "author": 7,
     "title": "What temperature should I set my thermostat in summer?",
     "slug": "thermostat-temperature-summer",
     "category": "hvac",
@@ -279,9 +257,7 @@
   "pk": 17,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "PlumbingPro"
-    ],
+    "author": 8,
     "title": "Know Where Your Main Water Shutoff Is",
     "slug": "know-main-water-shutoff",
     "category": "plumbing",
@@ -304,9 +280,7 @@
   "pk": 18,
   "fields": {
     "post_type": "question",
-    "author": [
-      "homeowner1"
-    ],
+    "author": 7,
     "title": "Low water pressure in kitchen sink only",
     "slug": "low-water-pressure-kitchen",
     "category": "plumbing",
@@ -329,9 +303,7 @@
   "pk": 19,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "ElectricianExpert"
-    ],
+    "author": 9,
     "title": "Test GFCI Outlets Monthly",
     "slug": "test-gfci-outlets-monthly",
     "category": "electrical",
@@ -354,9 +326,7 @@
   "pk": 20,
   "fields": {
     "post_type": "question",
-    "author": [
-      "homeowner1"
-    ],
+    "author": 7,
     "title": "Can I replace a light switch myself?",
     "slug": "replace-light-switch-diy",
     "category": "electrical",
@@ -379,9 +349,7 @@
   "pk": 21,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "RoofingSpecialist"
-    ],
+    "author": 10,
     "title": "Inspect Your Roof Twice Yearly",
     "slug": "inspect-roof-twice-yearly",
     "category": "exterior",
@@ -404,9 +372,7 @@
   "pk": 22,
   "fields": {
     "post_type": "question",
-    "author": [
-      "homeowner1"
-    ],
+    "author": 7,
     "title": "How long should a roof last in Texas?",
     "slug": "roof-lifespan-texas",
     "category": "exterior",
@@ -429,9 +395,7 @@
   "pk": 23,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "InteriorPro"
-    ],
+    "author": 11,
     "title": "Caulk Around Tubs and Showers Annually",
     "slug": "caulk-tubs-showers-annually",
     "category": "interior",
@@ -454,9 +418,7 @@
   "pk": 24,
   "fields": {
     "post_type": "question",
-    "author": [
-      "homeowner1"
-    ],
+    "author": 7,
     "title": "Drywall crack - structural issue or cosmetic?",
     "slug": "drywall-crack-structural",
     "category": "interior",
@@ -479,9 +441,7 @@
   "pk": 25,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "ApplianceTech"
-    ],
+    "author": 12,
     "title": "Clean Refrigerator Coils Twice a Year",
     "slug": "clean-refrigerator-coils",
     "category": "appliances",
@@ -504,9 +464,7 @@
   "pk": 26,
   "fields": {
     "post_type": "question",
-    "author": [
-      "homeowner1"
-    ],
+    "author": 7,
     "title": "Dishwasher not cleaning dishes properly",
     "slug": "dishwasher-not-cleaning",
     "category": "appliances",
@@ -529,9 +487,7 @@
   "pk": 27,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "ApplianceTech"
-    ],
+    "author": 12,
     "title": "Run Garbage Disposal with Cold Water",
     "slug": "garbage-disposal-cold-water",
     "category": "appliances",
@@ -554,9 +510,7 @@
   "pk": 28,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "LandscapePro"
-    ],
+    "author": 13,
     "title": "Aerate Your Lawn in Spring and Fall",
     "slug": "aerate-lawn-spring-fall",
     "category": "yard",
@@ -579,9 +533,7 @@
   "pk": 29,
   "fields": {
     "post_type": "question",
-    "author": [
-      "homeowner1"
-    ],
+    "author": 7,
     "title": "Best time to plant trees in Texas?",
     "slug": "best-time-plant-trees-texas",
     "category": "yard",
@@ -604,9 +556,7 @@
   "pk": 30,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "LandscapePro"
-    ],
+    "author": 13,
     "title": "Mulch Around Trees and Shrubs",
     "slug": "mulch-around-trees",
     "category": "yard",
@@ -629,9 +579,7 @@
   "pk": 31,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "SafetyInspector"
-    ],
+    "author": 14,
     "title": "Replace Smoke Detector Batteries Annually",
     "slug": "replace-smoke-detector-batteries",
     "category": "safety",
@@ -654,9 +602,7 @@
   "pk": 32,
   "fields": {
     "post_type": "question",
-    "author": [
-      "homeowner1"
-    ],
+    "author": 7,
     "title": "Do I need a carbon monoxide detector?",
     "slug": "need-carbon-monoxide-detector",
     "category": "safety",
@@ -679,9 +625,7 @@
   "pk": 33,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "SafetyInspector"
-    ],
+    "author": 14,
     "title": "Keep Fire Extinguisher in Kitchen",
     "slug": "fire-extinguisher-kitchen",
     "category": "safety",
@@ -703,9 +647,7 @@
   "model": "tips.blogpost",
   "pk": 1,
   "fields": {
-    "author": [
-      "HVAC1234"
-    ],
+    "author": 6,
     "title": "Complete Guide to HVAC Maintenance: Save Money and Extend System Life",
     "slug": "complete-guide-hvac-maintenance",
     "category": "hvac",
@@ -730,9 +672,7 @@
   "model": "tips.blogpost",
   "pk": 2,
   "fields": {
-    "author": [
-      "PlumbingPro"
-    ],
+    "author": 8,
     "title": "Preventing Plumbing Emergencies: A Homeowner's Preventive Maintenance Guide",
     "slug": "preventing-plumbing-emergencies",
     "category": "plumbing",
@@ -757,9 +697,7 @@
   "model": "tips.blogpost",
   "pk": 3,
   "fields": {
-    "author": [
-      "ElectricianExpert"
-    ],
+    "author": 9,
     "title": "Home Electrical Safety: Essential Tips Every Homeowner Should Know",
     "slug": "home-electrical-safety-tips",
     "category": "electrical",
@@ -784,9 +722,7 @@
   "model": "tips.blogpost",
   "pk": 4,
   "fields": {
-    "author": [
-      "SafetyInspector"
-    ],
+    "author": 14,
     "title": "10 Home Safety Devices Every Homestead Should Have",
     "slug": "10-essential-home-safety-devices",
     "category": "safety",
@@ -805,9 +741,7 @@
     "updated_at": "2025-11-24T02:53:15.987Z",
     "published_at": "2025-11-24T02:53:15.975Z",
     "upvotes": [
-      [
-        "alelawso3"
-      ]
+      3
     ]
   }
 },
@@ -816,9 +750,7 @@
   "pk": 1,
   "fields": {
     "blog_post": 4,
-    "author": [
-      "alelawso3"
-    ],
+    "author": 3,
     "content": "Love this!!",
     "created_at": "2025-11-24T03:11:34.023Z",
     "updated_at": "2025-11-24T03:11:34.023Z"

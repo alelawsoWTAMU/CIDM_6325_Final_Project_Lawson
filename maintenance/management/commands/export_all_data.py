@@ -60,7 +60,7 @@ class Command(BaseCommand):
                 # Don't use natural keys for auth.User - causes issues
                 use_natural = app_label != 'auth.User'
                 
-                with open(filepath, 'w') as f:
+                with open(filepath, 'w', encoding='utf-8') as f:
                     if use_natural:
                         call_command(
                             'dumpdata',
