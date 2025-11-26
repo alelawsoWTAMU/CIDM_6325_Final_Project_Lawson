@@ -29,7 +29,7 @@
 Fill in the following settings:
 
 **Basic Settings:**
-- **Name**: `home-maintenance-compass` (or any name you prefer)
+- **Name**: `homestead-compass` (or any name you prefer)
 - **Region**: Choose closest to you (e.g., Oregon USA)
 - **Branch**: `Final_Project` (should auto-select)
 - **Runtime**: **Python 3**
