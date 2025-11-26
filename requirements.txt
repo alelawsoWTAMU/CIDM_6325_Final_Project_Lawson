@@ -1,11 +1,13 @@
 asgiref==3.10.0
 beautifulsoup4==4.14.2
 Django==5.2.7
+django-ckeditor==6.7.3
 django-taggit==6.1.0
 django-widget-tweaks==1.5.0
 et_xmlfile==2.0.0
 markdownify==1.2.2
 openpyxl==3.1.5
+Pillow==11.0.0
 six==1.17.0
 soupsieve==2.8
 sqlparse==0.5.3
