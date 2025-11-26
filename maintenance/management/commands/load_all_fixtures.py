@@ -25,7 +25,8 @@ class Command(BaseCommand):
         # Order matters - respect foreign key dependencies
         fixtures = [
             'users.json',
-            'accounts.json',
+            'user_profiles.json',
+            'expert_profiles.json',
             'homes.json',
             'maintenance_tasks.json',
             'schedules.json',

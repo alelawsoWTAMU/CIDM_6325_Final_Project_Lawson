@@ -38,8 +38,10 @@ class Command(BaseCommand):
         
         # Users and accounts
         if not exclude_users:
-            fixtures.append(('auth.User', 'users.json'))
-            fixtures.append(('accounts', 'accounts.json'))
+            # Use accounts app which contains the custom User model
+            fixtures.append(('accounts.User', 'users.json'))
+            fixtures.append(('accounts.UserProfile', 'user_profiles.json'))
+            fixtures.append(('accounts.ExpertProfile', 'expert_profiles.json'))
         
         # Core data
         fixtures.extend([
@@ -57,8 +59,8 @@ class Command(BaseCommand):
             try:
                 self.stdout.write(f'Exporting {app_label}...')
                 
-                # Don't use natural keys for auth.User - causes issues
-                use_natural = app_label != 'auth.User'
+                # Don't use natural keys for User model - causes issues
+                use_natural = 'User' not in app_label
                 
                 with open(filepath, 'w', encoding='utf-8') as f:
                     if use_natural:

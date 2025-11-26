@@ -1,0 +1,218 @@
+[
+{
+  "model": "accounts.expertprofile",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "HVAC123"
+    ],
+    "company_name": "Example HVAC Co",
+    "trade": "hvac",
+    "business_phone": "1234567890",
+    "business_email": "examplehvacco@gmail.com",
+    "street_address": "123 Main St",
+    "city": "Valparaiso",
+    "state": "IN",
+    "zip_code": "46385",
+    "license_number": "123456789",
+    "years_in_business": 1,
+    "insurance_verified": true,
+    "website": "https://examplehvacco.com",
+    "application_submitted": "2025-11-24T01:10:03.685Z",
+    "approved_by": null,
+    "approved_at": null
+  }
+},
+{
+  "model": "accounts.expertprofile",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "HVAC1234"
+    ],
+    "company_name": "Test HVAC Co",
+    "trade": "hvac",
+    "business_phone": "1234567890",
+    "business_email": "examplehvacco@gmail.com",
+    "street_address": "123 Main St",
+    "city": "Valparaiso",
+    "state": "IN",
+    "zip_code": "46385",
+    "license_number": "1234567891",
+    "years_in_business": 1,
+    "insurance_verified": false,
+    "website": "https://examplehvacco.com",
+    "application_submitted": "2025-11-24T01:24:25.841Z",
+    "approved_by": null,
+    "approved_at": null
+  }
+},
+{
+  "model": "accounts.expertprofile",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "PlumbingPro"
+    ],
+    "company_name": "Texas Plumbing Solutions",
+    "trade": "Plumbing",
+    "business_phone": "806-555-1234",
+    "business_email": "plumber@example.com",
+    "street_address": "",
+    "city": "Amarillo",
+    "state": "TX",
+    "zip_code": "",
+    "license_number": "",
+    "years_in_business": 10,
+    "insurance_verified": false,
+    "website": "",
+    "application_submitted": "2025-11-24T02:36:41.739Z",
+    "approved_by": null,
+    "approved_at": "2025-11-24T02:36:41.738Z"
+  }
+},
+{
+  "model": "accounts.expertprofile",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "ElectricianExpert"
+    ],
+    "company_name": "Panhandle Electric",
+    "trade": "Electrician",
+    "business_phone": "806-555-1234",
+    "business_email": "electric@example.com",
+    "street_address": "",
+    "city": "Canyon",
+    "state": "TX",
+    "zip_code": "",
+    "license_number": "",
+    "years_in_business": 10,
+    "insurance_verified": false,
+    "website": "",
+    "application_submitted": "2025-11-24T02:36:42.118Z",
+    "approved_by": null,
+    "approved_at": "2025-11-24T02:36:42.118Z"
+  }
+},
+{
+  "model": "accounts.expertprofile",
+  "pk": 5,
+  "fields": {
+    "user": [
+      "RoofingSpecialist"
+    ],
+    "company_name": "High Plains Roofing",
+    "trade": "Roofing",
+    "business_phone": "806-555-1234",
+    "business_email": "roofing@example.com",
+    "street_address": "",
+    "city": "Lubbock",
+    "state": "TX",
+    "zip_code": "",
+    "license_number": "",
+    "years_in_business": 10,
+    "insurance_verified": false,
+    "website": "",
+    "application_submitted": "2025-11-24T02:36:42.518Z",
+    "approved_by": null,
+    "approved_at": "2025-11-24T02:36:42.518Z"
+  }
+},
+{
+  "model": "accounts.expertprofile",
+  "pk": 6,
+  "fields": {
+    "user": [
+      "InteriorPro"
+    ],
+    "company_name": "Texas Home Interiors",
+    "trade": "General Contractor",
+    "business_phone": "806-555-1234",
+    "business_email": "interior@example.com",
+    "street_address": "",
+    "city": "Amarillo",
+    "state": "TX",
+    "zip_code": "",
+    "license_number": "",
+    "years_in_business": 10,
+    "insurance_verified": false,
+    "website": "",
+    "application_submitted": "2025-11-24T02:36:42.964Z",
+    "approved_by": null,
+    "approved_at": "2025-11-24T02:36:42.964Z"
+  }
+},
+{
+  "model": "accounts.expertprofile",
+  "pk": 7,
+  "fields": {
+    "user": [
+      "ApplianceTech"
+    ],
+    "company_name": "Quick Fix Appliances",
+    "trade": "Appliance Repair",
+    "business_phone": "806-555-1234",
+    "business_email": "appliance@example.com",
+    "street_address": "",
+    "city": "Canyon",
+    "state": "TX",
+    "zip_code": "",
+    "license_number": "",
+    "years_in_business": 10,
+    "insurance_verified": false,
+    "website": "",
+    "application_submitted": "2025-11-24T02:36:43.378Z",
+    "approved_by": null,
+    "approved_at": "2025-11-24T02:36:43.378Z"
+  }
+},
+{
+  "model": "accounts.expertprofile",
+  "pk": 8,
+  "fields": {
+    "user": [
+      "LandscapePro"
+    ],
+    "company_name": "Green Thumb Landscaping",
+    "trade": "Landscaping",
+    "business_phone": "806-555-1234",
+    "business_email": "landscape@example.com",
+    "street_address": "",
+    "city": "Lubbock",
+    "state": "TX",
+    "zip_code": "",
+    "license_number": "",
+    "years_in_business": 10,
+    "insurance_verified": false,
+    "website": "",
+    "application_submitted": "2025-11-24T02:36:43.817Z",
+    "approved_by": null,
+    "approved_at": "2025-11-24T02:36:43.817Z"
+  }
+},
+{
+  "model": "accounts.expertprofile",
+  "pk": 9,
+  "fields": {
+    "user": [
+      "SafetyInspector"
+    ],
+    "company_name": "SafeHome Inspections",
+    "trade": "Home Inspector",
+    "business_phone": "806-555-1234",
+    "business_email": "safety@example.com",
+    "street_address": "",
+    "city": "Amarillo",
+    "state": "TX",
+    "zip_code": "",
+    "license_number": "",
+    "years_in_business": 10,
+    "insurance_verified": false,
+    "website": "",
+    "application_submitted": "2025-11-24T02:36:44.348Z",
+    "approved_by": null,
+    "approved_at": "2025-11-24T02:36:44.348Z"
+  }
+}
+]
