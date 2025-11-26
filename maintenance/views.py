@@ -1,6 +1,7 @@
 """
 Views for the maintenance app.
 Handles maintenance tasks, schedules, and task completions.
+Uses ScheduleOptimizer for intelligent schedule generation.
 """
 
 from django.shortcuts import render, redirect, get_object_or_404
@@ -12,6 +13,7 @@ from datetime import date, timedelta
 from .models import MaintenanceTask, Schedule, TaskCompletion
 from homes.models import Home
 from .forms import ScheduleForm
+from .utils import ScheduleOptimizer
 
 
 class TaskListView(ListView):
@@ -249,53 +251,77 @@ class GenerateScheduleView(LoginRequiredMixin, View):
     """
     def get(self, request, *args, **kwargs):
         """
-        Display the schedule generation page with applicable tasks.
+        Display the schedule generation page with intelligently recommended tasks.
+        Uses ScheduleOptimizer for seasonal awareness and priority scoring.
         """
         home = get_object_or_404(Home, pk=self.kwargs['home_pk'], owner=request.user)
         
-        # Get all active tasks
-        tasks = MaintenanceTask.objects.filter(is_active=True)
+        # Get recommended tasks using the optimizer (sorted by priority)
+        task_priorities = ScheduleOptimizer.get_recommended_tasks(home)
         
-        # Filter tasks based on home characteristics
-        home_age = home.get_age()
-        applicable_tasks = []
+        # Separate into high/medium/low priority for UI
+        high_priority = [(task, score) for task, score in task_priorities if score >= 80]
+        medium_priority = [(task, score) for task, score in task_priorities if 60 <= score < 80]
+        low_priority = [(task, score) for task, score in task_priorities if score < 60]
         
-        for task in tasks:
-            # Check age requirements
-            if home_age > 20 and not task.applies_to_old_homes:
-                continue
-            if home_age <= 20 and not task.applies_to_new_homes:
-                continue
-            
-            # Check feature requirements
-            if task.requires_basement and not home.has_basement:
-                continue
-            if task.requires_attic and not home.has_attic:
-                continue
-            if task.requires_hvac and not home.has_hvac:
-                continue
-            if task.requires_septic and not home.has_septic:
-                continue
-            
-            applicable_tasks.append(task)
+        # Get current season and climate info
+        current_season = ScheduleOptimizer.get_current_season()
+        climate_factor = ScheduleOptimizer.get_climate_adjustment_factor(home)
+        
+        # Check if "generate annual" was requested
+        show_annual = request.GET.get('annual') == 'true'
+        annual_schedule = None
+        if show_annual:
+            annual_schedule = ScheduleOptimizer.generate_annual_schedule(home)
         
         # Create form for schedule details
         form = ScheduleForm(user=request.user, initial={'home': home})
         
         context = {
             'home': home,
-            'applicable_tasks': applicable_tasks,
+            'high_priority_tasks': high_priority,
+            'medium_priority_tasks': medium_priority,
+            'low_priority_tasks': low_priority,
+            'all_task_priorities': task_priorities,
+            'current_season': current_season.title(),
+            'climate_factor': climate_factor,
             'form': form,
+            'show_annual': show_annual,
+            'annual_schedule': annual_schedule,
         }
         return render(request, 'maintenance/generate_schedule.html', context)
     
     def post(self, request, *args, **kwargs):
         """
         Create schedule with selected tasks.
+        Supports both single-date schedules and bulk annual generation.
         """
         home = get_object_or_404(Home, pk=self.kwargs['home_pk'], owner=request.user)
         
-        # Get form data
+        # Check if bulk annual generation was requested
+        if 'generate_annual' in request.POST:
+            annual_items = ScheduleOptimizer.generate_annual_schedule(home)
+            
+            # Create schedules for each task
+            created_count = 0
+            for task, scheduled_date, priority in annual_items:
+                schedule = Schedule.objects.create(
+                    home=home,
+                    scheduled_date=scheduled_date,
+                    notes=f"Auto-generated (Priority: {priority}, Season: {task.seasonal_priority})",
+                    is_completed=False
+                )
+                schedule.tasks.add(task)
+                created_count += 1
+            
+            messages.success(
+                request,
+                f"Successfully generated {created_count} scheduled tasks for the next year! "
+                f"Tasks are optimized by season and climate zone ({home.get_climate_zone_display()})."
+            )
+            return redirect('maintenance:schedule_list')
+        
+        # Standard single-date schedule creation
         form = ScheduleForm(request.POST, user=request.user)
         
         if not form.is_valid():

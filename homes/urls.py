@@ -9,6 +9,10 @@ from . import views
 app_name = 'homes'
 
 urlpatterns = [
+    # Multi-step onboarding wizard
+    path('wizard/', views.HomeOnboardingWizardView.as_view(), {'step': 1}, name='survey_wizard'),
+    path('wizard/<int:step>/', views.HomeOnboardingWizardView.as_view(), name='survey_wizard'),
+    
     # Home CRUD
     path('', views.HomeListView.as_view(), name='home_list'),
     path('create/', views.HomeCreateView.as_view(), name='home_create'),

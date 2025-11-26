@@ -2,6 +2,31 @@
 
 A Django web application designed to help first-time homeowners adopt a proactive approach to home maintenance through personalized schedules, step-by-step task guides, and community-driven local knowledge sharing.
 
+## 🌐 Live Deployment
+
+**Deployed Application**: https://homestead-compass.onrender.com/
+
+### Features Available
+- User registration and authentication
+- Home profile management
+- Automated maintenance schedule generation
+- Task completion tracking
+- Community tips with moderation
+- Expert verification system
+- Expert blog posts with rich text editing
+
+### Demo Credentials
+For instructor evaluation, please contact for admin and test user credentials.
+
+### Technology Stack
+- **Framework**: Django 5.2.7
+- **Database**: PostgreSQL 16
+- **Hosting**: Render.com
+- **Static Files**: WhiteNoise
+- **Python**: 3.12.0
+
+---
+
 ## Overview
 
 Homestead Compass addresses the overwhelming challenge faced by new homeowners (particularly Millennials and Gen Z) who lack guidance on property care. The application provides:

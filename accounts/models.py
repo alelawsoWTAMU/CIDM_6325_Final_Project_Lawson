@@ -59,6 +59,13 @@ class User(AbstractUser):
         help_text='Subscribe to home maintenance tips newsletter'
     )
     
+    # Schedule preferences (JSON field for flexible settings)
+    schedule_preferences = models.JSONField(
+        default=dict,
+        blank=True,
+        help_text='Schedule customization: preferred_frequency, reminder_days_before, auto_reschedule'
+    )
+    
     # Timestamps
     profile_updated_at = models.DateTimeField(auto_now=True)
     

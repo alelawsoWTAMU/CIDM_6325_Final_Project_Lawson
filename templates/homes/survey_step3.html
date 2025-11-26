@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home Onboarding Wizard - Step {{ step }} of {{ total_steps }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">
+                        <i class="bi bi-house-fill me-2"></i>
+                        Home Onboarding Wizard
+                    </h3>
+                    <p class="mb-0 mt-2"><small>Step {{ step }} of {{ total_steps }}: Appliances (Optional)</small></p>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="progress" style="height: 4px;">
+                    <div class="progress-bar" role="progressbar" 
+                         style="width: {{ progress_percent }}%;" 
+                         aria-valuenow="{{ progress_percent }}" 
+                         aria-valuemin="0" 
+                         aria-valuemax="100">
+                    </div>
+                </div>
+                
+                <div class="card-body p-4">
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <strong>Almost done!</strong> Add your appliances to get detailed maintenance reminders. 
+                        You can skip this step or add appliances later.
+                    </div>
+                    
+                    {% if appliances %}
+                    <div class="mb-4">
+                        <h5 class="text-success">
+                            <i class="bi bi-check-circle me-2"></i>
+                            Added Appliances ({{ appliance_count }})
+                        </h5>
+                        <div class="list-group">
+                            {% for appliance in appliances %}
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h6 class="mb-1">{{ appliance.appliance_type|title }}</h6>
+                                        <p class="mb-1 text-muted small">
+                                            {% if appliance.manufacturer %}
+                                                {{ appliance.manufacturer }}
+                                                {% if appliance.model_number %}
+                                                    - Model: {{ appliance.model_number }}
+                                                {% endif %}
+                                            {% endif %}
+                                        </p>
+                                        {% if appliance.year_installed %}
+                                            <span class="badge bg-secondary">Installed: {{ appliance.year_installed }}</span>
+                                        {% endif %}
+                                    </div>
+                                    <span class="badge bg-success">
+                                        <i class="bi bi-check"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <h5 class="mt-4 mb-3">
+                        <i class="bi bi-plus-circle me-2"></i>
+                        Add Another Appliance
+                    </h5>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="{{ form.appliance_type.id_for_label }}" class="form-label fw-bold">
+                                    Appliance Type
+                                </label>
+                                {{ form.appliance_type }}
+                                {% if form.appliance_type.errors %}
+                                    <div class="text-danger small">{{ form.appliance_type.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="{{ form.manufacturer.id_for_label }}" class="form-label">Manufacturer</label>
+                                {{ form.manufacturer }}
+                                {% if form.manufacturer.errors %}
+                                    <div class="text-danger small">{{ form.manufacturer.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="{{ form.model_number.id_for_label }}" class="form-label">Model Number</label>
+                                {{ form.model_number }}
+                                {% if form.model_number.errors %}
+                                    <div class="text-danger small">{{ form.model_number.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="{{ form.serial_number.id_for_label }}" class="form-label">Serial Number</label>
+                                {{ form.serial_number }}
+                                {% if form.serial_number.errors %}
+                                    <div class="text-danger small">{{ form.serial_number.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.year_installed.id_for_label }}" class="form-label">Year Installed</label>
+                                {{ form.year_installed }}
+                                {% if form.year_installed.errors %}
+                                    <div class="text-danger small">{{ form.year_installed.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.energy_rating.id_for_label }}" class="form-label">Energy Rating</label>
+                                {{ form.energy_rating }}
+                                {% if form.energy_rating.errors %}
+                                    <div class="text-danger small">{{ form.energy_rating.errors }}</div>
+                                {% endif %}
+                                <small class="text-muted d-block">e.g., Energy Star, A+</small>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="{{ form.purchase_date.id_for_label }}" class="form-label">Purchase Date</label>
+                                {{ form.purchase_date }}
+                                {% if form.purchase_date.errors %}
+                                    <div class="text-danger small">{{ form.purchase_date.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="{{ form.warranty_expiration.id_for_label }}" class="form-label">Warranty Expiration</label>
+                                {{ form.warranty_expiration }}
+                                {% if form.warranty_expiration.errors %}
+                                    <div class="text-danger small">{{ form.warranty_expiration.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="{{ form.last_service_date.id_for_label }}" class="form-label">Last Service Date</label>
+                                {{ form.last_service_date }}
+                                {% if form.last_service_date.errors %}
+                                    <div class="text-danger small">{{ form.last_service_date.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label for="{{ form.notes.id_for_label }}" class="form-label">Notes</label>
+                                {{ form.notes }}
+                                {% if form.notes.errors %}
+                                    <div class="text-danger small">{{ form.notes.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2 mb-3">
+                            <button type="submit" name="add_appliance" class="btn btn-success">
+                                <i class="bi bi-plus-circle me-2"></i>Add This Appliance
+                            </button>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mt-4 pt-3 border-top">
+                            <a href="{% url 'homes:survey_wizard' step=2 %}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-2"></i>Previous Step
+                            </a>
+                            <button type="submit" name="complete_wizard" class="btn btn-primary btn-lg">
+                                <i class="bi bi-check-circle me-2"></i>Complete & Generate Schedule
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

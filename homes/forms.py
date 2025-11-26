@@ -1,6 +1,7 @@
 """
 Forms for the homes app.
 Handles home creation/editing, appliances, and service providers.
+Includes multi-step onboarding wizard forms.
 """
 
 from django import forms
@@ -97,3 +98,173 @@ class ServiceProviderForm(forms.ModelForm):
             'address': forms.Textarea(attrs={'rows': 3}),
             'notes': forms.Textarea(attrs={'rows': 3}),
         }
+
+
+# ===== Multi-Step Onboarding Wizard Forms =====
+
+class SurveyStep1Form(forms.ModelForm):
+    """
+    Step 1: Basic Home Information
+    Collects address, age, construction details, and size.
+    """
+    class Meta:
+        model = Home
+        fields = [
+            'name',
+            'address',
+            'city',
+            'state',
+            'zip_code',
+            'year_built',
+            'construction_type',
+            'climate_zone',
+            'square_footage',
+            'num_bedrooms',
+            'num_bathrooms',
+        ]
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'e.g., My Home',
+                'autofocus': True
+            }),
+            'address': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 2,
+                'placeholder': '123 Main Street'
+            }),
+            'city': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'City'
+            }),
+            'state': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'State/Province'
+            }),
+            'zip_code': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'ZIP Code'
+            }),
+            'year_built': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'e.g., 2005'
+            }),
+            'construction_type': forms.Select(attrs={'class': 'form-select'}),
+            'climate_zone': forms.Select(attrs={'class': 'form-select'}),
+            'square_footage': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'e.g., 2000'
+            }),
+            'num_bedrooms': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'e.g., 3'
+            }),
+            'num_bathrooms': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'e.g., 2.5',
+                'step': '0.5'
+            }),
+        }
+
+
+class SurveyStep2Form(forms.ModelForm):
+    """
+    Step 2: Home Features & Systems
+    Collects detailed information about roof, HVAC, siding, and key features.
+    """
+    class Meta:
+        model = Home
+        fields = [
+            'roof_type',
+            'roof_age',
+            'hvac_type',
+            'hvac_age',
+            'siding_material',
+            'has_basement',
+            'has_attic',
+            'has_garage',
+            'has_hvac',
+            'has_septic',
+            'has_well',
+        ]
+        widgets = {
+            'roof_type': forms.Select(attrs={'class': 'form-select'}),
+            'roof_age': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Age in years (e.g., 10)'
+            }),
+            'hvac_type': forms.Select(attrs={'class': 'form-select'}),
+            'hvac_age': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Age in years (e.g., 5)'
+            }),
+            'siding_material': forms.Select(attrs={'class': 'form-select'}),
+            'has_basement': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'has_attic': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'has_garage': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'has_hvac': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'has_septic': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'has_well': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
+
+
+class SurveyStep3ApplianceForm(forms.ModelForm):
+    """
+    Step 3: Appliance Information (can be added multiple times)
+    Collects detailed appliance tracking data.
+    """
+    class Meta:
+        model = Appliance
+        fields = [
+            'appliance_type',
+            'manufacturer',
+            'model_number',
+            'serial_number',
+            'energy_rating',
+            'year_installed',
+            'purchase_date',
+            'warranty_expiration',
+            'last_service_date',
+            'notes',
+        ]
+        widgets = {
+            'appliance_type': forms.Select(attrs={'class': 'form-select'}),
+            'manufacturer': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'e.g., GE, Whirlpool, Carrier'
+            }),
+            'model_number': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Model number'
+            }),
+            'serial_number': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Serial number'
+            }),
+            'energy_rating': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'e.g., Energy Star, A+'
+            }),
+            'year_installed': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'e.g., 2020'
+            }),
+            'purchase_date': forms.DateInput(attrs={
+                'class': 'form-control',
+                'type': 'date'
+            }),
+            'warranty_expiration': forms.DateInput(attrs={
+                'class': 'form-control',
+                'type': 'date'
+            }),
+            'last_service_date': forms.DateInput(attrs={
+                'class': 'form-control',
+                'type': 'date'
+            }),
+            'notes': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Maintenance notes, issues, etc.'
+            }),
+        }
+

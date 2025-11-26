@@ -142,6 +142,8 @@ python manage.py createsuperuser
 ```
 5. Follow prompts to create username, email, and password
 
+**Note**: If you've already loaded fixtures with user accounts (see Option B below), you can skip creating a superuser and log in with your existing admin account.
+
 ### Seed Data to Production
 
 You have three options to populate your production database:
@@ -154,6 +156,20 @@ python manage.py seed_tasks
 ```
 
 #### Option B: Transfer All Data from Local Database (Recommended)
+
+**If you've already pushed fixture files to GitHub**, simply run in the Render Shell:
+
+```bash
+python manage.py load_all_fixtures
+```
+
+This will load all your local data including:
+- ✅ 12 users (admin, alelawso3, and 10 experts) with their passwords
+- ✅ User profiles and expert profiles
+- ✅ Homes, maintenance tasks, schedules
+- ✅ Community tips and blog posts
+
+**If you haven't exported your data yet**, follow these steps:
 
 To transfer ALL data from your local development database including users, homes, schedules, tips, and blog posts:
 

@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home Onboarding Wizard - Step {{ step }} of {{ total_steps }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">
+                        <i class="bi bi-house-fill me-2"></i>
+                        Home Onboarding Wizard
+                    </h3>
+                    <p class="mb-0 mt-2"><small>Step {{ step }} of {{ total_steps }}: Basic Home Information</small></p>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="progress" style="height: 4px;">
+                    <div class="progress-bar" role="progressbar" 
+                         style="width: {{ progress_percent }}%;" 
+                         aria-valuenow="{{ progress_percent }}" 
+                         aria-valuemin="0" 
+                         aria-valuemax="100">
+                    </div>
+                </div>
+                
+                <div class="card-body p-4">
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <strong>Welcome!</strong> Let's set up your home profile to generate a personalized maintenance schedule.
+                        This wizard will collect information about your home, features, and appliances.
+                    </div>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label for="{{ form.name.id_for_label }}" class="form-label fw-bold">
+                                    Home Name <span class="text-danger">*</span>
+                                </label>
+                                {{ form.name }}
+                                {% if form.name.errors %}
+                                    <div class="text-danger small">{{ form.name.errors }}</div>
+                                {% endif %}
+                                <small class="text-muted">Give your home a nickname (e.g., "Main House", "Rental Property")</small>
+                            </div>
+                        </div>
+                        
+                        <h5 class="mt-4 mb-3 text-secondary">
+                            <i class="bi bi-geo-alt me-2"></i>Location
+                        </h5>
+                        
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label for="{{ form.address.id_for_label }}" class="form-label">Street Address</label>
+                                {{ form.address }}
+                                {% if form.address.errors %}
+                                    <div class="text-danger small">{{ form.address.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.city.id_for_label }}" class="form-label">City</label>
+                                {{ form.city }}
+                                {% if form.city.errors %}
+                                    <div class="text-danger small">{{ form.city.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="{{ form.state.id_for_label }}" class="form-label">State</label>
+                                {{ form.state }}
+                                {% if form.state.errors %}
+                                    <div class="text-danger small">{{ form.state.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="{{ form.zip_code.id_for_label }}" class="form-label">ZIP Code</label>
+                                {{ form.zip_code }}
+                                {% if form.zip_code.errors %}
+                                    <div class="text-danger small">{{ form.zip_code.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <h5 class="mt-4 mb-3 text-secondary">
+                            <i class="bi bi-info-square me-2"></i>Home Details
+                        </h5>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.year_built.id_for_label }}" class="form-label fw-bold">
+                                    Year Built <span class="text-danger">*</span>
+                                </label>
+                                {{ form.year_built }}
+                                {% if form.year_built.errors %}
+                                    <div class="text-danger small">{{ form.year_built.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.square_footage.id_for_label }}" class="form-label">Square Footage</label>
+                                {{ form.square_footage }}
+                                {% if form.square_footage.errors %}
+                                    <div class="text-danger small">{{ form.square_footage.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.construction_type.id_for_label }}" class="form-label">Construction Type</label>
+                                {{ form.construction_type }}
+                                {% if form.construction_type.errors %}
+                                    <div class="text-danger small">{{ form.construction_type.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.climate_zone.id_for_label }}" class="form-label">Climate Zone</label>
+                                {{ form.climate_zone }}
+                                {% if form.climate_zone.errors %}
+                                    <div class="text-danger small">{{ form.climate_zone.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.num_bedrooms.id_for_label }}" class="form-label">Number of Bedrooms</label>
+                                {{ form.num_bedrooms }}
+                                {% if form.num_bedrooms.errors %}
+                                    <div class="text-danger small">{{ form.num_bedrooms.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.num_bathrooms.id_for_label }}" class="form-label">Number of Bathrooms</label>
+                                {{ form.num_bathrooms }}
+                                {% if form.num_bathrooms.errors %}
+                                    <div class="text-danger small">{{ form.num_bathrooms.errors }}</div>
+                                {% endif %}
+                                <small class="text-muted d-block">Use 0.5 for half baths (e.g., 2.5)</small>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mt-4 pt-3 border-top">
+                            <a href="{% url 'homes:home_list' %}" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-circle me-2"></i>Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                Next Step <i class="bi bi-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

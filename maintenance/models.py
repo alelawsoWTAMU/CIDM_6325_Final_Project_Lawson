@@ -46,6 +46,14 @@ class MaintenanceTask(models.Model):
         ('general', 'General Maintenance'),
     ]
     
+    SEASONAL_PRIORITY = [
+        ('spring', 'Spring'),
+        ('summer', 'Summer'),
+        ('fall', 'Fall'),
+        ('winter', 'Winter'),
+        ('any', 'Any Season'),
+    ]
+    
     title = models.CharField(
         max_length=200,
         help_text='Name of the maintenance task (e.g., "Change HVAC Filter")'
@@ -117,6 +125,14 @@ class MaintenanceTask(models.Model):
     requires_attic = models.BooleanField(default=False)
     requires_hvac = models.BooleanField(default=False)
     requires_septic = models.BooleanField(default=False)
+    
+    # Seasonal scheduling optimization
+    seasonal_priority = models.CharField(
+        max_length=20,
+        choices=SEASONAL_PRIORITY,
+        default='any',
+        help_text='Optimal season for this task (e.g., HVAC checks in spring/fall)'
+    )
     
     is_active = models.BooleanField(
         default=True,

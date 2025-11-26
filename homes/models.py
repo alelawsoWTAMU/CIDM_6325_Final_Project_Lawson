@@ -37,6 +37,37 @@ class Home(models.Model):
         ('northwest', 'Northwestern U.S.'),
     ]
     
+    ROOF_TYPES = [
+        ('asphalt_shingle', 'Asphalt Shingle'),
+        ('metal', 'Metal'),
+        ('tile', 'Tile (Clay/Concrete)'),
+        ('slate', 'Slate'),
+        ('wood_shake', 'Wood Shake/Shingle'),
+        ('flat', 'Flat/Low-Slope'),
+        ('other', 'Other'),
+    ]
+    
+    HVAC_TYPES = [
+        ('central_ac', 'Central Air Conditioning'),
+        ('heat_pump', 'Heat Pump'),
+        ('furnace_ac', 'Furnace + AC'),
+        ('boiler', 'Boiler System'),
+        ('ductless_mini_split', 'Ductless Mini-Split'),
+        ('window_units', 'Window Units'),
+        ('none', 'No HVAC'),
+    ]
+    
+    SIDING_MATERIALS = [
+        ('vinyl', 'Vinyl'),
+        ('wood', 'Wood'),
+        ('brick', 'Brick'),
+        ('stucco', 'Stucco'),
+        ('fiber_cement', 'Fiber Cement'),
+        ('metal', 'Metal'),
+        ('stone', 'Stone/Stone Veneer'),
+        ('mixed', 'Mixed Materials'),
+    ]
+    
     owner = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -116,6 +147,45 @@ class Home(models.Model):
     has_septic = models.BooleanField(default=False, help_text='Septic system vs municipal sewer')
     has_well = models.BooleanField(default=False, help_text='Well water vs municipal water')
     
+    # Enhanced features for detailed maintenance scheduling
+    roof_type = models.CharField(
+        max_length=50,
+        choices=ROOF_TYPES,
+        blank=True,
+        default='',
+        help_text='Type of roofing material'
+    )
+    
+    roof_age = models.IntegerField(
+        null=True,
+        blank=True,
+        validators=[MinValueValidator(0), MaxValueValidator(150)],
+        help_text='Age of the roof in years'
+    )
+    
+    hvac_type = models.CharField(
+        max_length=50,
+        choices=HVAC_TYPES,
+        blank=True,
+        default='',
+        help_text='Type of HVAC system'
+    )
+    
+    hvac_age = models.IntegerField(
+        null=True,
+        blank=True,
+        validators=[MinValueValidator(0), MaxValueValidator(50)],
+        help_text='Age of the HVAC system in years'
+    )
+    
+    siding_material = models.CharField(
+        max_length=50,
+        choices=SIDING_MATERIALS,
+        blank=True,
+        default='',
+        help_text='Primary siding/exterior material'
+    )
+    
     notes = models.TextField(
         blank=True,
         help_text='Additional notes about the property'
@@ -167,6 +237,18 @@ class Appliance(models.Model):
     manufacturer = models.CharField(max_length=200, blank=True)
     model_number = models.CharField(max_length=200, blank=True)
     
+    serial_number = models.CharField(
+        max_length=200,
+        blank=True,
+        help_text='Serial number for warranty and service records'
+    )
+    
+    energy_rating = models.CharField(
+        max_length=10,
+        blank=True,
+        help_text='Energy Star rating or efficiency class (e.g., A+, Energy Star)'
+    )
+    
     year_installed = models.IntegerField(
         validators=[MinValueValidator(1950), MaxValueValidator(2100)],
         null=True,
@@ -175,6 +257,12 @@ class Appliance(models.Model):
     
     purchase_date = models.DateField(null=True, blank=True)
     warranty_expiration = models.DateField(null=True, blank=True)
+    
+    last_service_date = models.DateField(
+        null=True,
+        blank=True,
+        help_text='Date of last professional service or maintenance'
+    )
     
     notes = models.TextField(blank=True)
     
