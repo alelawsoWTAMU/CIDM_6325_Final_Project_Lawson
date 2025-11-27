@@ -191,73 +191,81 @@ This creates:
 
 #### Option B: Transfer All Data from Local Database (Recommended)
 
-**If you've already pushed fixture files to GitHub**, simply run in the Render Shell:
+**If you've already pushed fixture files to GitHub** (which you have!), simply run these commands in the Render Shell:
 
 ```bash
-python manage.py load_all_fixtures
+# Ensure migrations are applied first
+python manage.py migrate
+
+# Load fixtures in dependency order (required for foreign keys)
+python manage.py loaddata fixtures/users.json
+python manage.py loaddata fixtures/homes.json
+python manage.py loaddata fixtures/appliances.json
+python manage.py loaddata fixtures/service_providers.json
+python manage.py loaddata fixtures/maintenance_tasks.json
+python manage.py loaddata fixtures/schedules.json
+python manage.py loaddata fixtures/schedule_customizations.json
+python manage.py loaddata fixtures/task_completions.json
+python manage.py loaddata fixtures/tips.json
 ```
 
 This will load all your local data including:
-- ✅ 12 users (admin, alelawso3, and 10 experts) with their passwords
-- ✅ User profiles and expert profiles
-- ✅ Homes, maintenance tasks, schedules
-- ✅ Community tips and blog posts
+- ✅ User accounts with hashed passwords (can log in with existing credentials)
+- ✅ All homes with appliances and service providers
+- ✅ All 62 maintenance tasks with 10-step instructions already populated
+- ✅ All generated schedules with customizations
+- ✅ Task completion tracking
+- ✅ Community tips
 
-**If you haven't exported your data yet**, follow these steps:
+**If you need to export data locally in the future**, follow these steps:
 
-To transfer ALL data from your local development database including users, homes, schedules, tips, and blog posts:
+**If you need to export data locally in the future**, follow these steps:
 
 **Step 1 - Export locally (run on your computer):**
 ```bash
-# Export everything including users
-python manage.py export_all_data
+# Export all data using the provided script
+bash export_data.sh
 
-# Or export without user accounts (if you want to create those manually)
-python manage.py export_all_data --exclude-users
+# Or manually export specific models
+python manage.py dumpdata accounts.User --indent 2 > fixtures/users.json
+python manage.py dumpdata homes.Home --indent 2 > fixtures/homes.json
+python manage.py dumpdata homes.Appliance --indent 2 > fixtures/appliances.json
+python manage.py dumpdata homes.ServiceProvider --indent 2 > fixtures/service_providers.json
+python manage.py dumpdata maintenance.MaintenanceTask --indent 2 > fixtures/maintenance_tasks.json
+python manage.py dumpdata maintenance.Schedule --indent 2 > fixtures/schedules.json
+python manage.py dumpdata maintenance.ScheduleTaskCustomization --indent 2 > fixtures/schedule_customizations.json
+python manage.py dumpdata maintenance.ScheduleTaskCompletion --indent 2 > fixtures/task_completions.json
+python manage.py dumpdata tips.LocalTip --indent 2 > fixtures/tips.json
 ```
 
-This creates JSON fixture files in the `fixtures/` directory:
-- `users.json` - User accounts with hashed passwords
-- `accounts.json` - User profiles and expert profiles
-- `homes.json` - Home profiles, appliances, service providers
-- `maintenance_tasks.json` - All maintenance tasks with instructions
-- `schedules.json` - Generated schedules
-- `schedule_customizations.json` - User-customized task descriptions/instructions
-- `task_completions.json` - Completed tasks with completion tracking
-- `tips.json` - Community tips, blog posts, and comments
+This creates JSON fixture files in the `fixtures/` directory.
 
-**Step 2 - Allow fixtures in Git:**
+This creates JSON fixture files in the `fixtures/` directory.
 
-Edit `fixtures/.gitignore` to allow the files:
+**Step 2 - Commit and push:**
 ```bash
-# Comment out the *.json line or add specific exceptions
-# fixtures/.gitignore
-# *.json  <-- comment this out to include all
-```
-
-**Step 3 - Commit and push:**
-```bash
-git add fixtures/
-git commit -m "Add production seed data"
+git add fixtures/*.json export_data.sh
+git commit -m "chore: export database to fixtures for production seeding"
 git push origin Final_Project
 ```
 
-**Step 4 - Load on Render (in Shell tab):**
+**Step 3 - Load on Render (in Shell tab):**
 
-Wait for auto-deploy to complete, then:
+Wait for auto-deploy to complete, then load the fixtures in order:
 ```bash
-python manage.py load_all_fixtures
-```
-
-The command loads fixtures in the correct order respecting foreign key dependencies.
-
-**Alternative - Load individual fixtures:**
-```bash
-# Load specific data only
-python manage.py loaddata fixtures/maintenance_tasks.json
-python manage.py loaddata fixtures/tips.json
+python manage.py migrate  # Ensure all migrations applied
+python manage.py loaddata fixtures/users.json
 python manage.py loaddata fixtures/homes.json
+python manage.py loaddata fixtures/appliances.json
+python manage.py loaddata fixtures/service_providers.json
+python manage.py loaddata fixtures/maintenance_tasks.json
+python manage.py loaddata fixtures/schedules.json
+python manage.py loaddata fixtures/schedule_customizations.json
+python manage.py loaddata fixtures/task_completions.json
+python manage.py loaddata fixtures/tips.json
 ```
+
+The loading order is important to respect foreign key dependencies.
 
 #### Option C: Manual Django Admin
 
