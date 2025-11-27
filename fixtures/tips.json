@@ -642,5 +642,108 @@
       "updated_at": "2025-11-24T02:40:48.297Z",
       "upvotes": []
     }
+  },
+  {
+    "model": "tips.localtip",
+    "pk": 34,
+    "fields": {
+      "post_type": "blog",
+      "author": 6,
+      "title": "10 Essential HVAC Maintenance Tips for Every Homeowner",
+      "slug": "",
+      "category": "hvac",
+      "content": "<h2>Why HVAC Maintenance Matters</h2>\n<p>Your HVAC system is one of the largest investments in your home. Regular maintenance can extend its life by 10-15 years and save you thousands in energy costs.</p>\n\n<h2>Top 10 Maintenance Tips</h2>\n<ol>\n<li><strong>Change filters monthly</strong> - This simple task improves efficiency by up to 15%</li>\n<li><strong>Schedule bi-annual professional inspections</strong> - Spring and fall are ideal times</li>\n<li><strong>Keep outdoor units clear</strong> - Maintain 2 feet of clearance around condenser units</li>\n<li><strong>Check thermostat settings</strong> - Consider upgrading to a programmable model</li>\n<li><strong>Clean vents and registers</strong> - Dust buildup restricts airflow</li>\n<li><strong>Inspect ductwork</strong> - Seal leaks to prevent 20-30% energy loss</li>\n<li><strong>Monitor refrigerant levels</strong> - Low levels indicate a leak</li>\n<li><strong>Test system before peak seasons</strong> - Don't wait for the first hot or cold day</li>\n<li><strong>Keep condensate drains clear</strong> - Prevents water damage and mold</li>\n<li><strong>Document all maintenance</strong> - Helps with warranty claims and resale value</li>\n</ol>\n\n<h2>When to Call a Professional</h2>\n<p>While many tasks are DIY-friendly, call an expert if you notice strange noises, inconsistent temperatures, or rising energy bills.</p>",
+      "location": "Expert Network",
+      "climate_zone": "all",
+      "status": "approved",
+      "moderation_notes": "",
+      "moderated_by": null,
+      "moderated_at": null,
+      "views": 0,
+      "is_featured": true,
+      "created_at": "2025-11-27T04:58:42.626Z",
+      "updated_at": "2025-11-27T04:58:42.626Z",
+      "upvotes": []
+    }
+  },
+  {
+    "pk": 35,
+    "model": "tips.localtip",
+    "fields": {
+      "post_type": "blog",
+      "author": 8,
+      "title": "Understanding Your Home Plumbing System",
+      "slug": "understanding-your-home-plumbing-system",
+      "category": "plumbing",
+      "content": "<h2>How Your Plumbing System Works</h2>\n<p>Your home plumbing consists of two main systems: supply (bringing fresh water in) and drainage (removing wastewater). Understanding both helps you prevent costly repairs.</p>\n\n<h2>Common Plumbing Issues</h2>\n<ul>\n<li><strong>Dripping Faucets:</strong> Wastes 3,000 gallons/year. Usually a worn washer ($5 fix)</li>\n<li><strong>Running Toilets:</strong> Can waste 200 gallons/day. Check the flapper valve first</li>\n<li><strong>Low Water Pressure:</strong> Often caused by mineral buildup in aerators</li>\n</ul>\n\n<h2>Preventive Maintenance</h2>\n<ul>\n<li><strong>Monthly:</strong> Check for leaks under sinks</li>\n<li><strong>Quarterly:</strong> Test water pressure</li>\n<li><strong>Annually:</strong> Flush water heater to remove sediment</li>\n</ul>",
+      "location": "Expert Network",
+      "climate_zone": "all",
+      "status": "approved",
+      "views": 0,
+      "is_featured": false,
+      "created_at": "2025-11-26T23:02:16.287783Z",
+      "updated_at": "2025-11-26T23:02:16.287783Z",
+      "upvotes": []
+    }
+  },
+  {
+    "pk": 36,
+    "model": "tips.localtip",
+    "fields": {
+      "post_type": "blog",
+      "author": 9,
+      "title": "Electrical Safety for Homeowners",
+      "slug": "electrical-safety-for-homeowners",
+      "category": "electrical",
+      "content": "<h2>Warning Signs of Electrical Problems</h2>\n<ul>\n<li>Flickering or dimming lights</li>\n<li>Burning smell from outlets</li>\n<li>Warm or discolored outlets</li>\n<li>Frequently tripping breakers</li>\n</ul>\n\n<h2>DIY vs Professional Work</h2>\n<h3>Safe DIY Tasks:</h3>\n<ul>\n<li>Replacing light fixtures (power off)</li>\n<li>Testing outlets with multimeter</li>\n<li>Installing GFCI outlets</li>\n</ul>\n\n<h3>Always Call an Electrician:</h3>\n<ul>\n<li>Working inside breaker panel</li>\n<li>Adding new circuits</li>\n<li>Aluminum wiring issues</li>\n<li>Generator installation</li>\n</ul>",
+      "location": "Expert Network",
+      "climate_zone": "all",
+      "status": "approved",
+      "views": 0,
+      "is_featured": false,
+      "created_at": "2025-11-26T23:02:16.287783Z",
+      "updated_at": "2025-11-26T23:02:16.287783Z",
+      "upvotes": []
+    }
+  },
+  {
+    "pk": 37,
+    "model": "tips.localtip",
+    "fields": {
+      "post_type": "blog",
+      "author": 10,
+      "title": "Roof Maintenance: Extend Your Roof Life",
+      "slug": "roof-maintenance-extend-your-roof-life",
+      "category": "roofing",
+      "content": "<h2>Seasonal Roof Inspection Checklist</h2>\n<h3>Spring:</h3>\n<ul>\n<li>Check for winter damage</li>\n<li>Inspect flashing around chimneys</li>\n<li>Look for lifted shingles</li>\n<li>Clear debris from gutters</li>\n</ul>\n\n<h3>Fall:</h3>\n<ul>\n<li>Remove leaves and branches</li>\n<li>Trim overhanging tree limbs</li>\n<li>Check roof boots and seals</li>\n<li>Ensure proper attic ventilation</li>\n</ul>\n\n<h2>Common Roof Problems</h2>\n<p><strong>Granule Loss:</strong> Excessive granules in gutters indicate aging shingles</p>\n<p><strong>Flashing Failures:</strong> Most leaks occur at flashing around chimneys and vents</p>",
+      "location": "Expert Network",
+      "climate_zone": "all",
+      "status": "approved",
+      "views": 0,
+      "is_featured": false,
+      "created_at": "2025-11-26T23:02:16.287783Z",
+      "updated_at": "2025-11-26T23:02:16.287783Z",
+      "upvotes": []
+    }
+  },
+  {
+    "pk": 38,
+    "model": "tips.localtip",
+    "fields": {
+      "post_type": "blog",
+      "author": 13,
+      "title": "Year-Round Landscaping Calendar",
+      "slug": "year-round-landscaping-calendar",
+      "category": "landscaping",
+      "content": "<h2>Spring (March-May)</h2>\n<ul>\n<li>Remove winter debris</li>\n<li>Prune damaged branches</li>\n<li>Add fresh mulch (2-3 inches)</li>\n<li>Aerate and overseed lawn</li>\n<li>Start mower maintenance</li>\n</ul>\n\n<h2>Summer (June-August)</h2>\n<ul>\n<li>Water deeply but less frequently</li>\n<li>Deadhead flowers for continuous blooms</li>\n<li>Mow high (3-4 inches) during heat</li>\n<li>Monitor for pests</li>\n</ul>\n\n<h2>Fall (September-November)</h2>\n<ul>\n<li>Plant spring-flowering bulbs</li>\n<li>Rake leaves regularly</li>\n<li>Winterize irrigation system</li>\n<li>Apply fall fertilizer</li>\n<li>Plant trees and shrubs (best time!)</li>\n</ul>\n\n<h2>Winter (December-February)</h2>\n<ul>\n<li>Protect sensitive plants from frost</li>\n<li>Prune dormant trees</li>\n<li>Plan next year garden</li>\n<li>Service equipment</li>\n</ul>",
+      "location": "Expert Network",
+      "climate_zone": "all",
+      "status": "approved",
+      "views": 0,
+      "is_featured": false,
+      "created_at": "2025-11-26T23:02:16.287783Z",
+      "updated_at": "2025-11-26T23:02:16.287783Z",
+      "upvotes": []
+    }
   }
 ]
