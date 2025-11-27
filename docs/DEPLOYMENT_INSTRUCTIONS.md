@@ -41,26 +41,29 @@ Your project includes a `render.yaml` file that automates the entire deployment 
 
 ### After Deployment:
 
-1. **Run Migrations** (if not auto-applied):
-   - Render will run migrations automatically
+1. **Run Migrations** (automatic):
+   - Render runs migrations automatically via `build.sh`
    - 3 apps have migrations: accounts, homes, maintenance
    - Total of 9 migration files
 
-2. **Seed Database**:
+2. **Load ALL Data** (required - one-time):
+   - Your fixtures include users, so you must load them to log in
+   - In Render Shell (click "Shell" tab in left sidebar), run:
    ```bash
-   python manage.py seed_tasks
-   python manage.py seed_task_instructions
+   bash load_all_data.sh
    ```
-   - `seed_tasks`: Loads 62 comprehensive maintenance tasks
-   - `seed_task_instructions`: Adds detailed 10-step instructions for all 62 tasks
-   - Covers all homestead categories with actionable guidance
+   - This loads:
+     * ✅ Users (including your admin account)
+     * ✅ Homes with appliances and service providers
+     * ✅ All 62 maintenance tasks with 10-step instructions
+     * ✅ Schedules, customizations, and completions
+     * ✅ Community tips
+   - Clears any existing data first (safe to rerun)
 
-3. **Create Superuser**:
-   ```bash
-   python manage.py createsuperuser
-   ```
+3. **Test Login**:
+   - Go to: `https://homestead-compass.onrender.com/accounts/login/`
+   - Use your existing credentials from local development
    - Access admin at: `/admin/`
-   - Moderate tips, approve experts, manage content
 
 4. **Test New Features**:
    - Home Wizard: `/homes/wizard/` (3-step onboarding)
@@ -174,28 +177,43 @@ python manage.py createsuperuser
 
 ### Seed Data to Production
 
-You have three options to populate your production database:
+#### Load All Data (Recommended - Includes Users)
 
-#### Option A: Seed Just Maintenance Tasks (Quick)
+**Your fixtures include user accounts, so you MUST load them to log in:**
 
-For basic setup with comprehensive maintenance tasks:
+In the Render Shell (click "Shell" tab in left sidebar), run:
+
 ```bash
-python manage.py seed_tasks
-python manage.py seed_task_instructions
+bash load_all_data.sh
 ```
 
-This creates:
-- ✅ 62 maintenance tasks with categories, frequencies, and applicability rules
-- ✅ Comprehensive 10-step instructions for every task
-- ✅ Ready-to-use task library for schedule generation
+This script:
+- ✅ Clears any existing data (prevents duplicates)
+- ✅ Loads all fixtures in correct dependency order:
+  * User accounts with hashed passwords
+  * Homes, appliances, service providers
+  * All 62 maintenance tasks with instructions
+  * Schedules, customizations, completions
+  * Community tips
 
-#### Option B: Transfer All Data from Local Database (Recommended)
+**Safe to run multiple times** - flushes database first to prevent duplicate key errors.
+
+#### Alternative: Manual Fixture Loading
 
 **If you've already pushed fixture files to GitHub** (which you have!), simply run these commands in the Render Shell:
 
 ```bash
 # Ensure migrations are applied first
 python manage.py migrate
+#### Option C: Manual Individual Fixture Loading
+
+#### Alternative: Manual Fixture Loading
+
+If you prefer to load fixtures individually in the Render Shell:
+
+```bash
+# Flush database first to avoid duplicates
+python manage.py flush --no-input
 
 # Load fixtures in dependency order (required for foreign keys)
 python manage.py loaddata fixtures/users.json
@@ -209,17 +227,15 @@ python manage.py loaddata fixtures/task_completions.json
 python manage.py loaddata fixtures/tips.json
 ```
 
-This will load all your local data including:
-- ✅ User accounts with hashed passwords (can log in with existing credentials)
-- ✅ All homes with appliances and service providers
-- ✅ All 62 maintenance tasks with 10-step instructions already populated
-- ✅ All generated schedules with customizations
-- ✅ Task completion tracking
-- ✅ Community tips
+---
 
-**If you need to export data locally in the future**, follow these steps:
+### Exporting New Data from Local
 
-**If you need to export data locally in the future**, follow these steps:
+**If you need to export updated data from your local database in the future:**
+
+### Exporting New Data from Local
+
+**If you need to export updated data from your local database in the future:**
 
 **Step 1 - Export locally (run on your computer):**
 ```bash
@@ -238,10 +254,6 @@ python manage.py dumpdata maintenance.ScheduleTaskCompletion --indent 2 > fixtur
 python manage.py dumpdata tips.LocalTip --indent 2 > fixtures/tips.json
 ```
 
-This creates JSON fixture files in the `fixtures/` directory.
-
-This creates JSON fixture files in the `fixtures/` directory.
-
 **Step 2 - Commit and push:**
 ```bash
 git add fixtures/*.json export_data.sh
@@ -249,25 +261,14 @@ git commit -m "chore: export database to fixtures for production seeding"
 git push origin Final_Project
 ```
 
-**Step 3 - Load on Render (in Shell tab):**
+**Step 3 - Load on production:**
+- Render auto-deploys when you push (but doesn't load data automatically)
+- Go to Render Shell and run: `bash load_all_data.sh`
+- This loads all fixtures with proper dependency ordering
 
-Wait for auto-deploy to complete, then load the fixtures in order:
-```bash
-python manage.py migrate  # Ensure all migrations applied
-python manage.py loaddata fixtures/users.json
-python manage.py loaddata fixtures/homes.json
-python manage.py loaddata fixtures/appliances.json
-python manage.py loaddata fixtures/service_providers.json
-python manage.py loaddata fixtures/maintenance_tasks.json
-python manage.py loaddata fixtures/schedules.json
-python manage.py loaddata fixtures/schedule_customizations.json
-python manage.py loaddata fixtures/task_completions.json
-python manage.py loaddata fixtures/tips.json
-```
+---
 
-The loading order is important to respect foreign key dependencies.
-
-#### Option C: Manual Django Admin
+#### Create Superuser Manually (Alternative)
 
 Create data manually through the admin panel at `/admin/` after logging in.
 
