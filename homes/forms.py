@@ -24,6 +24,8 @@ class HomeForm(forms.ModelForm):
             'construction_type',
             'climate_zone',
             'square_footage',
+            'acreage',
+            'location_type',
             'num_bedrooms',
             'num_bathrooms',
             'has_basement',
@@ -44,6 +46,8 @@ class HomeForm(forms.ModelForm):
             'construction_type': forms.Select(attrs={'class': 'form-select'}),
             'climate_zone': forms.Select(attrs={'class': 'form-select'}),
             'square_footage': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'e.g., 1500'}),
+            'acreage': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'e.g., 0.25', 'step': '0.01'}),
+            'location_type': forms.Select(attrs={'class': 'form-select'}),
             'num_bedrooms': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'e.g., 3'}),
             'num_bathrooms': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'e.g., 2', 'step': '0.5'}),
             'has_basement': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
@@ -119,6 +123,8 @@ class SurveyStep1Form(forms.ModelForm):
             'construction_type',
             'climate_zone',
             'square_footage',
+            'acreage',
+            'location_type',
             'num_bedrooms',
             'num_bathrooms',
         ]
@@ -155,6 +161,12 @@ class SurveyStep1Form(forms.ModelForm):
                 'class': 'form-control',
                 'placeholder': 'e.g., 2000'
             }),
+            'acreage': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'e.g., 0.25',
+                'step': '0.01'
+            }),
+            'location_type': forms.Select(attrs={'class': 'form-select'}),
             'num_bedrooms': forms.NumberInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'e.g., 3'
@@ -169,8 +181,8 @@ class SurveyStep1Form(forms.ModelForm):
 
 class SurveyStep2Form(forms.ModelForm):
     """
-    Step 2: Home Features & Systems
-    Collects detailed information about roof, HVAC, siding, and key features.
+    Step 2: Home Systems & Infrastructure
+    Collects information about energy systems, water systems, and specialized infrastructure.
     """
     class Meta:
         model = Home
@@ -186,6 +198,15 @@ class SurveyStep2Form(forms.ModelForm):
             'has_hvac',
             'has_septic',
             'has_well',
+            'has_solar_panels',
+            'has_generator',
+            'has_battery_bank',
+            'has_wood_stove',
+            'has_sump_pump',
+            'water_heater_type',
+            'has_composting_toilet',
+            'has_rainwater_collection',
+            'has_irrigation_system',
         ]
         widgets = {
             'roof_type': forms.Select(attrs={'class': 'form-select'}),
@@ -205,12 +226,69 @@ class SurveyStep2Form(forms.ModelForm):
             'has_hvac': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'has_septic': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'has_well': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'has_solar_panels': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'has_generator': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'has_battery_bank': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'has_wood_stove': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'has_sump_pump': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'water_heater_type': forms.Select(attrs={'class': 'form-select'}),
+            'has_composting_toilet': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'has_rainwater_collection': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'has_irrigation_system': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
+
+
+class SurveyStep3PropertyForm(forms.ModelForm):
+    """
+    Step 3: Property Features
+    Collects information about outdoor features, structures, and land use.
+    """
+    class Meta:
+        model = Home
+        fields = [
+            'has_fencing',
+            'has_barn_outbuilding',
+            'has_greenhouse',
+            'has_fruit_trees',
+            'has_garden_beds',
+            'has_pasture',
+            'driveway_type',
+        ]
+        widgets = {
+            'has_fencing': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'has_barn_outbuilding': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'has_greenhouse': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'has_fruit_trees': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'has_garden_beds': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'has_pasture': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'driveway_type': forms.Select(attrs={'class': 'form-select'}),
+        }
+
+
+class SurveyStep4EquipmentForm(forms.ModelForm):
+    """
+    Step 4: Equipment & Appliances
+    Collects information about property equipment and optional appliance details.
+    """
+    class Meta:
+        model = Home
+        fields = [
+            'has_tractor',
+            'has_riding_mower',
+            'has_chainsaw',
+            'has_farm_implements',
+        ]
+        widgets = {
+            'has_tractor': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'has_riding_mower': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'has_chainsaw': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'has_farm_implements': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
 
 class SurveyStep3ApplianceForm(forms.ModelForm):
     """
-    Step 3: Appliance Information (can be added multiple times)
+    Step 4 (Supplemental): Appliance Information (can be added multiple times)
     Collects detailed appliance tracking data.
     """
     class Meta:

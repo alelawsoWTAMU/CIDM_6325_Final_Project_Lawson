@@ -32,6 +32,15 @@
             color: var(--compass-dark);
         }
         
+        /* Force white text on wizard card headers */
+        .card-header.bg-primary h3,
+        .card-header.bg-primary h3 span,
+        .card-header.bg-primary h3 i,
+        .card-header.bg-primary p,
+        .card-header.bg-primary small {
+            color: #ffffff !important;
+        }
+        
         .navbar-brand {
             font-family: 'Cinzel', serif;
             color: var(--compass-light) !important;
@@ -187,8 +196,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'maintenance:schedule_list' %}">
-                                <i class="bi bi-calendar-check"></i> My Schedule
+                            <a class="nav-link" href="{% url 'maintenance:schedule_calendar' %}">
+                                <i class="bi bi-calendar-check"></i> My Schedules
                             </a>
                         </li>
                         <li class="nav-item">

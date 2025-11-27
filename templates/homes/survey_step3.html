@@ -4,16 +4,24 @@
 {% block title %}Home Onboarding Wizard - Step {{ step }} of {{ total_steps }}{% endblock %}
 
 {% block content %}
+<style>
+/* Force white header text on wizard cards */
+.card-header.bg-primary h3,
+.card-header.bg-primary p,
+.card-header.bg-primary small {
+    color: #ffffff !important;
+}
+</style>
 <div class="container my-5">
     <div class="row justify-content-center">
-        <div class="col-lg-10">
+        <div class="col-lg-8">
             <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="mb-0">
-                        <i class="bi bi-house-fill me-2"></i>
-                        Home Onboarding Wizard
+                <div class="card-header bg-primary text-white" style="color:#ffffff !important;">
+                    <h3 class="mb-0" style="color:#ffffff !important;">
+                        <i class="bi bi-house-fill me-2" style="color:#ffffff !important;"></i>
+                        <span style="color:#ffffff !important;">Add Your Home</span>
                     </h3>
-                    <p class="mb-0 mt-2"><small>Step {{ step }} of {{ total_steps }}: Appliances (Optional)</small></p>
+                    <p class="mb-0 mt-2 text-white" style="color:#ffffff !important;"><small style="color:#ffffff !important;">Step {{ step }} of {{ total_steps }}: Property Features</small></p>
                 </div>
                 
                 <!-- Progress Bar -->
@@ -29,152 +37,101 @@
                 <div class="card-body p-4">
                     <div class="alert alert-info">
                         <i class="bi bi-info-circle me-2"></i>
-                        <strong>Almost done!</strong> Add your appliances to get detailed maintenance reminders. 
-                        You can skip this step or add appliances later.
+                        <strong>Excellent!</strong> Now tell us about your property's outdoor features and structures.
                     </div>
-                    
-                    {% if appliances %}
-                    <div class="mb-4">
-                        <h5 class="text-success">
-                            <i class="bi bi-check-circle me-2"></i>
-                            Added Appliances ({{ appliance_count }})
-                        </h5>
-                        <div class="list-group">
-                            {% for appliance in appliances %}
-                            <div class="list-group-item">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <div>
-                                        <h6 class="mb-1">{{ appliance.appliance_type|title }}</h6>
-                                        <p class="mb-1 text-muted small">
-                                            {% if appliance.manufacturer %}
-                                                {{ appliance.manufacturer }}
-                                                {% if appliance.model_number %}
-                                                    - Model: {{ appliance.model_number }}
-                                                {% endif %}
-                                            {% endif %}
-                                        </p>
-                                        {% if appliance.year_installed %}
-                                            <span class="badge bg-secondary">Installed: {{ appliance.year_installed }}</span>
-                                        {% endif %}
-                                    </div>
-                                    <span class="badge bg-success">
-                                        <i class="bi bi-check"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    {% endif %}
-                    
-                    <h5 class="mt-4 mb-3">
-                        <i class="bi bi-plus-circle me-2"></i>
-                        Add Another Appliance
-                    </h5>
                     
                     <form method="post">
                         {% csrf_token %}
                         
-                        <div class="row">
-                            <div class="col-md-12 mb-3">
-                                <label for="{{ form.appliance_type.id_for_label }}" class="form-label fw-bold">
-                                    Appliance Type
-                                </label>
-                                {{ form.appliance_type }}
-                                {% if form.appliance_type.errors %}
-                                    <div class="text-danger small">{{ form.appliance_type.errors }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
+                        <h5 class="mt-3 mb-3 text-secondary">
+                            <i class="bi bi-tree me-2"></i>Outdoor Structures
+                        </h5>
                         
                         <div class="row">
                             <div class="col-md-4 mb-3">
-                                <label for="{{ form.manufacturer.id_for_label }}" class="form-label">Manufacturer</label>
-                                {{ form.manufacturer }}
-                                {% if form.manufacturer.errors %}
-                                    <div class="text-danger small">{{ form.manufacturer.errors }}</div>
-                                {% endif %}
+                                <div class="form-check">
+                                    {{ form.has_fencing }}
+                                    <label class="form-check-label" for="{{ form.has_fencing.id_for_label }}">
+                                        <i class="bi bi-grid-3x2-gap me-1"></i>Fencing
+                                    </label>
+                                </div>
                             </div>
                             <div class="col-md-4 mb-3">
-                                <label for="{{ form.model_number.id_for_label }}" class="form-label">Model Number</label>
-                                {{ form.model_number }}
-                                {% if form.model_number.errors %}
-                                    <div class="text-danger small">{{ form.model_number.errors }}</div>
-                                {% endif %}
+                                <div class="form-check">
+                                    {{ form.has_barn_outbuilding }}
+                                    <label class="form-check-label" for="{{ form.has_barn_outbuilding.id_for_label }}">
+                                        <i class="bi bi-building me-1"></i>Barn/Outbuilding
+                                    </label>
+                                </div>
                             </div>
                             <div class="col-md-4 mb-3">
-                                <label for="{{ form.serial_number.id_for_label }}" class="form-label">Serial Number</label>
-                                {{ form.serial_number }}
-                                {% if form.serial_number.errors %}
-                                    <div class="text-danger small">{{ form.serial_number.errors }}</div>
-                                {% endif %}
+                                <div class="form-check">
+                                    {{ form.has_greenhouse }}
+                                    <label class="form-check-label" for="{{ form.has_greenhouse.id_for_label }}">
+                                        <i class="bi bi-house-heart me-1"></i>Greenhouse
+                                    </label>
+                                </div>
                             </div>
                         </div>
+                        
+                        <h5 class="mt-4 mb-3 text-secondary">
+                            <i class="bi bi-flower1 me-2"></i>Landscaping & Gardens
+                        </h5>
+                        
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="form-check">
+                                    {{ form.has_fruit_trees }}
+                                    <label class="form-check-label" for="{{ form.has_fruit_trees.id_for_label }}">
+                                        <i class="bi bi-tree-fill me-1"></i>Fruit Trees/Orchard
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="form-check">
+                                    {{ form.has_garden_beds }}
+                                    <label class="form-check-label" for="{{ form.has_garden_beds.id_for_label }}">
+                                        <i class="bi bi-flower2 me-1"></i>Garden Beds
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="form-check">
+                                    {{ form.has_pasture }}
+                                    <label class="form-check-label" for="{{ form.has_pasture.id_for_label }}">
+                                        <i class="bi bi-map me-1"></i>Pasture Land
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h5 class="mt-4 mb-3 text-secondary">
+                            <i class="bi bi-signpost me-2"></i>Driveway & Access
+                        </h5>
                         
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="{{ form.year_installed.id_for_label }}" class="form-label">Year Installed</label>
-                                {{ form.year_installed }}
-                                {% if form.year_installed.errors %}
-                                    <div class="text-danger small">{{ form.year_installed.errors }}</div>
+                                <label for="{{ form.driveway_type.id_for_label }}" class="form-label fw-bold">Driveway Type</label>
+                                {{ form.driveway_type }}
+                                {% if form.driveway_type.errors %}
+                                    <div class="text-danger small">{{ form.driveway_type.errors }}</div>
                                 {% endif %}
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="{{ form.energy_rating.id_for_label }}" class="form-label">Energy Rating</label>
-                                {{ form.energy_rating }}
-                                {% if form.energy_rating.errors %}
-                                    <div class="text-danger small">{{ form.energy_rating.errors }}</div>
-                                {% endif %}
-                                <small class="text-muted d-block">e.g., Energy Star, A+</small>
+                                <small class="form-text text-muted">Surface type of your driveway</small>
                             </div>
                         </div>
                         
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <label for="{{ form.purchase_date.id_for_label }}" class="form-label">Purchase Date</label>
-                                {{ form.purchase_date }}
-                                {% if form.purchase_date.errors %}
-                                    <div class="text-danger small">{{ form.purchase_date.errors }}</div>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="{{ form.warranty_expiration.id_for_label }}" class="form-label">Warranty Expiration</label>
-                                {{ form.warranty_expiration }}
-                                {% if form.warranty_expiration.errors %}
-                                    <div class="text-danger small">{{ form.warranty_expiration.errors }}</div>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="{{ form.last_service_date.id_for_label }}" class="form-label">Last Service Date</label>
-                                {{ form.last_service_date }}
-                                {% if form.last_service_date.errors %}
-                                    <div class="text-danger small">{{ form.last_service_date.errors }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-12 mb-3">
-                                <label for="{{ form.notes.id_for_label }}" class="form-label">Notes</label>
-                                {{ form.notes }}
-                                {% if form.notes.errors %}
-                                    <div class="text-danger small">{{ form.notes.errors }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
-                        
-                        <div class="d-grid gap-2 mb-3">
-                            <button type="submit" name="add_appliance" class="btn btn-success">
-                                <i class="bi bi-plus-circle me-2"></i>Add This Appliance
-                            </button>
+                        <div class="alert alert-secondary mt-4">
+                            <i class="bi bi-lightbulb me-2"></i>
+                            <strong>Tip:</strong> These features help us create maintenance tasks for outdoor structures, 
+                            landscaping, and property upkeep specific to your property.
                         </div>
                         
                         <div class="d-flex justify-content-between mt-4 pt-3 border-top">
                             <a href="{% url 'homes:survey_wizard' step=2 %}" class="btn btn-outline-secondary">
                                 <i class="bi bi-arrow-left me-2"></i>Previous Step
                             </a>
-                            <button type="submit" name="complete_wizard" class="btn btn-primary btn-lg">
-                                <i class="bi bi-check-circle me-2"></i>Complete & Generate Schedule
+                            <button type="submit" class="btn btn-primary">
+                                Next Step <i class="bi bi-arrow-right ms-2"></i>
                             </button>
                         </div>
                     </form>

@@ -7,13 +7,14 @@ Includes multi-step onboarding wizard.
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib import messages
 from django.views import View
 from .models import Home, Appliance, ServiceProvider
 from .forms import (
     HomeForm, ApplianceForm, ServiceProviderForm,
-    SurveyStep1Form, SurveyStep2Form, SurveyStep3ApplianceForm
+    SurveyStep1Form, SurveyStep2Form, SurveyStep3PropertyForm, 
+    SurveyStep4EquipmentForm, SurveyStep3ApplianceForm
 )
 
 
@@ -271,8 +272,9 @@ class HomeOnboardingWizardView(LoginRequiredMixin, View):
     """
     Multi-step wizard for comprehensive home onboarding.
     Step 1: Basic home information
-    Step 2: Home features and systems
-    Step 3: Appliances (optional, repeatable)
+    Step 2: Home systems and infrastructure
+    Step 3: Property features
+    Step 4: Equipment and appliances
     """
     
     def get(self, request, step=1):
@@ -284,6 +286,7 @@ class HomeOnboardingWizardView(LoginRequiredMixin, View):
         # Get session data for pre-filling forms
         step1_data = request.session.get('survey_step1', {})
         step2_data = request.session.get('survey_step2', {})
+        step3_data = request.session.get('survey_step3', {})
         appliances_data = request.session.get('survey_appliances', [])
         
         if step == 1:
@@ -292,8 +295,8 @@ class HomeOnboardingWizardView(LoginRequiredMixin, View):
             context = {
                 'form': form,
                 'step': 1,
-                'total_steps': 3,
-                'progress_percent': 33,
+                'total_steps': 4,
+                'progress_percent': 25,
             }
         elif step == 2:
             if not step1_data:
@@ -304,22 +307,58 @@ class HomeOnboardingWizardView(LoginRequiredMixin, View):
             context = {
                 'form': form,
                 'step': 2,
-                'total_steps': 3,
-                'progress_percent': 67,
+                'total_steps': 4,
+                'progress_percent': 50,
             }
         elif step == 3:
             if not step1_data or not step2_data:
                 messages.warning(request, "Please complete Steps 1 and 2 first.")
                 return redirect('homes:survey_wizard', step=1)
-            form = SurveyStep3ApplianceForm()
+            form = SurveyStep3PropertyForm(initial=step3_data)
             template = 'homes/survey_step3.html'
             context = {
                 'form': form,
                 'step': 3,
-                'total_steps': 3,
+                'total_steps': 4,
+                'progress_percent': 75,
+            }
+        elif step == 4:
+            if not step1_data or not step2_data or not step3_data:
+                messages.warning(request, "Please complete Steps 1, 2, and 3 first.")
+                return redirect('homes:survey_wizard', step=1)
+            
+            # Check if editing an appliance
+            edit_index = request.GET.get('edit')
+            editing_appliance = None
+            if edit_index is not None:
+                try:
+                    index = int(edit_index)
+                    appliances_data = request.session.get('survey_appliances', [])
+                    if 0 <= index < len(appliances_data):
+                        editing_appliance = appliances_data[index]
+                        # Convert string dates back to date objects for form
+                        from datetime import date as dt_date
+                        for key, value in editing_appliance.items():
+                            if isinstance(value, str) and '-' in value and len(value) == 10:
+                                try:
+                                    editing_appliance[key] = dt_date.fromisoformat(value)
+                                except:
+                                    pass
+                except (ValueError, IndexError):
+                    pass
+            
+            equipment_form = SurveyStep4EquipmentForm(initial=request.session.get('survey_step4', {}))
+            appliance_form = SurveyStep3ApplianceForm(initial=editing_appliance) if editing_appliance else SurveyStep3ApplianceForm()
+            template = 'homes/survey_step4.html'
+            context = {
+                'equipment_form': equipment_form,
+                'appliance_form': appliance_form,
+                'step': 4,
+                'total_steps': 4,
                 'progress_percent': 100,
                 'appliances': appliances_data,
                 'appliance_count': len(appliances_data),
+                'editing_index': edit_index,
             }
         else:
             return redirect('homes:survey_wizard', step=1)
@@ -346,14 +385,14 @@ class HomeOnboardingWizardView(LoginRequiredMixin, View):
                     else:
                         request.session['survey_step1'][key] = str(value)
                 request.session.modified = True
-                messages.success(request, "Step 1 complete! Let's add home features.")
+                messages.success(request, "Step 1 complete! Let's configure home systems.")
                 return redirect('homes:survey_wizard', step=2)
             else:
                 return render(request, 'homes/survey_step1.html', {
                     'form': form,
                     'step': 1,
-                    'total_steps': 3,
-                    'progress_percent': 33,
+                    'total_steps': 4,
+                    'progress_percent': 25,
                 })
         
         elif step == 2:
@@ -370,42 +409,125 @@ class HomeOnboardingWizardView(LoginRequiredMixin, View):
                     else:
                         request.session['survey_step2'][key] = str(value)
                 request.session.modified = True
-                messages.success(request, "Step 2 complete! Now let's add your appliances (optional).")
+                messages.success(request, "Step 2 complete! Now let's add property features.")
                 return redirect('homes:survey_wizard', step=3)
             else:
                 return render(request, 'homes/survey_step2.html', {
                     'form': form,
                     'step': 2,
-                    'total_steps': 3,
-                    'progress_percent': 67,
+                    'total_steps': 4,
+                    'progress_percent': 50,
                 })
         
         elif step == 3:
-            # Check if adding appliance or completing wizard
-            if 'add_appliance' in request.POST:
-                form = SurveyStep3ApplianceForm(request.POST)
-                if form.is_valid():
-                    # Add appliance to session
+            form = SurveyStep3PropertyForm(request.POST)
+            if form.is_valid():
+                # Save to session
+                request.session['survey_step3'] = form.cleaned_data
+                # Convert non-serializable data
+                for key, value in list(request.session['survey_step3'].items()):
+                    if hasattr(value, 'isoformat'):
+                        request.session['survey_step3'][key] = value.isoformat()
+                    elif value is None or isinstance(value, (str, int, float, bool)):
+                        pass
+                    else:
+                        request.session['survey_step3'][key] = str(value)
+                request.session.modified = True
+                messages.success(request, "Step 3 complete! Finally, let's add equipment and appliances (optional).")
+                return redirect('homes:survey_wizard', step=4)
+            else:
+                return render(request, 'homes/survey_step3.html', {
+                    'form': form,
+                    'step': 3,
+                    'total_steps': 4,
+                    'progress_percent': 75,
+                })
+        
+        elif step == 4:
+            # Check if saving equipment, editing appliance, adding appliance, removing appliance, or completing wizard
+            if 'save_equipment' in request.POST:
+                equipment_form = SurveyStep4EquipmentForm(request.POST)
+                if equipment_form.is_valid():
+                    # Save equipment data to session
+                    request.session['survey_step4'] = equipment_form.cleaned_data
+                    # Convert non-serializable data
+                    for key, value in list(request.session['survey_step4'].items()):
+                        if value is None or isinstance(value, (str, int, float, bool)):
+                            pass
+                        else:
+                            request.session['survey_step4'][key] = str(value)
+                    request.session.modified = True
+                    messages.success(request, "Equipment information saved!")
+                    return redirect('homes:survey_wizard', step=4)
+            
+            elif 'edit_appliance_index' in request.POST:
+                # Load appliance into edit mode
+                try:
+                    index = int(request.POST['edit_appliance_index'])
                     appliances = request.session.get('survey_appliances', [])
+                    if 0 <= index < len(appliances):
+                        # Redirect with edit parameter
+                        return redirect(f"{reverse('homes:survey_wizard', kwargs={'step': 4})}?edit={index}")
+                except (ValueError, IndexError):
+                    messages.error(request, "Error loading appliance.")
+                return redirect('homes:survey_wizard', step=4)
+            
+            elif 'remove_appliance_index' in request.POST:
+                # Remove appliance from session
+                try:
+                    index = int(request.POST['remove_appliance_index'])
+                    appliances = request.session.get('survey_appliances', [])
+                    if 0 <= index < len(appliances):
+                        removed = appliances.pop(index)
+                        request.session['survey_appliances'] = appliances
+                        request.session.modified = True
+                        messages.success(request, f"Appliance removed!")
+                except (ValueError, IndexError):
+                    messages.error(request, "Error removing appliance.")
+                return redirect('homes:survey_wizard', step=4)
+            
+            elif 'add_appliance' in request.POST:
+                appliance_form = SurveyStep3ApplianceForm(request.POST)
+                if appliance_form.is_valid():
+                    # Check if we're editing an existing appliance
+                    edit_index = request.POST.get('editing_index')
+                    appliances = request.session.get('survey_appliances', [])
+                    
+                    # Prepare appliance data
                     appliance_data = {}
-                    for key, value in form.cleaned_data.items():
+                    for key, value in appliance_form.cleaned_data.items():
                         if hasattr(value, 'isoformat'):
                             appliance_data[key] = value.isoformat()
                         elif value is None or isinstance(value, (str, int, float, bool)):
                             appliance_data[key] = value
                         else:
                             appliance_data[key] = str(value)
-                    appliances.append(appliance_data)
+                    
+                    if edit_index:
+                        # Update existing appliance
+                        try:
+                            index = int(edit_index)
+                            if 0 <= index < len(appliances):
+                                appliances[index] = appliance_data
+                                messages.success(request, "Appliance updated!")
+                        except (ValueError, IndexError):
+                            messages.error(request, "Error updating appliance.")
+                    else:
+                        # Add new appliance
+                        appliances.append(appliance_data)
+                        messages.success(request, f"Appliance added! You've added {len(appliances)} appliance(s).")
+                    
                     request.session['survey_appliances'] = appliances
                     request.session.modified = True
-                    messages.success(request, f"Appliance added! You've added {len(appliances)} appliance(s).")
-                    return redirect('homes:survey_wizard', step=3)
+                    return redirect('homes:survey_wizard', step=4)
                 else:
                     appliances_data = request.session.get('survey_appliances', [])
-                    return render(request, 'homes/survey_step3.html', {
-                        'form': form,
-                        'step': 3,
-                        'total_steps': 3,
+                    equipment_form = SurveyStep4EquipmentForm(initial=request.session.get('survey_step4', {}))
+                    return render(request, 'homes/survey_step4.html', {
+                        'equipment_form': equipment_form,
+                        'appliance_form': appliance_form,
+                        'step': 4,
+                        'total_steps': 4,
                         'progress_percent': 100,
                         'appliances': appliances_data,
                         'appliance_count': len(appliances_data),
@@ -415,14 +537,16 @@ class HomeOnboardingWizardView(LoginRequiredMixin, View):
                 # Create the home with all collected data
                 step1_data = request.session.get('survey_step1', {})
                 step2_data = request.session.get('survey_step2', {})
+                step3_data = request.session.get('survey_step3', {})
+                step4_data = request.session.get('survey_step4', {})
                 
-                if not step1_data or not step2_data:
+                if not step1_data or not step2_data or not step3_data:
                     messages.error(request, "Missing required information. Please start over.")
                     return redirect('homes:survey_wizard', step=1)
                 
                 # Combine data and create home
                 from datetime import date as dt_date
-                home_data = {**step1_data, **step2_data}
+                home_data = {**step1_data, **step2_data, **step3_data, **step4_data}
                 # Convert string dates back to date objects if needed
                 for key, value in home_data.items():
                     if isinstance(value, str) and '-' in value and len(value) == 10:
@@ -448,6 +572,8 @@ class HomeOnboardingWizardView(LoginRequiredMixin, View):
                 # Clear session data
                 request.session.pop('survey_step1', None)
                 request.session.pop('survey_step2', None)
+                request.session.pop('survey_step3', None)
+                request.session.pop('survey_step4', None)
                 request.session.pop('survey_appliances', None)
                 request.session.modified = True
                 

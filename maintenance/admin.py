@@ -3,7 +3,7 @@ Admin configuration for the maintenance app.
 """
 
 from django.contrib import admin
-from .models import MaintenanceTask, Schedule, TaskCompletion
+from .models import MaintenanceTask, Schedule, TaskCompletion, ScheduleTaskCustomization
 
 
 @admin.register(MaintenanceTask)
@@ -68,6 +68,22 @@ class ScheduleAdmin(admin.ModelAdmin):
     )
 
 
+@admin.register(ScheduleTaskCustomization)
+class ScheduleTaskCustomizationAdmin(admin.ModelAdmin):
+    """
+    Admin interface for user task customizations.
+    """
+    list_display = ['schedule', 'task', 'has_custom_instructions', 'updated_at']
+    list_filter = ['updated_at']
+    search_fields = ['schedule__home__name', 'task__title']
+    readonly_fields = ['created_at', 'updated_at']
+    
+    def has_custom_instructions(self, obj):
+        return bool(obj.custom_instructions)
+    has_custom_instructions.boolean = True
+    has_custom_instructions.short_description = 'Customized'
+
+
 @admin.register(TaskCompletion)
 class TaskCompletionAdmin(admin.ModelAdmin):
     """
@@ -78,4 +94,5 @@ class TaskCompletionAdmin(admin.ModelAdmin):
     search_fields = ['schedule__task__title', 'completed_by__username']
     date_hierarchy = 'completed_date'
     readonly_fields = ['completed_date']
+
 

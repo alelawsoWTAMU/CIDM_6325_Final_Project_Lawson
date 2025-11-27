@@ -37,7 +37,35 @@ Your project includes a `render.yaml` file that automates the entire deployment 
    - Click **"Apply"**
    - Wait 5-10 minutes for deployment
 
-**That's it!** Your app will be live at: `https://home-maintenance-compass.onrender.com`
+**That's it!** Your app will be live at: `https://homestead-compass.onrender.com`
+
+### After Deployment:
+
+1. **Run Migrations** (if not auto-applied):
+   - Render will run migrations automatically
+   - 3 apps have migrations: accounts, homes, maintenance
+   - Total of 9 migration files
+
+2. **Seed Database**:
+   ```bash
+   python manage.py seed_tasks
+   python manage.py seed_task_instructions
+   ```
+   - `seed_tasks`: Loads 62 comprehensive maintenance tasks
+   - `seed_task_instructions`: Adds detailed 10-step instructions for all 62 tasks
+   - Covers all homestead categories with actionable guidance
+
+3. **Create Superuser**:
+   ```bash
+   python manage.py createsuperuser
+   ```
+   - Access admin at: `/admin/`
+   - Moderate tips, approve experts, manage content
+
+4. **Test New Features**:
+   - Home Wizard: `/homes/wizard/` (3-step onboarding)
+   - Smart Scheduling: `/maintenance/generate/<home_id>/` (priority-based)
+   - Blog CMS: `/tips/blog/` (expert articles)
 
 ---
 
@@ -150,10 +178,16 @@ You have three options to populate your production database:
 
 #### Option A: Seed Just Maintenance Tasks (Quick)
 
-For basic setup with the 12 pre-defined maintenance tasks:
+For basic setup with comprehensive maintenance tasks:
 ```bash
 python manage.py seed_tasks
+python manage.py seed_task_instructions
 ```
+
+This creates:
+- ✅ 62 maintenance tasks with categories, frequencies, and applicability rules
+- ✅ Comprehensive 10-step instructions for every task
+- ✅ Ready-to-use task library for schedule generation
 
 #### Option B: Transfer All Data from Local Database (Recommended)
 
@@ -186,9 +220,10 @@ This creates JSON fixture files in the `fixtures/` directory:
 - `users.json` - User accounts with hashed passwords
 - `accounts.json` - User profiles and expert profiles
 - `homes.json` - Home profiles, appliances, service providers
-- `maintenance_tasks.json` - All maintenance tasks
+- `maintenance_tasks.json` - All maintenance tasks with instructions
 - `schedules.json` - Generated schedules
-- `task_completions.json` - Completed tasks
+- `schedule_customizations.json` - User-customized task descriptions/instructions
+- `task_completions.json` - Completed tasks with completion tracking
 - `tips.json` - Community tips, blog posts, and comments
 
 **Step 2 - Allow fixtures in Git:**
@@ -236,7 +271,9 @@ Create data manually through the admin panel at `/admin/` after logging in.
 - ✅ Users & authentication (passwords already hashed)
 - ✅ User profiles (regular and expert)
 - ✅ Home profiles with appliances and service providers
-- ✅ Maintenance tasks, schedules, and completions
+- ✅ Maintenance tasks with comprehensive 10-step instructions
+- ✅ Schedules and user customizations (custom descriptions/instructions)
+- ✅ Task completion tracking with auto-regeneration
 - ✅ Community tips with comments and reports
 - ✅ Expert blog posts with comments
 
@@ -467,7 +504,8 @@ python manage.py check --deploy
 
 | Command | Purpose | Where to Run |
 |---------|---------|-------------|
-| `seed_tasks` | Load 12 pre-defined maintenance tasks | Production |
+| `seed_tasks` | Load 62 pre-defined maintenance tasks | Production |
+| `seed_task_instructions` | Add 10-step instructions to all 62 tasks | Production |
 | `export_all_data` | Export all database data to JSON fixtures | Local |
 | `export_all_data --exclude-users` | Export data without user accounts | Local |
 | `load_all_fixtures` | Load all fixtures in correct order | Production |
@@ -582,7 +620,7 @@ Before submitting your project:
 - [ ] **Deployment URL** added to README.md
 - [ ] **App is accessible** and fully functional
 - [ ] **Admin account** created (provide credentials to instructor)
-- [ ] **Test data** seeded (maintenance tasks)
+- [ ] **Test data** seeded (maintenance tasks with comprehensive instructions)
 - [ ] **All features working**: registration, home profiles, schedules, tips, blog posts
 - [ ] **Static files** loading correctly
 - [ ] **RUBRIC_COMPLIANCE.md** updated with deployment verification

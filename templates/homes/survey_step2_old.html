@@ -21,7 +21,7 @@
                         <i class="bi bi-house-fill me-2" style="color:#ffffff !important;"></i>
                         <span style="color:#ffffff !important;">Add Your Home</span>
                     </h3>
-                    <p class="mb-0 mt-2 text-white" style="color:#ffffff !important;"><small style="color:#ffffff !important;">Step {{ step }} of {{ total_steps }}: Home Systems & Infrastructure</small></p>
+                    <p class="mb-0 mt-2 text-white" style="color:#ffffff !important;"><small style="color:#ffffff !important;">Step {{ step }} of {{ total_steps }}: Home Features & Systems</small></p>
                 </div>
                 
                 <!-- Progress Bar -->
@@ -37,7 +37,7 @@
                 <div class="card-body p-4">
                     <div class="alert alert-success">
                         <i class="bi bi-check-circle me-2"></i>
-                        <strong>Great progress!</strong> Now let's learn about your home's systems and infrastructure.
+                        <strong>Great progress!</strong> Now let's learn about your home's features and systems.
                     </div>
                     
                     <form method="post">
@@ -49,63 +49,56 @@
                         
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="{{ form.roof_type.id_for_label }}" class="form-label fw-bold">Roof Type</label>
+                                <label for="{{ form.roof_type.id_for_label }}" class="form-label">Roof Type</label>
                                 {{ form.roof_type }}
                                 {% if form.roof_type.errors %}
                                     <div class="text-danger small">{{ form.roof_type.errors }}</div>
                                 {% endif %}
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="{{ form.roof_age.id_for_label }}" class="form-label fw-bold">Roof Age (years)</label>
+                                <label for="{{ form.roof_age.id_for_label }}" class="form-label">Roof Age (years)</label>
                                 {{ form.roof_age }}
                                 {% if form.roof_age.errors %}
                                     <div class="text-danger small">{{ form.roof_age.errors }}</div>
                                 {% endif %}
-                                <small class="form-text text-muted">Approximate age of your roof</small>
+                                <small class="text-muted d-block">How old is your current roof?</small>
                             </div>
                         </div>
                         
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="{{ form.hvac_type.id_for_label }}" class="form-label fw-bold">HVAC Type</label>
+                                <label for="{{ form.hvac_type.id_for_label }}" class="form-label">HVAC Type</label>
                                 {{ form.hvac_type }}
                                 {% if form.hvac_type.errors %}
                                     <div class="text-danger small">{{ form.hvac_type.errors }}</div>
                                 {% endif %}
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="{{ form.hvac_age.id_for_label }}" class="form-label fw-bold">HVAC Age (years)</label>
+                                <label for="{{ form.hvac_age.id_for_label }}" class="form-label">HVAC Age (years)</label>
                                 {{ form.hvac_age }}
                                 {% if form.hvac_age.errors %}
                                     <div class="text-danger small">{{ form.hvac_age.errors }}</div>
                                 {% endif %}
-                                <small class="form-text text-muted">Approximate age of your HVAC system</small>
+                                <small class="text-muted d-block">Age of your heating/cooling system</small>
                             </div>
                         </div>
                         
                         <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="{{ form.siding_material.id_for_label }}" class="form-label fw-bold">Siding Material</label>
+                            <div class="col-12 mb-3">
+                                <label for="{{ form.siding_material.id_for_label }}" class="form-label">Siding Material</label>
                                 {{ form.siding_material }}
                                 {% if form.siding_material.errors %}
                                     <div class="text-danger small">{{ form.siding_material.errors }}</div>
                                 {% endif %}
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="{{ form.water_heater_type.id_for_label }}" class="form-label fw-bold">Water Heater Type</label>
-                                {{ form.water_heater_type }}
-                                {% if form.water_heater_type.errors %}
-                                    <div class="text-danger small">{{ form.water_heater_type.errors }}</div>
-                                {% endif %}
-                            </div>
                         </div>
                         
                         <h5 class="mt-4 mb-3 text-secondary">
-                            <i class="bi bi-check2-square me-2"></i>Basic Home Features
+                            <i class="bi bi-check2-square me-2"></i>Home Features
                         </h5>
                         
                         <div class="row">
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-check">
                                     {{ form.has_basement }}
                                     <label class="form-check-label" for="{{ form.has_basement.id_for_label }}">
@@ -113,7 +106,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-check">
                                     {{ form.has_attic }}
                                     <label class="form-check-label" for="{{ form.has_attic.id_for_label }}">
@@ -121,7 +114,10 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-md-4 mb-3">
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-check">
                                     {{ form.has_garage }}
                                     <label class="form-check-label" for="{{ form.has_garage.id_for_label }}">
@@ -129,10 +125,7 @@
                                     </label>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-check">
                                     {{ form.has_hvac }}
                                     <label class="form-check-label" for="{{ form.has_hvac.id_for_label }}">
@@ -140,7 +133,10 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-md-4 mb-3">
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-check">
                                     {{ form.has_septic }}
                                     <label class="form-check-label" for="{{ form.has_septic.id_for_label }}">
@@ -148,95 +144,11 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-check">
                                     {{ form.has_well }}
                                     <label class="form-check-label" for="{{ form.has_well.id_for_label }}">
                                         Has Well Water
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <h5 class="mt-4 mb-3 text-secondary">
-                            <i class="bi bi-lightning-charge me-2"></i>Energy Systems
-                        </h5>
-                        
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <div class="form-check">
-                                    {{ form.has_solar_panels }}
-                                    <label class="form-check-label" for="{{ form.has_solar_panels.id_for_label }}">
-                                        <i class="bi bi-sun me-1"></i>Solar Panels
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <div class="form-check">
-                                    {{ form.has_generator }}
-                                    <label class="form-check-label" for="{{ form.has_generator.id_for_label }}">
-                                        <i class="bi bi-gear me-1"></i>Backup Generator
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <div class="form-check">
-                                    {{ form.has_battery_bank }}
-                                    <label class="form-check-label" for="{{ form.has_battery_bank.id_for_label }}">
-                                        <i class="bi bi-battery-charging me-1"></i>Battery Bank
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <div class="form-check">
-                                    {{ form.has_wood_stove }}
-                                    <label class="form-check-label" for="{{ form.has_wood_stove.id_for_label }}">
-                                        <i class="bi bi-fire me-1"></i>Wood Stove/Fireplace
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <h5 class="mt-4 mb-3 text-secondary">
-                            <i class="bi bi-droplet me-2"></i>Water Systems
-                        </h5>
-                        
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <div class="form-check">
-                                    {{ form.has_sump_pump }}
-                                    <label class="form-check-label" for="{{ form.has_sump_pump.id_for_label }}">
-                                        <i class="bi bi-droplet me-1"></i>Sump Pump
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <div class="form-check">
-                                    {{ form.has_rainwater_collection }}
-                                    <label class="form-check-label" for="{{ form.has_rainwater_collection.id_for_label }}">
-                                        <i class="bi bi-cloud-rain me-1"></i>Rainwater Collection
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <div class="form-check">
-                                    {{ form.has_irrigation_system }}
-                                    <label class="form-check-label" for="{{ form.has_irrigation_system.id_for_label }}">
-                                        <i class="bi bi-moisture me-1"></i>Irrigation System
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <div class="form-check">
-                                    {{ form.has_composting_toilet }}
-                                    <label class="form-check-label" for="{{ form.has_composting_toilet.id_for_label }}">
-                                        <i class="bi bi-recycle me-1"></i>Composting Toilet
                                     </label>
                                 </div>
                             </div>

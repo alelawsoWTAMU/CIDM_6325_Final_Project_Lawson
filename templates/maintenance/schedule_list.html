@@ -6,11 +6,16 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2><i class="bi bi-calendar-check"></i> My Maintenance Schedules</h2>
-        {% if home %}
-            <a href="{% url 'maintenance:generate_schedule' home_pk=home.pk %}" class="btn btn-success">
-                <i class="bi bi-plus-circle"></i> Generate New Schedule
+        <div>
+            <a href="{% url 'maintenance:schedule_calendar' %}" class="btn btn-info me-2">
+                <i class="bi bi-calendar3"></i> Calendar View
             </a>
-        {% endif %}
+            {% if home %}
+                <a href="{% url 'maintenance:generate_schedule' home_pk=home.pk %}" class="btn btn-success">
+                    <i class="bi bi-plus-circle"></i> Generate New Schedule
+                </a>
+            {% endif %}
+        </div>
     </div>
     
     {% if schedule_list %}
@@ -39,14 +44,34 @@
                             {% endif %}
                         </div>
                         <div class="card-footer">
-                            <a href="{% url 'maintenance:schedule_detail' pk=schedule.pk %}" class="btn btn-sm btn-primary">
-                                <i class="bi bi-eye"></i> View Details
-                            </a>
-                            {% if not schedule.is_completed %}
-                                <a href="{% url 'maintenance:schedule_update' pk=schedule.pk %}" class="btn btn-sm btn-secondary">
-                                    <i class="bi bi-pencil"></i> Edit
+                            <div class="d-flex gap-2 flex-wrap">
+                                <a href="{% url 'maintenance:schedule_detail' pk=schedule.pk %}" class="btn btn-sm btn-primary">
+                                    <i class="bi bi-eye"></i> View Details
                                 </a>
-                            {% endif %}
+                                {% if not schedule.is_completed %}
+                                    <a href="{% url 'maintenance:schedule_update' pk=schedule.pk %}" class="btn btn-sm btn-secondary">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </a>
+                                    <form method="post" action="{% url 'maintenance:schedule_reschedule' pk=schedule.pk %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="next" value="{{ request.path }}">
+                                        <button type="submit" name="quick_action" value="week" 
+                                                class="btn btn-sm btn-outline-info" 
+                                                title="Postpone 1 week">
+                                            <i class="bi bi-calendar-plus"></i> +1 Week
+                                        </button>
+                                    </form>
+                                    <form method="post" action="{% url 'maintenance:schedule_reschedule' pk=schedule.pk %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="next" value="{{ request.path }}">
+                                        <button type="submit" name="quick_action" value="month" 
+                                                class="btn btn-sm btn-outline-info" 
+                                                title="Postpone 1 month">
+                                            <i class="bi bi-calendar-plus"></i> +1 Month
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>

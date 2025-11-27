@@ -37,7 +37,7 @@ Follow the prompts to create your admin account.
 ```bash
 py manage.py seed_tasks
 ```
-This loads 12 sample maintenance tasks into the database.
+This loads 62 comprehensive maintenance tasks into the database.
 
 ### Step 6: Start the Development Server
 ```bash
@@ -48,6 +48,8 @@ py manage.py runserver
 Open your browser and go to:
 - **Homepage**: http://127.0.0.1:8000/
 - **Admin Interface**: http://127.0.0.1:8000/admin/
+- **Home Wizard**: http://127.0.0.1:8000/homes/wizard/ (after login)
+- **Blog Posts**: http://127.0.0.1:8000/tips/blog/ (community articles)
 
 ## First Steps in the Application
 
@@ -58,31 +60,49 @@ Open your browser and go to:
    - Fill out the form with username, email, password
    - Optionally indicate you're a first-time homeowner
 
-2. **Add Your First Home**
+2. **Add Your First Home (Enhanced Wizard Available)**
+   
+   **Option A: Quick Add** (traditional)
    - After logging in, click "My Homes"
    - Click "Add a New Home"
-   - Enter your home's details:
-     - Name (e.g., "Main House")
-     - Year built
-     - Construction type
-     - Climate zone
-     - Features (basement, attic, HVAC, etc.)
+   - Enter basic details in one form
+   
+   **Option B: Comprehensive Wizard** (recommended)
+   - Navigate to http://127.0.0.1:8000/homes/wizard/
+   - Complete 3-step guided process:
+     * Step 1: Basic info (address, year built, construction type, climate zone)
+     * Step 2: Home features (roof type/age, HVAC type/age, siding, basement, attic)
+     * Step 3: Appliance inventory (add multiple appliances with serial numbers, energy ratings)
+   - Auto-generates personalized schedule upon completion
 
-3. **Generate Your Maintenance Schedule**
-   - From your home detail page, look for "Generate Schedule"
-   - The system will create personalized tasks based on your home's characteristics
-   - View your schedule in "My Schedule"
+3. **Generate Your Maintenance Schedule (Intelligent)**
+   - From your home detail page, click "Generate Schedule"
+   - View smart recommendations with priority scoring:
+     * **High Priority** (80+): Overdue, seasonal matches, extreme climate tasks
+     * **Medium Priority** (60-79): Important but less urgent
+     * **Low Priority** (<60): Optional maintenance
+   - See current season and climate factor
+   - Use "Auto-Generate Full Year Schedule" for one-click annual planning
+   - Preview annual schedule with due dates and priorities
 
-4. **Explore Maintenance Tasks**
+4. **Explore Maintenance Tasks (62 Total)**
    - Click "Tasks" in the navigation
-   - Browse available maintenance tasks
-   - View detailed instructions, tools needed, and safety notes
+   - Browse 62 comprehensive maintenance tasks
+   - Filter by category and seasonal priority
+   - View detailed instructions, tools needed, estimated time, difficulty
+   - See which tasks apply to your home's features
 
-5. **Check Out Community Tips**
-   - Click "Community Tips"
-   - Browse tips from other homeowners
-   - Upvote helpful tips
-   - Submit your own tips to share with the community
+5. **Check Out Community Tips & Expert Blog Posts**
+   - **Community Tips**: Browse tips from experts and questions from homeowners
+     * Filter by post type (tips/questions)
+     * Upvote helpful content
+     * Comment and discuss
+     * Submit your own tips or ask questions
+   - **Expert Blog Posts**: Read long-form articles
+     * Rich text content with images
+     * Filter by category
+     * Sort by popular/recent/most viewed
+     * Upvote and comment on posts
 
 ### For Administrators:
 
@@ -90,21 +110,30 @@ Open your browser and go to:
    - Go to http://127.0.0.1:8000/admin/
    - Log in with your superuser credentials
 
-2. **Manage Maintenance Tasks**
+2. **Manage Maintenance Tasks (62 Total)**
    - Navigate to "Maintenance tasks"
    - Add, edit, or deactivate tasks
    - Set applicability rules (home age, features required)
+   - Set seasonal priority (spring/summer/fall/winter/any)
+   - Configure frequency and difficulty levels
 
-3. **Moderate Community Tips**
-   - Navigate to "Local tips"
-   - Review pending tips
-   - Use bulk actions to approve/reject/flag tips
-   - Review reported tips in "Tip reports"
+3. **Moderate Community Content**
+   - **Tips**: Review pending tips, use bulk actions (approve/reject/flag)
+   - **Blog Posts**: Approve expert articles, manage featured posts
+   - **Comments**: Monitor discussions on tips and blog posts
+   - **Reports**: Review user-reported problematic content
 
-4. **View User Data**
-   - Navigate to "Users" to see registered users
-   - Navigate to "Homes" to see all properties
-   - Check "Schedules" to see what tasks users have scheduled
+4. **Manage Expert Accounts**
+   - Navigate to "Expert profiles"
+   - Review expert applications with trade/location/experience
+   - Use bulk actions to approve or revoke expert status
+   - Verified experts can post tips and write blog articles
+
+5. **View User Data & Analytics**
+   - Navigate to "Users" to see registered users (13 models total)
+   - Check "Homes" with enhanced fields (roof, HVAC, siding details)
+   - Review "Schedules" with priority scoring
+   - Monitor engagement via upvotes, comments, views
 
 ## Common Tasks
 
@@ -128,7 +157,24 @@ Open your browser and go to:
 3. Click "Mark Complete"
 4. Optionally add notes about cost, time spent, and feedback
 
-### Submit a Community Tip
+### Use the Home Onboarding Wizard (NEW)
+1. Click "My Homes" → "Onboarding Wizard" or navigate to `/homes/wizard/`
+2. Step 1: Enter basic home details (address, year built, construction, climate)
+3. Step 2: Add features (roof type/age, HVAC type/age, siding, basement, attic)
+4. Step 3: Add appliances (repeatable - add as many as needed)
+5. Click "Complete & Generate Schedule" to finish
+6. System auto-generates personalized schedule based on all details
+
+### Generate Intelligent Annual Schedule (NEW)
+1. Go to "My Schedule" for a specific home
+2. Click "Generate Schedule"
+3. Review priority-grouped tasks (High/Medium/Low)
+4. See current season and climate factor
+5. Click "Auto-Generate Full Year Schedule" for one-click annual planning
+6. Or click "Preview Annual Schedule" to see full year distribution
+7. Tasks are automatically prioritized by seasonal relevance and climate
+
+### Submit a Community Tip or Question
 1. Go to "Community Tips"
 2. Click "Share a Tip"
 3. Fill in title, category, content, and location

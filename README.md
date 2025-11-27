@@ -8,21 +8,24 @@ A Django web application designed to help first-time homeowners adopt a proactiv
 
 ### Features Available
 - User registration and authentication
-- Home profile management
-- Automated maintenance schedule generation
-- Task completion tracking
-- Community tips with moderation
+- **Home Onboarding Wizard** - 3-step comprehensive home data collection
+- **Intelligent PM Schedule Generation** - Seasonal and climate-aware scheduling
+- Automated maintenance schedule generation with priority scoring
+- Task completion tracking with 62 comprehensive maintenance tasks
+- Community tips with moderation and upvoting
 - Expert verification system
-- Expert blog posts with rich text editing
+- Expert blog posts with rich text editing, approval workflow, and engagement features
 
 ### Demo Credentials
 For instructor evaluation, please contact for admin and test user credentials.
 
 ### Technology Stack
 - **Framework**: Django 5.2.7
-- **Database**: PostgreSQL 16
+- **Database**: PostgreSQL 16 (production), SQLite (development)
 - **Hosting**: Render.com
 - **Static Files**: WhiteNoise
+- **Rich Text**: django-ckeditor 6.7.3
+- **Image Processing**: Pillow 11.0.0
 - **Python**: 3.12.0
 
 ---
@@ -31,12 +34,14 @@ For instructor evaluation, please contact for admin and test user credentials.
 
 Homestead Compass addresses the overwhelming challenge faced by new homeowners (particularly Millennials and Gen Z) who lack guidance on property care. The application provides:
 
+- **Multi-Step Home Onboarding Wizard** - Comprehensive data collection in 3 steps (basic info, features/systems, appliances)
+- **Intelligent PM Schedule Generation** - Seasonal awareness, climate zone multipliers (1.0x-1.5x), priority scoring (0-100+), bulk annual generation
 - **Personalized Maintenance Schedules** based on home age, construction type, climate zone, and features
-- **Detailed Task Guides** with step-by-step instructions, tool lists, and safety notes
-- **Community Tips Module** for localized, peer-reviewed home maintenance advice
-- **Expert Blog Posts** with rich text articles, approval workflow, and engagement features
-- **Home Information Database** to track appliances, service providers, and property details
-- **Expert Verification System** with verified local professionals sharing tips and advice
+- **Detailed Task Guides** with step-by-step instructions, tool lists, safety notes (62 comprehensive tasks)
+- **Community Tips Module** for localized, peer-reviewed home maintenance advice and homeowner questions
+- **Expert Blog Posts** with rich text articles, approval workflow, featured images, and engagement features
+- **Home Information Database** to track appliances (with serial numbers, energy ratings), service providers, and property details
+- **Expert Verification System** with verified local professionals sharing tips and writing articles
 
 > **📋 See [TODO.md](TODO.md) for upcoming features and development roadmap**
 
@@ -51,14 +56,15 @@ Final_Project/
 │   ├── admin.py           # Admin configuration with expert approval
 │   └── urls.py            # Authentication URL patterns
 ├── homes/                  # Home and property management
-│   ├── models.py          # Home, Appliance, ServiceProvider models
-│   ├── views.py           # CRUD views for homes and related entities
-│   ├── forms.py           # Home, appliance, and provider forms
+│   ├── models.py          # Home, Appliance, ServiceProvider models (enhanced)
+│   ├── views.py           # CRUD views + HomeOnboardingWizardView
+│   ├── forms.py           # Home, appliance, provider forms + 3 wizard forms
 │   ├── admin.py           # Admin with inlines for appliances/providers
-│   └── urls.py            # Home management URL patterns
+│   └── urls.py            # Home management URL patterns + wizard routes
 ├── maintenance/            # Maintenance tasks and schedules
-│   ├── models.py          # MaintenanceTask, Schedule, TaskCompletion
-│   ├── views.py           # Task browsing, schedule management, generation
+│   ├── models.py          # MaintenanceTask (with seasonal_priority), Schedule, TaskCompletion
+│   ├── views.py           # Task browsing, intelligent schedule generation
+│   ├── utils.py           # ScheduleOptimizer class (220+ lines)
 │   ├── forms.py           # Schedule and completion forms
 │   ├── admin.py           # Admin for tasks and schedules
 │   └── urls.py            # Maintenance URL patterns
@@ -193,15 +199,20 @@ Final_Project/
 
 ## Functional Requirements (from PRD)
 
-### ✅ FR-001: Personalized Maintenance Schedule
-**Implementation:** `maintenance/views.py` - `GenerateScheduleView`
+### ✅ FR-001: Personalized Maintenance Schedule (Enhanced)
+**Implementation:** `maintenance/views.py` - `GenerateScheduleView` + `maintenance/utils.py` - `ScheduleOptimizer`
 
-Generates schedules based on:
+Generates intelligent schedules based on:
 - Home age (applies_to_old_homes/applies_to_new_homes)
 - Home features (basement, attic, HVAC, septic)
 - Task frequency (weekly, monthly, quarterly, annually, etc.)
+- **NEW: Seasonal priority** (spring/summer/fall/winter tasks prioritized by current season)
+- **NEW: Climate zone multipliers** (1.0x temperate to 1.5x extreme climates)
+- **NEW: Priority scoring** (0-100+ algorithm: +50 overdue, +20 seasonal match, +15 never-done, +10 extreme climate)
+- **NEW: Maintenance history** (analyzes TaskCompletion records for smart recommendations)
+- **NEW: Bulk annual generation** (one-click creates full year of schedules)
 
-### ✅ FR-002: Step-by-Step Task Guides
+### ✅ FR-002: Step-by-Step Task Guides (Expanded)
 **Implementation:** `maintenance/models.py` - `MaintenanceTask` model
 
 Includes:
@@ -211,34 +222,49 @@ Includes:
 - Safety notes (`safety_notes` field)
 - Video URLs (`video_url` field)
 - Difficulty levels (beginner to professional)
+- **NEW: Seasonal priority** field for optimal timing
+- **NEW: 62 comprehensive tasks** covering all homestead categories
 
-### ✅ FR-003: Community Tip Submission and Upvoting
+### ✅ FR-003: Community Tip Submission and Upvoting (Enhanced)
 **Implementation:** `tips/views.py` - `TipCreateView`, `TipUpvoteView`
 
 Features:
 - User-submitted tips with title, content, location, category
+- **NEW: Dual post types** - Tips (from experts) and Questions (from homeowners)
+- **NEW: Post type filtering** - View tips only or questions only
 - Upvote/downvote system using ManyToManyField
 - View counter for tracking engagement
 - Location and category filtering
+- Comment system for discussions
 
-### ✅ FR-004: Moderation System
-**Implementation:** `tips/admin.py` - `LocalTipAdmin` with custom actions
+### ✅ FR-004: Moderation System (Expanded)
+**Implementation:** `tips/admin.py` - `LocalTipAdmin`, `BlogPostAdmin` with custom actions
 
 Features:
 - Status workflow: pending → approved/rejected/flagged
 - Moderator tracking (moderated_by, moderated_at)
 - Bulk actions in admin (approve, reject, flag)
 - Report system (`TipReport` model) for user flagging
+- **NEW: Blog post approval workflow** with draft/pending/approved/rejected states
+- **NEW: Expert verification workflow** with trade/location/experience review
+- **NEW: Featured content management** for blog posts and tips
 
-### ✅ FR-005: Home Information Database
-**Implementation:** `homes/models.py` - `Home`, `Appliance`, `ServiceProvider`
+### ✅ FR-005: Home Information Database (Enhanced)
+**Implementation:** `homes/models.py` - `Home`, `Appliance`, `ServiceProvider` + `homes/views.py` - `HomeOnboardingWizardView`
 
 Features:
 - Home details: year, construction type, climate zone, features
+- **NEW: Roof details** - type (asphalt shingle, metal, tile, etc.) and age
+- **NEW: HVAC details** - type (central air, heat pump, mini-split, etc.) and age
+- **NEW: Siding material** - vinyl, wood, brick, stucco, etc.
 - Appliance tracking: type, manufacturer, warranty dates
+- **NEW: Serial numbers** for warranty claims and service
+- **NEW: Energy ratings** for efficiency tracking
+- **NEW: Last service dates** for maintenance scheduling
 - Service provider contacts: category, phone, email, notes, verification status
+- **NEW: Multi-step onboarding wizard** - 3-step comprehensive data collection process
 
-### ✅ FR-006: Expert Blog Posts
+### ✅ FR-006: Expert Blog Posts (Complete)
 **Implementation:** `tips/models.py` - `BlogPost`, `BlogComment`; `tips/views.py` - 9 blog CBVs
 
 Features:
@@ -262,16 +288,33 @@ Extends `AbstractUser` with homeowner-specific fields:
 - Homeownership status (is_first_time_homeowner, years_of_homeownership)
 - Community engagement (is_verified_expert, expertise_areas)
 - Preferences (email_notifications, newsletter_subscription)
+- **NEW: Schedule preferences** (JSONField) - preferred_frequency, reminder_days_before, auto_reschedule
 
 ### Core Data Models
 
-**Home** - Property information
+**Home** - Property information (Enhanced)
 - Owner (ForeignKey to User)
 - Construction details (year, type, climate zone)
 - Features (basement, attic, HVAC, septic, well)
+- **NEW: Roof details** - type (asphalt_shingle, metal, tile, slate, etc.) and age
+- **NEW: HVAC details** - type (central_air, heat_pump, mini_split, etc.) and age
+- **NEW: Siding material** - vinyl, wood, brick, stucco, fiber_cement, etc.
 - Relationships: appliances, service_providers, schedules
 
-**MaintenanceTask** - Task templates
+**Appliance** - Equipment tracking (Enhanced)
+- Basic info: type, manufacturer, model, year_installed
+- **NEW: Serial number** - for warranty claims and service records
+- **NEW: Energy rating** - for efficiency tracking (A+ to F scale)
+- **NEW: Last service date** - for maintenance scheduling
+- Warranty info: purchase_date, warranty_expiry, notes
+
+**MaintenanceTask** - Task templates (Enhanced)
+- Descriptive information (title, slug, category, description)
+- Scheduling (frequency, difficulty, estimated_time)
+- **NEW: Seasonal priority** - spring/summer/fall/winter/any (for optimal timing)
+- Instructions (tools, steps, safety notes, video_url)
+- Applicability rules (home age, features)
+- **62 comprehensive tasks** covering all homestead maintenance needs
 - Descriptive information (title, slug, category, description)
 - Scheduling (frequency, difficulty, estimated_time)
 - Instructions (tools, steps, safety notes, video_url)
@@ -516,6 +559,233 @@ For production deployment:
 - **Image Processing**: Pillow 12.0.0 for featured images
 - **Authentication**: Django's built-in auth system with custom User model
 - **Templates**: Django Template Language (DTL)
+
+---
+
+## Security Configuration
+
+### Authentication & Authorization
+
+**Custom User Model** (`accounts.User`):
+- Extends Django's `AbstractUser` with additional fields
+- Email verification status tracking (`is_verified_expert`)
+- Geographic location and homeowner status fields
+- Expert profile relationship with one-to-one field
+
+**Access Control Layers**:
+
+1. **View-Level Protection**:
+   - `LoginRequiredMixin` - Requires authentication for all CRUD operations
+   - `UserPassesTestMixin` - Ownership verification (users can only edit their own data)
+   - Example: `ScheduleDetailView.test_func()` checks `schedule.home.owner == self.request.user`
+
+2. **Model-Level Security**:
+   - All user-generated content linked via ForeignKey to User model
+   - Cascade deletion prevents orphaned records
+   - `related_name` allows reverse lookups with proper scoping
+
+3. **Template-Level Guards**:
+   - `{% if user.is_authenticated %}` blocks sensitive UI elements
+   - Conditional rendering of edit/delete buttons based on ownership
+   - CSRF token required in all forms (`{% csrf_token %}`)
+
+**Expert Verification System**:
+- Two-stage verification: User registration → Expert profile creation → Admin approval
+- `ExpertProfile.is_approved` flag controls access to expert features
+- Staff-only admin interface for verification management
+- Verified experts receive badge in UI and expanded permissions
+
+**Password Security**:
+- Django's PBKDF2 algorithm with SHA256 hash
+- Minimum password requirements enforced
+- Password reset via secure token-based email flow
+- Session timeout after inactivity
+
+**CSRF Protection**:
+- Enabled globally via middleware (`django.middleware.csrf.CsrfViewMiddleware`)
+- All POST/PUT/DELETE forms require CSRF token
+- AJAX requests include `X-CSRFToken` header
+
+**Additional Security Measures**:
+- `SECURE_BROWSER_XSS_FILTER = True` (production)
+- `X_FRAME_OPTIONS = 'DENY'` prevents clickjacking
+- Input sanitization via Django's ORM (prevents SQL injection)
+- XSS protection through template auto-escaping
+- User-uploaded content stored with unique filenames to prevent overwriting
+
+**Deployment Security** (Render.com):
+- Environment variables for sensitive settings (`SECRET_KEY`, database credentials)
+- HTTPS enforced with SSL certificates
+- PostgreSQL with encrypted connections
+- Static files served via WhiteNoise with compression
+
+---
+
+## Core Algorithms & Business Logic
+
+### Schedule Generation Algorithm
+
+**Location**: `maintenance/utils.py` - `ScheduleOptimizer` class (220+ lines)
+
+The intelligent scheduling system generates personalized maintenance schedules based on home characteristics, climate conditions, and seasonal factors.
+
+#### 1. Task Filtering Logic
+
+**Method**: `ScheduleOptimizer.filter_applicable_tasks(home)`
+
+Filters the 62-task library to match specific home characteristics:
+
+```python
+# Age-based filtering
+if task.applies_to_old_homes and home.year_built >= cutoff_year:
+    continue  # Skip old-home tasks for new homes
+if task.applies_to_new_homes and home.year_built < cutoff_year:
+    continue  # Skip new-home tasks for old homes
+
+# Feature-based filtering (requires_* fields)
+if task.requires_basement and not home.has_basement:
+    continue
+if task.requires_attic and not home.has_attic:
+    continue
+# Similar checks for HVAC, septic, sump pump, etc.
+```
+
+**Result**: Only tasks applicable to the specific home are considered for scheduling.
+
+#### 2. Priority Scoring Algorithm
+
+**Method**: `ScheduleOptimizer.calculate_priority(task, home, target_date)`
+
+Assigns priority scores (0-100+) to determine which tasks are most critical:
+
+**Base Priority by Frequency**:
+- `critical`: 100 points (safety-critical tasks)
+- `annually`: 80 points (yearly maintenance)
+- `semiannually`: 85 points (twice-yearly, higher priority)
+- `quarterly`: 75 points (seasonal tasks)
+- `monthly`: 60 points (routine tasks)
+
+**Climate Zone Multiplier** (increases urgency in harsh climates):
+- `cold`: 1.5x (harsh winters require more maintenance)
+- `hot_humid`: 1.3x (high humidity accelerates wear)
+- `hot_dry`: 1.2x (extreme heat and sun damage)
+- `moderate`: 1.0x (baseline)
+
+**Seasonal Bonus** (+15 points):
+- Applied when task's `seasonal_priority` matches target date's season
+- Encourages performing tasks at optimal times (e.g., gutter cleaning in fall)
+- Seasons calculated: Spring (Mar-May), Summer (Jun-Aug), Fall (Sep-Nov), Winter (Dec-Feb)
+
+**Home Age Bonus** (+10 points):
+- Older homes (15+ years) get bonus for preventive tasks
+- Newer homes (< 5 years) prioritize warranty-related maintenance
+
+**Example Score Calculation**:
+```
+Task: "Check HVAC Filter" (monthly, cold climate, winter date)
+Base: 60 (monthly)
+Climate: 60 × 1.5 = 90
+Seasonal match (winter): 90 + 15 = 105
+Age bonus (16-year-old home): 105 + 10 = 115
+Final Priority: 115
+```
+
+#### 3. Task Distribution Logic
+
+**Method**: `ScheduleOptimizer.generate_schedule(home, year)`
+
+Distributes tasks across 12 months to prevent overload:
+
+**Phase 1: Score All Tasks**
+```python
+scored_tasks = [
+    (task, self.calculate_priority(task, home, date))
+    for task in applicable_tasks
+]
+scored_tasks.sort(key=lambda x: x[1], reverse=True)  # Highest priority first
+```
+
+**Phase 2: Bin Packing Algorithm**
+- Tracks task count per date to prevent clustering
+- Target: ~6 tasks per date maximum
+- Algorithm:
+  1. Find date with fewest tasks
+  2. Assign next highest-priority task to that date
+  3. Repeat until all tasks scheduled
+
+**Phase 3: Seasonal Alignment**
+- Tasks with `seasonal_priority` are assigned to months in that season
+- Example: HVAC tasks scheduled for spring and fall (transition seasons)
+- Gutter cleaning assigned to fall (leaf season)
+
+**Phase 4: Frequency Enforcement**
+- `annually`: 1 occurrence per year
+- `semiannually`: 2 occurrences (6 months apart)
+- `quarterly`: 4 occurrences (3 months apart)
+- `monthly`: 12 occurrences (1 per month)
+
+#### 4. Auto-Regeneration System
+
+**Method**: `ScheduleOptimizer.generate_next_due_date(task, home, completed_date)`
+
+When a task is marked complete, the system automatically schedules the next occurrence:
+
+**Frequency-Based Calculation**:
+```python
+if task.frequency == 'monthly':
+    next_date = completed_date + relativedelta(months=1)
+elif task.frequency == 'quarterly':
+    next_date = completed_date + relativedelta(months=3)
+elif task.frequency == 'semiannually':
+    next_date = completed_date + relativedelta(months=6)
+elif task.frequency == 'annually':
+    next_date = completed_date + relativedelta(years=1)
+```
+
+**Seasonal Adjustment**:
+- If task has `seasonal_priority`, next date adjusted to optimal season
+- Example: Completing "Check HVAC" in March → next scheduled for September (fall)
+
+**Smart Consolidation**:
+- Checks if schedule already exists for calculated date
+- Adds task to existing schedule rather than creating duplicate
+- Prevents calendar fragmentation
+
+#### 5. Completion Tracking System
+
+**Models**: `ScheduleTaskCompletion`, `ScheduleTaskCustomization`
+
+**Non-Destructive Completion**:
+- Tasks marked complete remain visible in schedule
+- `ScheduleTaskCompletion` records link schedule + task + user + timestamp
+- Pending counter shows progress: "6 of 11 tasks pending"
+- Undo functionality allows unmarking completion
+
+**View Logic**: `ScheduleRemoveTaskView.post()`
+```python
+# Create completion record (task stays in schedule)
+ScheduleTaskCompletion.objects.get_or_create(
+    schedule=schedule,
+    task=task,
+    defaults={'completed_by': user, 'next_scheduled_date': next_date}
+)
+
+# Auto-generate next occurrence
+new_schedule = Schedule.objects.create(
+    home=schedule.home,
+    scheduled_date=next_date,
+    notes=f"Auto-generated: {task.title}"
+)
+new_schedule.tasks.add(task)
+```
+
+**Custom Instructions System**:
+- Admin provides default step-by-step instructions
+- Users can customize instructions per schedule-task combination
+- `ScheduleTaskCustomization` model stores user overrides
+- Fallback hierarchy: Custom → Default → Warning message
+
+---
 
 ## Future Enhancements
 

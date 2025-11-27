@@ -209,6 +209,109 @@ class Schedule(models.Model):
         self.is_completed = True
         self.completed_at = timezone.now()
         self.save()
+    
+    def reschedule(self, new_date, reason=None):
+        """Reschedule to a new date and log the change."""
+        from django.utils import timezone
+        old_date = self.scheduled_date
+        self.scheduled_date = new_date
+        
+        # Add reschedule note
+        timestamp = timezone.now().strftime('%Y-%m-%d %H:%M')
+        reschedule_note = f"\n[{timestamp}] Rescheduled from {old_date} to {new_date}"
+        if reason:
+            reschedule_note += f" - Reason: {reason}"
+        
+        if self.notes:
+            self.notes += reschedule_note
+        else:
+            self.notes = reschedule_note.strip()
+        
+        self.save()
+        return True
+
+
+class ScheduleTaskCompletion(models.Model):
+    """
+    Tracks completion of individual tasks within a schedule.
+    Allows tasks to remain visible but marked as complete.
+    """
+    schedule = models.ForeignKey(
+        Schedule,
+        on_delete=models.CASCADE,
+        related_name='task_completions'
+    )
+    
+    task = models.ForeignKey(
+        MaintenanceTask,
+        on_delete=models.CASCADE,
+        related_name='schedule_completions'
+    )
+    
+    completed_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='task_completions'
+    )
+    
+    completed_at = models.DateTimeField(auto_now_add=True)
+    
+    next_scheduled_date = models.DateField(
+        null=True,
+        blank=True,
+        help_text='When this task was automatically rescheduled'
+    )
+    
+    class Meta:
+        unique_together = ['schedule', 'task']
+        ordering = ['-completed_at']
+    
+    def __str__(self):
+        return f"{self.task.title} completed for {self.schedule}"
+
+
+class ScheduleTaskCustomization(models.Model):
+    """
+    User-specific customizations for tasks in their schedules.
+    Allows users to override default task instructions with their own notes.
+    """
+    schedule = models.ForeignKey(
+        Schedule,
+        on_delete=models.CASCADE,
+        related_name='task_customizations'
+    )
+    
+    task = models.ForeignKey(
+        MaintenanceTask,
+        on_delete=models.CASCADE,
+        related_name='customizations'
+    )
+    
+    custom_description = models.TextField(
+        blank=True,
+        help_text='User-customized description (overrides default task description)'
+    )
+    
+    custom_instructions = models.TextField(
+        blank=True,
+        help_text='User-customized instructions (overrides default task instructions)'
+    )
+    
+    custom_notes = models.TextField(
+        blank=True,
+        help_text='Personal notes about this task'
+    )
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        unique_together = ['schedule', 'task']
+        ordering = ['schedule', 'task']
+    
+    def __str__(self):
+        return f"Customization for {self.task.title} in {self.schedule}"
 
 
 class TaskCompletion(models.Model):

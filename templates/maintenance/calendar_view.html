@@ -1,0 +1,314 @@
+{% extends "base.html" %}
+
+{% block title %}Maintenance Calendar - Homestead Compass{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="mb-0">
+                    <i class="bi bi-calendar3"></i> My Maintenance Schedules
+                </h3>
+                <div>
+                    {% if user_homes %}
+                        <div class="dropdown">
+                            <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="generateDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-plus-circle"></i> Generate Schedule
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="generateDropdown">
+                                {% for home in user_homes %}
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'maintenance:generate_schedule' home_pk=home.pk %}">
+                                            <i class="bi bi-house-door"></i> {{ home.name }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <!-- How It Works Info -->
+            <div class="alert alert-info mb-4">
+                <h6 class="alert-heading">
+                    <i class="bi bi-info-circle-fill"></i> How Auto-Scheduling Works
+                </h6>
+                <p class="mb-2 small">
+                    <strong>Complete tasks by clicking the checkmark:</strong> When you finish a task, click the <span class="badge bg-success">✓</span> button. 
+                    The system automatically schedules the next occurrence based on the task's frequency:
+                </p>
+                <ul class="mb-0 small">
+                    <li><strong>Weekly tasks</strong> → Rescheduled 7 days later</li>
+                    <li><strong>Monthly tasks</strong> → Rescheduled 30 days later</li>
+                    <li><strong>Quarterly tasks</strong> → Rescheduled 90 days later</li>
+                    <li><strong>Annual tasks</strong> → Rescheduled 365 days later</li>
+                </ul>
+                <p class="mb-0 mt-2 small text-muted">
+                    <i class="bi bi-arrow-repeat"></i> Your maintenance schedule keeps itself up-to-date automatically!
+                </p>
+            </div>
+            
+            <!-- Home Filter -->
+            <div class="mb-4">
+                <label for="homeFilter" class="form-label">Filter by Home:</label>
+                <select id="homeFilter" class="form-select" style="max-width: 300px;">
+                    <option value="">All Homes</option>
+                    {% for home in user_homes %}
+                        <option value="{{ home.id }}" {% if selected_home and selected_home.id == home.id %}selected{% endif %}>
+                            {{ home.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            {% if schedules_by_month %}
+                <!-- Calendar Grid by Month -->
+                {% for month_info in schedules_by_month %}
+                    <div class="calendar-month mb-5">
+                        <h4 class="mb-3 text-primary">
+                            <i class="bi bi-calendar-month"></i> 
+                            {{ month_info.month_name }} {{ month_info.year }}
+                            <span class="badge bg-secondary">{{ month_info.schedules|length }} task{{ month_info.schedules|length|pluralize }}</span>
+                        </h4>
+                        
+                        {% if month_info.schedules %}
+                            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+                                {% for schedule in month_info.schedules %}
+                                    <div class="col schedule-card" data-home="{{ schedule.home.id }}">
+                                        <div class="card h-100 {% if schedule.is_completed %}border-success{% else %}border-warning{% endif %}">
+                                            <div class="card-header {% if schedule.is_completed %}bg-success bg-opacity-10{% else %}bg-warning bg-opacity-10{% endif %}">
+                                                <div class="d-flex justify-content-between align-items-start">
+                                                    <div class="flex-grow-1">
+                                                        <h6 class="mb-1">
+                                                            <i class="bi bi-house-door"></i> {{ schedule.home.name }}
+                                                        </h6>
+                                                        <small class="text-white">
+                                                            <i class="bi bi-calendar-date"></i> 
+                                                            {{ schedule.scheduled_date|date:"M d, Y" }}
+                                                        </small>
+                                                    </div>
+                                                    {% if schedule.is_completed %}
+                                                        <span class="badge bg-success">
+                                                            <i class="bi bi-check-circle"></i> Done
+                                                        </span>
+                                                    {% else %}
+                                                        <span class="badge bg-warning text-dark">
+                                                            <i class="bi bi-clock"></i> Pending
+                                                        </span>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <strong>{{ schedule.tasks.count }} Task{{ schedule.tasks.count|pluralize }}</strong>
+                                                    <button class="btn btn-sm btn-outline-secondary toggle-tasks" 
+                                                            data-schedule-id="{{ schedule.pk }}"
+                                                            type="button">
+                                                        <i class="bi bi-chevron-down"></i>
+                                                    </button>
+                                                </div>
+                                                
+                                                <!-- Collapsed Task Preview -->
+                                                <ul class="list-unstyled small mb-2 task-preview-{{ schedule.pk }}">
+                                                    {% for task in schedule.tasks.all|slice:":3" %}
+                                                        <li class="mb-1">
+                                                            <i class="bi bi-wrench-adjustable-circle text-primary"></i>
+                                                            {{ task.title }}
+                                                        </li>
+                                                    {% endfor %}
+                                                    {% if schedule.tasks.count > 3 %}
+                                                        <li class="text-muted">
+                                                            <i class="bi bi-three-dots"></i> 
+                                                            +{{ schedule.tasks.count|add:"-3" }} more
+                                                        </li>
+                                                    {% endif %}
+                                                </ul>
+                                                
+                                                <!-- Expanded Task List -->
+                                                <div class="task-details-{{ schedule.pk }}" style="display: none;">
+                                                    <div class="list-group list-group-flush small">
+                                                        {% for task in schedule.tasks.all %}
+                                                            <div class="list-group-item px-0 py-2">
+                                                                <div class="d-flex justify-content-between align-items-start">
+                                                                    <div class="flex-grow-1">
+                                                                        <div class="fw-bold mb-1">
+                                                                            <i class="bi bi-wrench-adjustable-circle text-primary"></i>
+                                                                            {{ task.title }}
+                                                                        </div>
+                                                                        <div class="text-muted mb-1" style="font-size: 0.85rem;">
+                                                                            {{ task.description|truncatewords:20 }}
+                                                                        </div>
+                                                                        <div class="d-flex flex-wrap gap-1">
+                                                                            <span class="badge bg-secondary" style="font-size: 0.7rem;">
+                                                                                {{ task.get_category_display }}
+                                                                            </span>
+                                                                            <span class="badge {% if task.difficulty == 'beginner' %}bg-success{% elif task.difficulty == 'intermediate' %}bg-info{% elif task.difficulty == 'advanced' %}bg-warning{% else %}bg-danger{% endif %}" style="font-size: 0.7rem;">
+                                                                                {{ task.get_difficulty_display }}
+                                                                            </span>
+                                                                            {% if task.estimated_time %}
+                                                                                <span class="badge bg-dark" style="font-size: 0.7rem;">
+                                                                                    {{ task.estimated_time }} min
+                                                                                </span>
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="d-flex flex-column gap-1 ms-2">
+                                                                        <a href="{% url 'maintenance:task_detail' slug=task.slug %}" 
+                                                                           class="btn btn-sm btn-outline-primary"
+                                                                           style="font-size: 0.75rem; padding: 0.25rem 0.5rem;"
+                                                                           title="View full details">
+                                                                            <i class="bi bi-info-circle"></i>
+                                                                        </a>
+                                                                        {% if not schedule.is_completed %}
+                                                                            <form method="post" 
+                                                                                  action="{% url 'maintenance:schedule_remove_task' pk=schedule.pk task_id=task.id %}" 
+                                                                                  class="remove-task-form">
+                                                                                {% csrf_token %}
+                                                                                <button type="submit" 
+                                                                                        class="btn btn-sm btn-outline-success"
+                                                                                        style="font-size: 0.75rem; padding: 0.25rem 0.5rem;"
+                                                                                        title="Mark as complete">
+                                                                                    <i class="bi bi-check-circle"></i>
+                                                                                </button>
+                                                                            </form>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                                
+                                                {% if schedule.notes %}
+                                                    <p class="small text-muted mb-0 mt-2">
+                                                        <i class="bi bi-sticky"></i> {{ schedule.notes|truncatewords:10 }}
+                                                    </p>
+                                                {% endif %}
+                                            </div>
+                                            <div class="card-footer bg-transparent">
+                                                <div class="d-flex gap-1 mb-2">
+                                                    <a href="{% url 'maintenance:schedule_detail' pk=schedule.pk %}" class="btn btn-sm btn-outline-primary flex-grow-1">
+                                                        <i class="bi bi-eye"></i> View
+                                                    </a>
+                                                    {% if not schedule.is_completed %}
+                                                        <a href="{% url 'maintenance:schedule_edit' pk=schedule.pk %}" class="btn btn-sm btn-outline-secondary" title="Edit date">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </a>
+                                                        <form method="post" action="{% url 'maintenance:schedule_reschedule' pk=schedule.pk %}" class="d-inline quick-reschedule-form">
+                                                            {% csrf_token %}
+                                                            <input type="hidden" name="next" value="{{ request.path }}">
+                                                            <button type="submit" name="quick_action" value="week" 
+                                                                    class="btn btn-sm btn-outline-secondary" 
+                                                                    title="Postpone 1 week">
+                                                                +1W
+                                                            </button>
+                                                        </form>
+                                                        <form method="post" action="{% url 'maintenance:schedule_reschedule' pk=schedule.pk %}" class="d-inline quick-reschedule-form">
+                                                            {% csrf_token %}
+                                                            <input type="hidden" name="next" value="{{ request.path }}">
+                                                            <button type="submit" name="quick_action" value="month" 
+                                                                    class="btn btn-sm btn-outline-secondary" 
+                                                                    title="Postpone 1 month">
+                                                                +1M
+                                                            </button>
+                                                        </form>
+                                                    {% endif %}
+                                                </div>
+                                                <form method="post" action="{% url 'maintenance:schedule_delete' pk=schedule.pk %}" class="delete-schedule-form">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger w-100" title="Delete this schedule">
+                                                        <i class="bi bi-trash"></i> Delete Schedule
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-muted">No tasks scheduled for this month.</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="bi bi-calendar-x display-1 text-muted"></i>
+                    <p class="lead text-muted mt-3">No scheduled maintenance tasks found.</p>
+                    <a href="{% url 'homes:home_list' %}" class="btn btn-primary mt-2">
+                        <i class="bi bi-house-add"></i> Add a Home to Get Started
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const homeFilter = document.getElementById('homeFilter');
+    
+    // Toggle task details
+    document.querySelectorAll('.toggle-tasks').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const scheduleId = this.dataset.scheduleId;
+            const preview = document.querySelector(`.task-preview-${scheduleId}`);
+            const details = document.querySelector(`.task-details-${scheduleId}`);
+            const icon = this.querySelector('i');
+            
+            if (details.style.display === 'none') {
+                // Show details, hide preview
+                preview.style.display = 'none';
+                details.style.display = 'block';
+                icon.classList.remove('bi-chevron-down');
+                icon.classList.add('bi-chevron-up');
+            } else {
+                // Show preview, hide details
+                preview.style.display = 'block';
+                details.style.display = 'none';
+                icon.classList.remove('bi-chevron-up');
+                icon.classList.add('bi-chevron-down');
+            }
+        });
+    });
+    
+    // Handle remove task confirmation
+    document.querySelectorAll('.remove-task-form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            if (!confirm('Mark this task as complete? It will be automatically rescheduled for its next occurrence based on the task frequency.')) {
+                e.preventDefault();
+            }
+        });
+    });
+    
+    // Handle delete schedule confirmation
+    document.querySelectorAll('.delete-schedule-form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            const scheduleCard = this.closest('.schedule-card');
+            const homeName = scheduleCard.querySelector('.card-header h6').textContent.trim();
+            const taskCount = scheduleCard.querySelector('.card-body strong').textContent;
+            
+            if (!confirm(`Delete this entire schedule for ${homeName} with ${taskCount}? This cannot be undone.`)) {
+                e.preventDefault();
+            }
+        });
+    });
+    
+    // Home filter functionality
+    if (homeFilter) {
+        homeFilter.addEventListener('change', function() {
+            const selectedHomeId = this.value;
+            
+            if (selectedHomeId) {
+                window.location.href = `?home=${selectedHomeId}`;
+            } else {
+                window.location.href = window.location.pathname;
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

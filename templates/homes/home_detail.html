@@ -43,6 +43,19 @@
                         </div>
                     </div>
                     
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li><strong>Acreage:</strong> {{ home.acreage }} acres</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li><strong>Location Type:</strong> {{ home.get_location_type_display }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
                     <hr>
                     
                     <h5><i class="bi bi-house-check-fill"></i> Home Features</h5>
@@ -111,8 +124,8 @@
                 </div>
                 <div class="card-body">
                     <div class="d-grid gap-2">
-                        <a href="{% url 'maintenance:schedule_list' %}" class="btn btn-outline-primary">
-                            <i class="bi bi-list-check"></i> View Schedules
+                        <a href="{% url 'maintenance:schedule_calendar' %}" class="btn btn-outline-primary">
+                            <i class="bi bi-calendar-check"></i> View All Schedules
                         </a>
                         <a href="{% url 'maintenance:generate_schedule' home_pk=home.pk %}" class="btn btn-outline-success">
                             <i class="bi bi-plus-circle"></i> New Schedule

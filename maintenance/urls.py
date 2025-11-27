@@ -15,9 +15,14 @@ urlpatterns = [
     
     # Schedule management
     path('schedule/', views.ScheduleListView.as_view(), name='schedule_list'),
+    path('schedule/calendar/', views.ScheduleCalendarView.as_view(), name='schedule_calendar'),
     path('schedule/create/', views.ScheduleCreateView.as_view(), name='schedule_create'),
     path('schedule/<int:pk>/', views.ScheduleDetailView.as_view(), name='schedule_detail'),
     path('schedule/<int:pk>/complete/', views.ScheduleCompleteView.as_view(), name='schedule_complete'),
+    path('schedule/<int:pk>/reschedule/', views.ScheduleRescheduleView.as_view(), name='schedule_reschedule'),
+    path('schedule/<int:pk>/remove-task/<int:task_id>/', views.ScheduleRemoveTaskView.as_view(), name='schedule_remove_task'),
+    path('schedule/<int:pk>/uncomplete-task/<int:task_id>/', views.ScheduleUncompleteTaskView.as_view(), name='schedule_uncomplete_task'),
+    path('schedule/<int:schedule_pk>/save-customization/<int:task_id>/', views.SaveTaskCustomizationView.as_view(), name='save_task_customization'),
     path('schedule/<int:pk>/edit/', views.ScheduleUpdateView.as_view(), name='schedule_update'),
     path('schedule/<int:pk>/delete/', views.ScheduleDeleteView.as_view(), name='schedule_delete'),
     

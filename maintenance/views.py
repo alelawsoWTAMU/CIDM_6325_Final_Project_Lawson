@@ -9,8 +9,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.http import JsonResponse
 from datetime import date, timedelta
-from .models import MaintenanceTask, Schedule, TaskCompletion
+from collections import defaultdict
+from calendar import month_name
+from .models import MaintenanceTask, Schedule, TaskCompletion, ScheduleTaskCompletion, ScheduleTaskCustomization
 from homes.models import Home
 from .forms import ScheduleForm
 from .utils import ScheduleOptimizer
@@ -88,40 +91,10 @@ class TaskDetailView(DetailView):
 
 class ScheduleListView(LoginRequiredMixin, ListView):
     """
-    List all scheduled tasks for the user's homes.
+    Redirect to calendar view - calendar is now the default and only view.
     """
-    model = Schedule
-    template_name = 'maintenance/schedule_list.html'
-    context_object_name = 'schedule_list'
-    paginate_by = 50
-    
-    def get_queryset(self):
-        """
-        Return schedules for the user's homes.
-        """
-        user_homes = Home.objects.filter(owner=self.request.user)
-        queryset = Schedule.objects.filter(home__in=user_homes).prefetch_related('tasks')
-        
-        # Filter by completion status if provided
-        if self.request.GET.get('completed') == 'true':
-            queryset = queryset.filter(is_completed=True)
-        elif self.request.GET.get('completed') == 'false':
-            queryset = queryset.filter(is_completed=False)
-        
-        # Filter by home if provided
-        home_id = self.request.GET.get('home')
-        if home_id:
-            queryset = queryset.filter(home_id=home_id)
-        
-        return queryset
-    
-    def get_context_data(self, **kwargs):
-        """
-        Add user homes to context for filtering.
-        """
-        context = super().get_context_data(**kwargs)
-        context['user_homes'] = Home.objects.filter(owner=self.request.user)
-        return context
+    def get(self, request, *args, **kwargs):
+        return redirect('maintenance:schedule_calendar')
 
 
 class ScheduleDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
@@ -138,6 +111,37 @@ class ScheduleDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         """
         schedule = self.get_object()
         return schedule.home.owner == self.request.user
+    
+    def get_context_data(self, **kwargs):
+        """
+        Add today's date, completed task info, and task customizations to context.
+        """
+        context = super().get_context_data(**kwargs)
+        context['today'] = date.today()
+        
+        # Get completed tasks for this schedule
+        completed_task_ids = ScheduleTaskCompletion.objects.filter(
+            schedule=self.object
+        ).values_list('task_id', flat=True)
+        context['completed_task_ids'] = set(completed_task_ids)
+        
+        # Count pending vs completed
+        total_tasks = self.object.tasks.count()
+        completed_count = len(completed_task_ids)
+        context['pending_count'] = total_tasks - completed_count
+        context['completed_count'] = completed_count
+        
+        # Get or create customizations for each task in this schedule
+        customizations = {}
+        for task in self.object.tasks.all():
+            customization, created = ScheduleTaskCustomization.objects.get_or_create(
+                schedule=self.object,
+                task=task
+            )
+            customizations[task.id] = customization
+        context['task_customizations'] = customizations
+        
+        return context
 
 
 class ScheduleCreateView(LoginRequiredMixin, CreateView):
@@ -229,7 +233,7 @@ class ScheduleCompleteView(LoginRequiredMixin, UserPassesTestMixin, View):
         # Ensure user owns this schedule
         if schedule.home.owner != request.user:
             messages.error(request, "You don't have permission to complete this task.")
-            return redirect('maintenance:schedule_list')
+            return redirect('maintenance:schedule_calendar')
         
         # Mark as complete
         schedule.mark_complete()
@@ -241,7 +245,88 @@ class ScheduleCompleteView(LoginRequiredMixin, UserPassesTestMixin, View):
         )
         
         messages.success(request, f"Task '{schedule.task.title}' marked as complete!")
-        return redirect('maintenance:schedule_list')
+        return redirect('maintenance:schedule_calendar')
+
+
+class ScheduleRescheduleView(LoginRequiredMixin, UserPassesTestMixin, View):
+    """
+    Reschedule a maintenance task to a new date.
+    Supports manual date selection, quick actions (+1 week, +1 month), and AJAX drag-and-drop.
+    """
+    def test_func(self):
+        """
+        Ensure the user owns the home this schedule belongs to.
+        """
+        schedule = get_object_or_404(Schedule, pk=self.kwargs['pk'])
+        return schedule.home.owner == self.request.user
+    
+    def post(self, request, *args, **kwargs):
+        """
+        Reschedule the task to a new date.
+        """
+        schedule = get_object_or_404(Schedule, pk=self.kwargs['pk'])
+        
+        # Ensure user owns this schedule
+        if schedule.home.owner != request.user:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'success': False, 'error': 'Permission denied'}, status=403)
+            messages.error(request, "You don't have permission to reschedule this task.")
+            return redirect('maintenance:schedule_calendar')
+        
+        # Get new date from form or quick action
+        new_date = None
+        reason = None
+        
+        if 'quick_action' in request.POST:
+            action = request.POST.get('quick_action')
+            if action == 'week':
+                new_date = schedule.scheduled_date + timedelta(weeks=1)
+                reason = 'Postponed by 1 week'
+            elif action == 'month':
+                # Add approximately 1 month (30 days)
+                new_date = schedule.scheduled_date + timedelta(days=30)
+                reason = 'Postponed by 1 month'
+        elif 'new_date' in request.POST:
+            try:
+                new_date_str = request.POST.get('new_date')
+                new_date = date.fromisoformat(new_date_str)
+                reason = request.POST.get('reason', 'Manually rescheduled')
+            except (ValueError, TypeError):
+                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return JsonResponse({'success': False, 'error': 'Invalid date format'}, status=400)
+                messages.error(request, "Invalid date format.")
+                return redirect('maintenance:schedule_detail', pk=schedule.pk)
+        
+        if not new_date:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'success': False, 'error': 'No date provided'}, status=400)
+            messages.error(request, "Please provide a new date.")
+            return redirect('maintenance:schedule_detail', pk=schedule.pk)
+        
+        # Reschedule
+        old_date = schedule.scheduled_date
+        schedule.reschedule(new_date, reason)
+        
+        # Handle AJAX response
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                'success': True,
+                'old_date': old_date.isoformat(),
+                'new_date': new_date.isoformat(),
+                'formatted_date': new_date.strftime('%b %d, %Y')
+            })
+        
+        # Handle standard form submission
+        messages.success(
+            request,
+            f"Successfully rescheduled from {old_date.strftime('%b %d, %Y')} to {new_date.strftime('%b %d, %Y')}."
+        )
+        
+        # Redirect to referrer or schedule detail
+        next_url = request.POST.get('next', request.META.get('HTTP_REFERER'))
+        if next_url and next_url.startswith('/'):
+            return redirect(next_url)
+        return redirect('maintenance:schedule_detail', pk=schedule.pk)
 
 
 class GenerateScheduleView(LoginRequiredMixin, View):
@@ -259,10 +344,15 @@ class GenerateScheduleView(LoginRequiredMixin, View):
         # Get recommended tasks using the optimizer (sorted by priority)
         task_priorities = ScheduleOptimizer.get_recommended_tasks(home)
         
-        # Separate into high/medium/low priority for UI
-        high_priority = [(task, score) for task, score in task_priorities if score >= 80]
-        medium_priority = [(task, score) for task, score in task_priorities if 60 <= score < 80]
-        low_priority = [(task, score) for task, score in task_priorities if score < 60]
+        # Separate into priority tiers with more realistic groupings
+        # Critical: 85+ (safety, essential systems, overdue)
+        # High: 70-84 (important preventive maintenance)
+        # Medium: 55-69 (regular seasonal tasks)
+        # Low: <55 (optional/long-term maintenance)
+        critical_priority = [(task, score) for task, score in task_priorities if score >= 85]
+        high_priority = [(task, score) for task, score in task_priorities if 70 <= score < 85]
+        medium_priority = [(task, score) for task, score in task_priorities if 55 <= score < 70]
+        low_priority = [(task, score) for task, score in task_priorities if score < 55]
         
         # Get current season and climate info
         current_season = ScheduleOptimizer.get_current_season()
@@ -279,6 +369,7 @@ class GenerateScheduleView(LoginRequiredMixin, View):
         
         context = {
             'home': home,
+            'critical_priority_tasks': critical_priority,
             'high_priority_tasks': high_priority,
             'medium_priority_tasks': medium_priority,
             'low_priority_tasks': low_priority,
@@ -302,24 +393,38 @@ class GenerateScheduleView(LoginRequiredMixin, View):
         if 'generate_annual' in request.POST:
             annual_items = ScheduleOptimizer.generate_annual_schedule(home)
             
-            # Create schedules for each task
-            created_count = 0
+            # Group tasks by date to avoid multiple schedules on same day
+            tasks_by_date = {}
             for task, scheduled_date, priority in annual_items:
+                if scheduled_date not in tasks_by_date:
+                    tasks_by_date[scheduled_date] = []
+                tasks_by_date[scheduled_date].append((task, priority))
+            
+            # Create one schedule per date with all tasks for that date
+            created_count = 0
+            for scheduled_date, task_list in sorted(tasks_by_date.items()):
+                # Collect task titles for notes
+                task_titles = [task.title for task, _ in task_list]
+                avg_priority = sum(priority for _, priority in task_list) / len(task_list)
+                
                 schedule = Schedule.objects.create(
                     home=home,
                     scheduled_date=scheduled_date,
-                    notes=f"Auto-generated (Priority: {priority}, Season: {task.seasonal_priority})",
+                    notes=f"Auto-generated schedule with {len(task_list)} task(s). Average Priority: {avg_priority:.0f}",
                     is_completed=False
                 )
-                schedule.tasks.add(task)
+                
+                # Add all tasks for this date
+                for task, priority in task_list:
+                    schedule.tasks.add(task)
+                
                 created_count += 1
             
             messages.success(
                 request,
-                f"Successfully generated {created_count} scheduled tasks for the next year! "
-                f"Tasks are optimized by season and climate zone ({home.get_climate_zone_display()})."
+                f"Successfully generated {created_count} schedules with tasks optimized by season and climate zone ({home.get_climate_zone_display()})."
             )
-            return redirect('maintenance:schedule_list')
+            return redirect('maintenance:schedule_calendar')
         
         # Standard single-date schedule creation
         form = ScheduleForm(request.POST, user=request.user)
@@ -352,4 +457,232 @@ class GenerateScheduleView(LoginRequiredMixin, View):
             f"Successfully created maintenance schedule with {tasks.count()} tasks for {home.name}!"
         )
         return redirect('maintenance:schedule_detail', pk=schedule.pk)
+
+
+class ScheduleCalendarView(LoginRequiredMixin, View):
+    """
+    Display maintenance schedules in a calendar view grouped by month.
+    """
+    def get(self, request, *args, **kwargs):
+        """
+        Render calendar view with schedules organized by month.
+        """
+        # Get user's homes
+        user_homes = Home.objects.filter(owner=request.user)
+        
+        # Get schedules
+        queryset = Schedule.objects.filter(home__in=user_homes).prefetch_related('tasks', 'home')
+        
+        # Filter by home if specified
+        home_id = request.GET.get('home')
+        selected_home = None
+        if home_id:
+            try:
+                selected_home = user_homes.get(id=home_id)
+                queryset = queryset.filter(home=selected_home)
+            except Home.DoesNotExist:
+                pass
+        
+        # Group schedules by month
+        schedules_by_month_dict = defaultdict(list)
+        
+        for schedule in queryset.order_by('scheduled_date'):
+            # Create key as (year, month) tuple
+            key = (schedule.scheduled_date.year, schedule.scheduled_date.month)
+            schedules_by_month_dict[key].append(schedule)
+        
+        # Convert to list of dicts for template
+        schedules_by_month = []
+        for (year, month), schedules in sorted(schedules_by_month_dict.items()):
+            schedules_by_month.append({
+                'year': year,
+                'month': month,
+                'month_name': month_name[month],
+                'schedules': schedules,
+            })
+        
+        context = {
+            'user_homes': user_homes,
+            'selected_home': selected_home,
+            'schedules_by_month': schedules_by_month,
+        }
+        
+        return render(request, 'maintenance/calendar_view.html', context)
+
+
+class ScheduleRemoveTaskView(LoginRequiredMixin, UserPassesTestMixin, View):
+    """
+    Remove a specific task from a schedule.
+    """
+    def test_func(self):
+        """
+        Ensure the user owns the home this schedule belongs to.
+        """
+        schedule = get_object_or_404(Schedule, pk=self.kwargs['pk'])
+        return schedule.home.owner == self.request.user
+    
+    def post(self, request, *args, **kwargs):
+        """
+        Mark task as complete (keeps task visible) and auto-regenerate next occurrence.
+        """
+        schedule = get_object_or_404(Schedule, pk=self.kwargs['pk'])
+        task_id = self.kwargs['task_id']
+        
+        # Ensure user owns this schedule
+        if schedule.home.owner != request.user:
+            messages.error(request, "You don't have permission to modify this schedule.")
+            return redirect('maintenance:schedule_calendar')
+        
+        # Get the task
+        try:
+            task = MaintenanceTask.objects.get(pk=task_id)
+        except MaintenanceTask.DoesNotExist:
+            messages.error(request, "Task not found.")
+            return redirect('maintenance:schedule_detail', pk=schedule.pk)
+        
+        # Calculate next due date for this task
+        next_due_date = ScheduleOptimizer.generate_next_due_date(task, schedule.home, schedule.scheduled_date)
+        
+        # Mark task as complete (don't remove it)
+        completion, created = ScheduleTaskCompletion.objects.get_or_create(
+            schedule=schedule,
+            task=task,
+            defaults={
+                'completed_by': request.user,
+                'next_scheduled_date': next_due_date
+            }
+        )
+        
+        if not created:
+            messages.info(request, f"Task '{task.title}' was already marked as complete.")
+            return redirect('maintenance:schedule_detail', pk=schedule.pk)
+        
+        # Auto-regenerate this task for its next occurrence
+        existing_schedule = Schedule.objects.filter(
+            home=schedule.home,
+            scheduled_date=next_due_date
+        ).first()
+        
+        if existing_schedule:
+            existing_schedule.tasks.add(task)
+        else:
+            new_schedule = Schedule.objects.create(
+                home=schedule.home,
+                scheduled_date=next_due_date,
+                notes=f"Auto-generated: {task.title} ({task.get_frequency_display()} maintenance)",
+                is_completed=False
+            )
+            new_schedule.tasks.add(task)
+        
+        messages.success(
+            request,
+            f"Task '{task.title}' completed and automatically rescheduled for {next_due_date.strftime('%b %d, %Y')}."
+        )
+        
+        return redirect('maintenance:schedule_detail', pk=schedule.pk)
+
+
+class ScheduleUncompleteTaskView(LoginRequiredMixin, View):
+    """
+    Undo task completion - mark task as pending again.
+    """
+    def post(self, request, *args, **kwargs):
+        """
+        Remove completion record and delete auto-generated future schedule.
+        """
+        schedule = get_object_or_404(Schedule, pk=self.kwargs['pk'])
+        task_id = self.kwargs['task_id']
+        
+        # Ensure user owns this schedule
+        if schedule.home.owner != request.user:
+            messages.error(request, "You don't have permission to modify this schedule.")
+            return redirect('maintenance:schedule_calendar')
+        
+        # Get the task
+        try:
+            task = MaintenanceTask.objects.get(pk=task_id)
+        except MaintenanceTask.DoesNotExist:
+            messages.error(request, "Task not found.")
+            return redirect('maintenance:schedule_detail', pk=schedule.pk)
+        
+        # Find and delete the completion record
+        try:
+            completion = ScheduleTaskCompletion.objects.get(schedule=schedule, task=task)
+            next_scheduled_date = completion.next_scheduled_date
+            completion.delete()
+            
+            # Find and remove task from future schedule (if it exists and has no other tasks)
+            if next_scheduled_date:
+                future_schedule = Schedule.objects.filter(
+                    home=schedule.home,
+                    scheduled_date=next_scheduled_date
+                ).first()
+                
+                if future_schedule:
+                    future_schedule.tasks.remove(task)
+                    
+                    # Delete future schedule if it has no tasks left
+                    if future_schedule.tasks.count() == 0:
+                        future_schedule.delete()
+                        messages.info(
+                            request,
+                            f"Auto-scheduled occurrence on {next_scheduled_date.strftime('%b %d, %Y')} was removed."
+                        )
+            
+            messages.success(request, f"Task '{task.title}' marked as pending.")
+            
+        except ScheduleTaskCompletion.DoesNotExist:
+            messages.info(request, f"Task '{task.title}' was not marked as complete.")
+        
+        return redirect('maintenance:schedule_detail', pk=schedule.pk)
+
+
+class SaveTaskCustomizationView(LoginRequiredMixin, View):
+    """
+    Save user's custom instructions for a task in a specific schedule.
+    """
+    def post(self, request, *args, **kwargs):
+        """
+        Save or reset custom instructions.
+        """
+        schedule = get_object_or_404(Schedule, pk=self.kwargs['schedule_pk'])
+        task_id = self.kwargs['task_id']
+        
+        # Ensure user owns this schedule
+        if schedule.home.owner != request.user:
+            messages.error(request, "You don't have permission to modify this schedule.")
+            return redirect('maintenance:schedule_calendar')
+        
+        # Get the task
+        try:
+            task = MaintenanceTask.objects.get(pk=task_id)
+        except MaintenanceTask.DoesNotExist:
+            messages.error(request, "Task not found.")
+            return redirect('maintenance:schedule_detail', pk=schedule.pk)
+        
+        # Get or create customization
+        customization, created = ScheduleTaskCustomization.objects.get_or_create(
+            schedule=schedule,
+            task=task
+        )
+        
+        # Check if user wants to reset to default
+        if request.POST.get('reset') == 'true':
+            customization.custom_instructions = ''
+            customization.custom_description = ''
+            customization.save()
+            messages.success(request, f"Instructions and description for '{task.title}' reset to default.")
+        else:
+            # Save custom instructions and description
+            custom_instructions = request.POST.get('custom_instructions', '').strip()
+            custom_description = request.POST.get('custom_description', '').strip()
+            customization.custom_instructions = custom_instructions
+            customization.custom_description = custom_description
+            customization.save()
+            messages.success(request, f"Custom instructions and description saved for '{task.title}'.")
+        
+        return redirect('maintenance:schedule_detail', pk=schedule.pk)
+
+
+
 

@@ -1,84 +1,312 @@
 {% extends "base.html" %}
+{% load maintenance_filters %}
 
-{% block title %}Schedule for {{ schedule.home.name }} - Homestead Compass{% endblock %}
+{% block title %}
+    {% if schedule.tasks.count == 1 %}
+        {{ schedule.tasks.first.title }} - {{ schedule.home.name }}
+    {% else %}
+        {{ schedule.tasks.count }} Tasks - {{ schedule.home.name }}
+    {% endif %} - Homestead Compass
+{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
     <div class="card shadow">
-        <div class="card-header {% if schedule.is_completed %}bg-success text-white{% else %}bg-primary text-white{% endif %}">
+        <div class="card-header bg-primary text-white">
             <div class="d-flex justify-content-between align-items-center">
-                <h3 class="mb-0">
-                    <i class="bi bi-calendar-check"></i> Schedule for {{ schedule.home.name }}
+                <h3 class="mb-0 text-white">
+                    <i class="bi bi-journal-text"></i> 
+                    {% if schedule.tasks.count == 1 %}
+                        {{ schedule.tasks.first.title }}
+                    {% else %}
+                        {{ schedule.tasks.count }} Tasks for {{ schedule.scheduled_date|date:"F d, Y" }}
+                    {% endif %}
                 </h3>
                 <div>
-                    {% if not schedule.is_completed %}
-                        <a href="{% url 'maintenance:schedule_update' pk=schedule.pk %}" class="btn btn-light btn-sm">
-                            <i class="bi bi-pencil"></i> Edit
-                        </a>
-                        <form method="post" action="{% url 'maintenance:schedule_complete' pk=schedule.pk %}" class="d-inline">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-success btn-sm">
-                                <i class="bi bi-check-circle"></i> Mark Complete
-                            </button>
-                        </form>
-                    {% endif %}
-                    <a href="{% url 'maintenance:schedule_delete' pk=schedule.pk %}" class="btn btn-danger btn-sm">
-                        <i class="bi bi-trash"></i> Delete
+                    <span class="badge bg-light text-dark me-2">
+                        {{ pending_count }} of {{ schedule.tasks.count }} pending
+                    </span>
+                    <a href="{% url 'maintenance:schedule_calendar' %}" class="btn btn-light btn-sm">
+                        <i class="bi bi-arrow-left"></i> Back to Calendar
                     </a>
                 </div>
             </div>
         </div>
         <div class="card-body">
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <p><strong>Scheduled Date:</strong> {{ schedule.scheduled_date|date:"F d, Y" }}</p>
-                    <p><strong>Status:</strong> 
-                        {% if schedule.is_completed %}
-                            <span class="badge bg-success">Completed</span>
-                        {% else %}
-                            <span class="badge bg-warning">Pending</span>
-                        {% endif %}
-                    </p>
-                    {% if schedule.is_completed %}
-                        <p><strong>Completed:</strong> {{ schedule.completed_at|date:"F d, Y" }}</p>
-                    {% endif %}
-                </div>
-                <div class="col-md-6">
-                    <p><strong>Home:</strong> <a href="{% url 'homes:home_detail' pk=schedule.home.pk %}">{{ schedule.home.name }}</a></p>
-                    <p><strong>Total Tasks:</strong> {{ schedule.tasks.count }}</p>
+            <!-- Schedule Info Bar -->
+            <div class="alert alert-light border mb-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <small class="text-muted">Scheduled Date</small>
+                        <div><strong>{{ schedule.scheduled_date|date:"F d, Y" }}</strong></div>
+                    </div>
+                    <div class="col-md-6">
+                        <small class="text-muted">Home</small>
+                        <div><a href="{% url 'homes:home_detail' pk=schedule.home.pk %}">{{ schedule.home.name }}</a></div>
+                    </div>
                 </div>
             </div>
             
-            {% if schedule.notes %}
-                <div class="alert alert-info">
-                    <h6>Notes:</h6>
-                    <p class="mb-0">{{ schedule.notes|linebreaks }}</p>
+            <!-- Reschedule Form -->
+                <div class="card bg-light mb-4">
+                    <div class="card-body">
+                        <h6 class="card-title mb-3">
+                            <i class="bi bi-calendar-event"></i> Reschedule Tasks
+                        </h6>
+                        <form method="post" action="{% url 'maintenance:schedule_reschedule' pk=schedule.pk %}" class="row g-3 align-items-end">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.path }}">
+                            <div class="col-md-4">
+                                <label for="newDate" class="form-label">New Date:</label>
+                                <input type="date" 
+                                       id="newDate" 
+                                       name="new_date" 
+                                       class="form-control" 
+                                       value="{{ schedule.scheduled_date|date:'Y-m-d' }}"
+                                       min="{{ today|date:'Y-m-d' }}"
+                                       required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="rescheduleReason" class="form-label">Reason (optional):</label>
+                                <input type="text" 
+                                       id="rescheduleReason" 
+                                       name="reason" 
+                                       class="form-control" 
+                                       placeholder="Weather delay, vacation, etc.">
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-primary me-2">
+                                    <i class="bi bi-calendar-check"></i> Reschedule
+                                </button>
+                                <button type="submit" name="quick_action" value="week" class="btn btn-outline-secondary btn-sm">
+                                    +1 Week
+                                </button>
+                                <button type="submit" name="quick_action" value="month" class="btn btn-outline-secondary btn-sm">
+                                    +1 Month
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            {% endif %}
             
-            <h5 class="mt-4">Tasks in This Schedule</h5>
+            
+            <!-- Task Notebook View -->
             {% if schedule.tasks.all %}
-                <div class="list-group">
-                    {% for task in schedule.tasks.all %}
-                        <div class="list-group-item">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h6 class="mb-1">{{ task.title }}</h6>
-                                    <p class="mb-1 small text-muted">{{ task.description|truncatewords:20 }}</p>
-                                    <span class="badge bg-secondary">{{ task.get_category_display }}</span>
-                                    <span class="badge bg-primary">{{ task.get_frequency_display }}</span>
+                {% for task in schedule.tasks.all %}
+                    <div class="card mb-4 border-start {% if task.id in completed_task_ids %}border-success{% else %}border-primary{% endif %} border-4 {% if task.id in completed_task_ids %}opacity-75{% endif %}">
+                        <div class="card-header {% if task.id in completed_task_ids %}bg-success{% else %}bg-primary{% endif %} text-white">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0 text-white">
+                                    {% if task.id in completed_task_ids %}<i class="bi bi-check-circle-fill"></i>{% else %}<i class="bi bi-wrench-adjustable-circle"></i>{% endif %}
+                                    {{ task.title }}
+                                    {% if task.id in completed_task_ids %}<span class="badge bg-light text-success ms-2">Completed</span>{% endif %}
+                                </h5>
+                                {% if task.id in completed_task_ids %}
+                                        <form method="post" action="{% url 'maintenance:schedule_uncomplete_task' pk=schedule.pk task_id=task.id %}" class="d-inline">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-sm btn-light">
+                                                <i class="bi bi-arrow-counterclockwise"></i> Undo
+                                            </button>
+                                        </form>
+                                    {% else %}
+                                        <form method="post" action="{% url 'maintenance:schedule_remove_task' pk=schedule.pk task_id=task.id %}" class="d-inline" onsubmit="return confirm('Mark this task as complete? It will be automatically rescheduled for its next occurrence.');">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-sm btn-success">
+                                                <i class="bi bi-check-circle"></i> Mark Complete
+                                            </button>
+                                        </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- Task Metadata -->
+                            <div class="mb-3">
+                                <div class="d-flex flex-wrap gap-2">
+                                    <span class="badge bg-secondary">
+                                        <i class="bi bi-tag"></i> {{ task.get_category_display }}
+                                    </span>
+                                    <span class="badge {% if task.difficulty == 'beginner' %}bg-success{% elif task.difficulty == 'intermediate' %}bg-info{% elif task.difficulty == 'advanced' %}bg-warning{% else %}bg-danger{% endif %}">
+                                        <i class="bi bi-speedometer"></i> {{ task.get_difficulty_display }}
+                                    </span>
+                                    <span class="badge bg-primary">
+                                        <i class="bi bi-clock"></i> {{ task.get_frequency_display }}
+                                    </span>
+                                    {% if task.estimated_time %}
+                                        <span class="badge bg-dark">
+                                            <i class="bi bi-hourglass-split"></i> {{ task.estimated_time }} min
+                                        </span>
+                                    {% endif %}
+                                    {% if task.seasonal_priority != 'any' %}
+                                        <span class="badge bg-info">
+                                            <i class="bi bi-calendar3"></i> Best in {{ task.get_seasonal_priority_display }}
+                                        </span>
+                                    {% endif %}
                                 </div>
-                                <a href="{% url 'maintenance:task_detail' slug=task.slug %}" class="btn btn-sm btn-outline-primary">
-                                    View Details
+                            </div>
+
+                            <!-- Description Section (Customizable) -->
+                            {% with customization=task_customizations|get_item:task.id %}
+                                <div class="notebook-cell mb-4">
+                                    <h6 class="text-muted mb-2 d-flex justify-content-between align-items-center">
+                                        <span><i class="bi bi-card-text"></i> Description</span>
+                                        <button class="btn btn-sm btn-outline-secondary" 
+                                                onclick="document.getElementById('description-view-{{task.id}}').classList.add('d-none'); document.getElementById('description-edit-{{task.id}}').classList.remove('d-none'); document.getElementById('instructions-edit-{{task.id}}').classList.remove('d-none'); document.getElementById('instructions-view-{{task.id}}').classList.add('d-none');"
+                                                id="edit-desc-btn-{{task.id}}">
+                                            <i class="bi bi-pencil"></i> Customize
+                                        </button>
+                                    </h6>
+                                    
+                                    <!-- View Mode -->
+                                    <div id="description-view-{{task.id}}" class="border-start border-3 border-secondary ps-3">
+                                        {% if customization.custom_description %}
+                                            <div class="alert alert-info small py-2 mb-2">
+                                                <i class="bi bi-person-check"></i> You've customized this description
+                                            </div>
+                                            {{ customization.custom_description|linebreaks }}
+                                        {% else %}
+                                            {{ task.description|linebreaks }}
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <!-- Edit Mode (will be shown with instructions edit mode) -->
+                                    <div id="description-edit-{{task.id}}" class="d-none">
+                                        <textarea name="custom_description" 
+                                                  form="customization-form-{{task.id}}"
+                                                  class="form-control mb-2" 
+                                                  rows="3" 
+                                                  placeholder="Enter your custom description here...">{% if customization.custom_description %}{{ customization.custom_description }}{% else %}{{ task.description }}{% endif %}</textarea>
+                                    </div>
+                                </div>
+                            {% endwith %}
+
+                            <!-- Tools Required -->
+                            {% if task.tools_required %}
+                                <div class="notebook-cell mb-4">
+                                    <h6 class="text-muted mb-2">
+                                        <i class="bi bi-tools"></i> Tools Required
+                                    </h6>
+                                    <div class="border-start border-3 border-warning ps-3">
+                                        {{ task.tools_required|linebreaks }}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <!-- Step by Step Instructions (Customizable) -->
+                            {% with customization=task_customizations|get_item:task.id %}
+                                <div class="notebook-cell mb-4">
+                                    <h6 class="text-muted mb-2 d-flex justify-content-between align-items-center">
+                                        <span><i class="bi bi-list-ol"></i> Step-by-Step Instructions</span>
+                                        <button class="btn btn-sm btn-outline-secondary" 
+                                                onclick="document.getElementById('instructions-view-{{task.id}}').classList.add('d-none'); document.getElementById('instructions-edit-{{task.id}}').classList.remove('d-none'); document.getElementById('description-edit-{{task.id}}').classList.remove('d-none'); document.getElementById('description-view-{{task.id}}').classList.add('d-none');"
+                                                id="edit-btn-{{task.id}}">
+                                            <i class="bi bi-pencil"></i> Customize
+                                        </button>
+                                    </h6>
+                                    
+                                    <!-- View Mode -->
+                                    <div id="instructions-view-{{task.id}}" class="border-start border-3 border-success ps-3">
+                                        {% if customization.custom_instructions %}
+                                            <div class="alert alert-info small py-2 mb-2">
+                                                <i class="bi bi-person-check"></i> You've customized these instructions
+                                            </div>
+                                            {{ customization.custom_instructions|linebreaks }}
+                                        {% elif task.step_by_step %}
+                                            <div class="alert alert-secondary small py-2 mb-2">
+                                                <i class="bi bi-info-circle"></i> Default instructions (admin-provided)
+                                            </div>
+                                            {{ task.step_by_step|linebreaks }}
+                                        {% else %}
+                                            <div class="alert alert-warning small py-2">
+                                                <i class="bi bi-exclamation-triangle"></i> No instructions available yet. Click "Customize" to add your own!
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <!-- Edit Mode -->
+                                    <div id="instructions-edit-{{task.id}}" class="d-none">
+                                        <form method="post" 
+                                              id="customization-form-{{task.id}}"
+                                              action="{% url 'maintenance:save_task_customization' schedule_pk=schedule.pk task_id=task.id %}">
+                                            {% csrf_token %}
+                                            <textarea name="custom_instructions" 
+                                                      class="form-control mb-2" 
+                                                      rows="6" 
+                                                      placeholder="Enter your custom instructions here...">{% if customization.custom_instructions %}{{ customization.custom_instructions }}{% elif task.step_by_step %}{{ task.step_by_step }}{% endif %}</textarea>
+                                            <div class="d-flex gap-2">
+                                                <button type="submit" class="btn btn-sm btn-success">
+                                                    <i class="bi bi-save"></i> Save Customizations
+                                                </button>
+                                                {% if customization.custom_instructions or customization.custom_description %}
+                                                    <button type="submit" name="reset" value="true" class="btn btn-sm btn-warning">
+                                                        <i class="bi bi-arrow-counterclockwise"></i> Reset to Default
+                                                    </button>
+                                                {% endif %}
+                                                <button type="button" class="btn btn-sm btn-secondary"
+                                                        onclick="document.getElementById('instructions-edit-{{task.id}}').classList.add('d-none'); document.getElementById('instructions-view-{{task.id}}').classList.remove('d-none'); document.getElementById('description-edit-{{task.id}}').classList.add('d-none'); document.getElementById('description-view-{{task.id}}').classList.remove('d-none');">
+                                                    <i class="bi bi-x"></i> Cancel
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            {% endwith %}
+
+                            <!-- Safety Tips -->
+                            {% if task.safety_tips %}
+                                <div class="notebook-cell mb-4">
+                                    <h6 class="text-muted mb-2">
+                                        <i class="bi bi-exclamation-triangle-fill text-danger"></i> Safety Tips
+                                    </h6>
+                                    <div class="alert alert-warning border-start border-3 border-danger">
+                                        {{ task.safety_tips|linebreaks }}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <!-- Additional Notes -->
+                            {% if task.additional_notes %}
+                                <div class="notebook-cell mb-3">
+                                    <h6 class="text-muted mb-2">
+                                        <i class="bi bi-sticky"></i> Additional Notes
+                                    </h6>
+                                    <div class="border-start border-3 border-info ps-3">
+                                        {{ task.additional_notes|linebreaks }}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <!-- Action Buttons -->
+                            <div class="d-flex gap-2 mt-4">
+                                <a href="{% url 'maintenance:task_detail' slug=task.slug %}" class="btn btn-outline-primary">
+                                    <i class="bi bi-info-circle"></i> Full Task Details
                                 </a>
                             </div>
                         </div>
-                    {% endfor %}
-                </div>
+                    </div>
+                {% endfor %}
             {% else %}
-                <p class="text-muted">No tasks in this schedule.</p>
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> No tasks in this schedule.
+                </div>
             {% endif %}
         </div>
     </div>
 </div>
+
+<style>
+.notebook-cell {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.25rem;
+}
+
+.card-header h5 {
+    color: #2c5f4f;
+}
+
+.border-start {
+    border-left-width: 4px !important;
+}
+</style>
+
 {% endblock %}

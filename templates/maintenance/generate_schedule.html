@@ -6,8 +6,9 @@
 <div class="container mt-4">
     <div class="card shadow">
         <div class="card-header bg-success text-white">
-            <h3 class="mb-0">
-                <i class="bi bi-magic"></i> Generate Maintenance Schedule for {{ home.name }}
+            <h3 class="mb-0" style="color: #ffffff !important;">
+                <i class="bi bi-magic" style="color: #ffffff !important;"></i> 
+                <span style="color: #ffffff !important;">Generate Maintenance Schedule for {{ home.name }}</span>
             </h3>
         </div>
         <div class="card-body">
@@ -25,6 +26,8 @@
                         <li><strong>Construction:</strong> {{ home.get_construction_type_display }}</li>
                         <li><strong>Climate Zone:</strong> {{ home.get_climate_zone_display }}</li>
                         <li><strong>Square Footage:</strong> {% if home.square_footage %}{{ home.square_footage|floatformat:0 }} sq ft{% else %}Not specified{% endif %}</li>
+                        <li><strong>Acreage:</strong> {{ home.acreage }} acres</li>
+                        <li><strong>Location Type:</strong> {{ home.get_location_type_display }}</li>
                     </ul>
                 </div>
                 <div class="col-md-6">
@@ -126,15 +129,36 @@
                     <div class="mb-3">
                         <label class="form-label">Select Tasks to Include:</label>
                         
-                        {% if high_priority_tasks %}
-                        <h6 class="mt-3 text-danger"><i class="bi bi-exclamation-triangle-fill me-2"></i>High Priority ({{ high_priority_tasks|length }})</h6>
+                        {% if critical_priority_tasks %}
+                        <h6 class="mt-3" style="color: #dc3545;"><i class="bi bi-exclamation-octagon-fill me-2"></i>Critical Priority ({{ critical_priority_tasks|length }})</h6>
                         <div class="list-group mb-3">
-                            {% for task, score in high_priority_tasks %}
-                                <label class="list-group-item list-group-item-danger">
+                            {% for task, score in critical_priority_tasks %}
+                                <label class="list-group-item list-group-item-danger border-danger">
                                     <input class="form-check-input me-2" type="checkbox" name="tasks" value="{{ task.pk }}" checked>
                                     <div>
                                         <strong>{{ task.title }}</strong>
                                         <span class="badge bg-danger ms-2">Score: {{ score }}</span>
+                                        <span class="badge bg-secondary">{{ task.get_category_display }}</span>
+                                        <span class="badge bg-primary">{{ task.get_frequency_display }}</span>
+                                        {% if task.seasonal_priority != 'any' %}
+                                            <span class="badge bg-info">{{ task.get_seasonal_priority_display }}</span>
+                                        {% endif %}
+                                        <p class="mb-0 small text-muted">{{ task.description|truncatewords:15 }}</p>
+                                    </div>
+                                </label>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        
+                        {% if high_priority_tasks %}
+                        <h6 class="mt-3 text-danger"><i class="bi bi-exclamation-triangle-fill me-2"></i>High Priority ({{ high_priority_tasks|length }})</h6>
+                        <div class="list-group mb-3">
+                            {% for task, score in high_priority_tasks %}
+                                <label class="list-group-item list-group-item-warning">
+                                    <input class="form-check-input me-2" type="checkbox" name="tasks" value="{{ task.pk }}" checked>
+                                    <div>
+                                        <strong>{{ task.title }}</strong>
+                                        <span class="badge bg-warning text-dark ms-2">Score: {{ score }}</span>
                                         <span class="badge bg-secondary">{{ task.get_category_display }}</span>
                                         <span class="badge bg-primary">{{ task.get_frequency_display }}</span>
                                         {% if task.seasonal_priority != 'any' %}

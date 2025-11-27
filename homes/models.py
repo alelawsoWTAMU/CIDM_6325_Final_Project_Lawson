@@ -68,6 +68,12 @@ class Home(models.Model):
         ('mixed', 'Mixed Materials'),
     ]
     
+    LOCATION_TYPES = [
+        ('rural', 'Rural'),
+        ('suburban', 'Suburban'),
+        ('urban', 'Urban'),
+    ]
+    
     owner = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -127,6 +133,21 @@ class Home(models.Model):
         help_text='Total square footage of the home'
     )
     
+    acreage = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0.25,
+        validators=[MinValueValidator(0.01)],
+        help_text='Total acreage of the property'
+    )
+    
+    location_type = models.CharField(
+        max_length=20,
+        choices=LOCATION_TYPES,
+        default='suburban',
+        help_text='Rural, suburban, or urban setting'
+    )
+    
     num_bedrooms = models.IntegerField(
         default=3,
         validators=[MinValueValidator(1), MaxValueValidator(20)]
@@ -146,6 +167,60 @@ class Home(models.Model):
     has_hvac = models.BooleanField(default=True, help_text='Central heating/cooling')
     has_septic = models.BooleanField(default=False, help_text='Septic system vs municipal sewer')
     has_well = models.BooleanField(default=False, help_text='Well water vs municipal water')
+    
+    # Advanced Home Systems
+    has_solar_panels = models.BooleanField(default=False, help_text='Solar energy system')
+    has_generator = models.BooleanField(default=False, help_text='Backup generator')
+    has_battery_bank = models.BooleanField(default=False, help_text='Battery storage system')
+    has_wood_stove = models.BooleanField(default=False, help_text='Wood stove or fireplace insert')
+    has_sump_pump = models.BooleanField(default=False, help_text='Sump pump in basement/crawlspace')
+    has_composting_toilet = models.BooleanField(default=False, help_text='Composting toilet system')
+    has_rainwater_collection = models.BooleanField(default=False, help_text='Rainwater harvesting/cistern')
+    has_irrigation_system = models.BooleanField(default=False, help_text='Automated irrigation system')
+    
+    # Water Heater Type
+    WATER_HEATER_TYPES = [
+        ('', 'Not specified'),
+        ('tank', 'Tank Water Heater'),
+        ('tankless', 'Tankless Water Heater'),
+        ('hybrid', 'Hybrid Heat Pump'),
+        ('solar', 'Solar Water Heater'),
+    ]
+    water_heater_type = models.CharField(
+        max_length=20,
+        choices=WATER_HEATER_TYPES,
+        blank=True,
+        default='',
+        help_text='Type of water heater'
+    )
+    
+    # Property Features
+    has_fencing = models.BooleanField(default=False, help_text='Property has fencing')
+    has_barn_outbuilding = models.BooleanField(default=False, help_text='Barn or large outbuilding')
+    has_greenhouse = models.BooleanField(default=False, help_text='Greenhouse or cold frame')
+    has_fruit_trees = models.BooleanField(default=False, help_text='Fruit trees or orchard')
+    has_garden_beds = models.BooleanField(default=False, help_text='Garden beds or vegetable garden')
+    has_pasture = models.BooleanField(default=False, help_text='Pasture land for livestock')
+    
+    DRIVEWAY_TYPES = [
+        ('', 'Not specified'),
+        ('paved', 'Paved (asphalt/concrete)'),
+        ('gravel', 'Gravel'),
+        ('dirt', 'Dirt/unpaved'),
+    ]
+    driveway_type = models.CharField(
+        max_length=20,
+        choices=DRIVEWAY_TYPES,
+        blank=True,
+        default='',
+        help_text='Type of driveway surface'
+    )
+    
+    # Equipment Ownership
+    has_tractor = models.BooleanField(default=False, help_text='Tractor or heavy equipment')
+    has_riding_mower = models.BooleanField(default=False, help_text='Riding lawn mower')
+    has_chainsaw = models.BooleanField(default=False, help_text='Chainsaw or power tools')
+    has_farm_implements = models.BooleanField(default=False, help_text='Plow, disc, or farming implements')
     
     # Enhanced features for detailed maintenance scheduling
     roof_type = models.CharField(
