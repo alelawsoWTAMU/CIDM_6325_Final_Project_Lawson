@@ -1,0 +1,40 @@
+[
+{
+  "model": "homes.appliance",
+  "pk": 1,
+  "fields": {
+    "home": 8,
+    "appliance_type": "washer",
+    "manufacturer": "",
+    "model_number": "123",
+    "serial_number": "1234",
+    "energy_rating": "A+",
+    "year_installed": 2020,
+    "purchase_date": "2025-11-01",
+    "warranty_expiration": "2030-12-31",
+    "last_service_date": "2025-11-13",
+    "notes": "",
+    "created_at": "2025-11-27T01:15:40.490Z",
+    "updated_at": "2025-11-27T01:15:40.490Z"
+  }
+},
+{
+  "model": "homes.appliance",
+  "pk": 2,
+  "fields": {
+    "home": 8,
+    "appliance_type": "furnace",
+    "manufacturer": "Bryant",
+    "model_number": "1245",
+    "serial_number": "12341234",
+    "energy_rating": "Energy Sta",
+    "year_installed": 2025,
+    "purchase_date": "2025-11-20",
+    "warranty_expiration": "2035-11-20",
+    "last_service_date": "2025-11-20",
+    "notes": "Just Installed one of these",
+    "created_at": "2025-11-27T01:15:40.503Z",
+    "updated_at": "2025-11-27T01:15:40.503Z"
+  }
+}
+]

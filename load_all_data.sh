@@ -23,10 +23,10 @@ echo "2/9 Loading homes..."
 python manage.py loaddata fixtures/homes.json
 
 echo "3/9 Loading appliances..."
-python manage.py loaddata fixtures/appliances.json
+python manage.py loaddata fixtures/appliances.json || echo "⚠️  Skipped appliances (empty or error)"
 
 echo "4/9 Loading service providers..."
-python manage.py loaddata fixtures/service_providers.json
+python manage.py loaddata fixtures/service_providers.json || echo "⚠️  Skipped service providers (empty or error)"
 
 echo "5/9 Loading maintenance tasks..."
 python manage.py loaddata fixtures/maintenance_tasks.json
@@ -35,13 +35,13 @@ echo "6/9 Loading schedules..."
 python manage.py loaddata fixtures/schedules.json
 
 echo "7/9 Loading schedule customizations..."
-python manage.py loaddata fixtures/schedule_customizations.json
+python manage.py loaddata fixtures/schedule_customizations.json || echo "⚠️  Skipped customizations (empty or error)"
 
 echo "8/9 Loading task completions..."
-python manage.py loaddata fixtures/task_completions.json
+python manage.py loaddata fixtures/task_completions.json || echo "⚠️  Skipped completions (empty or error)"
 
 echo "9/9 Loading tips..."
-python manage.py loaddata fixtures/tips.json
+python manage.py loaddata fixtures/tips.json || echo "⚠️  Skipped tips (empty or error)"
 
 echo ""
 echo "✅ All fixtures loaded successfully!"
