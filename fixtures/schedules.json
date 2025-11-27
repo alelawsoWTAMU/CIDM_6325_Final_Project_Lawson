@@ -1,28 +1,1303 @@
 [
 {
   "model": "maintenance.schedule",
-  "pk": 1,
+  "pk": 6,
   "fields": {
-    "home": 5,
-    "scheduled_date": "2025-11-23",
+    "home": 8,
+    "scheduled_date": "2025-12-21",
     "is_completed": false,
     "completed_at": null,
-    "notes": "",
-    "created_at": "2025-11-23T16:56:47.122Z",
-    "updated_at": "2025-11-23T16:56:47.122Z",
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:08.927Z",
+    "updated_at": "2025-11-27T01:19:08.927Z",
     "tasks": [
-      9,
-      12,
-      4,
-      2,
-      7,
+      39
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 7,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2025-12-21",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:08.953Z",
+    "updated_at": "2025-11-27T01:19:08.953Z",
+    "tasks": [
+      5
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 8,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2025-12-21",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:08.977Z",
+    "updated_at": "2025-11-27T01:19:08.977Z",
+    "tasks": [
+      1
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 9,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2025-12-28",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)\n[2025-11-27 02:09] Rescheduled from 2025-12-21 to 2025-12-28 - Reason: Postponed by 1 week",
+    "created_at": "2025-11-27T01:19:09.005Z",
+    "updated_at": "2025-11-27T02:09:14.318Z",
+    "tasks": [
+      21
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 10,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2025-12-28",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)\n[2025-11-27 02:09] Rescheduled from 2025-12-21 to 2025-12-28 - Reason: Postponed by 1 week",
+    "created_at": "2025-11-27T01:19:09.034Z",
+    "updated_at": "2025-11-27T02:09:01.262Z",
+    "tasks": [
+      55
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 11,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2025-12-21",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.060Z",
+    "updated_at": "2025-11-27T01:19:09.060Z",
+    "tasks": [
+      17
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 12,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2025-12-21",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.086Z",
+    "updated_at": "2025-11-27T01:19:09.086Z",
+    "tasks": [
+      3
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 13,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-02-09",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.116Z",
+    "updated_at": "2025-11-27T01:19:09.116Z",
+    "tasks": [
+      9
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 14,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-02-09",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.141Z",
+    "updated_at": "2025-11-27T01:19:09.141Z",
+    "tasks": [
+      4
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 15,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-02-09",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.174Z",
+    "updated_at": "2025-11-27T01:19:09.174Z",
+    "tasks": [
+      40
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 16,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-02-09",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.205Z",
+    "updated_at": "2025-11-27T01:19:09.205Z",
+    "tasks": [
+      46
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 17,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-02-09",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.231Z",
+    "updated_at": "2025-11-27T01:19:09.231Z",
+    "tasks": [
+      24
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 18,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-04-25",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.254Z",
+    "updated_at": "2025-11-27T01:19:09.254Z",
+    "tasks": [
+      28
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 19,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-04-25",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.281Z",
+    "updated_at": "2025-11-27T01:19:09.281Z",
+    "tasks": [
+      12
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 20,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-04-25",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.305Z",
+    "updated_at": "2025-11-27T01:19:09.305Z",
+    "tasks": [
+      41
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 21,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-04-25",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.331Z",
+    "updated_at": "2025-11-27T01:19:09.331Z",
+    "tasks": [
+      2
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 22,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-04-25",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.352Z",
+    "updated_at": "2025-11-27T01:19:09.352Z",
+    "tasks": [
+      14
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 23,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-04-25",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.375Z",
+    "updated_at": "2025-11-27T01:19:09.375Z",
+    "tasks": [
+      7
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 24,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-04-25",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.398Z",
+    "updated_at": "2025-11-27T01:19:09.398Z",
+    "tasks": [
+      52
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 25,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-04-25",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.422Z",
+    "updated_at": "2025-11-27T01:19:09.422Z",
+    "tasks": [
+      20
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 26,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-09-26",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.442Z",
+    "updated_at": "2025-11-27T01:19:09.442Z",
+    "tasks": [
+      26
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 27,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-09-26",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.459Z",
+    "updated_at": "2025-11-27T01:19:09.459Z",
+    "tasks": [
+      44
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 28,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-09-26",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.481Z",
+    "updated_at": "2025-11-27T01:19:09.481Z",
+    "tasks": [
+      45
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 29,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-09-26",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.502Z",
+    "updated_at": "2025-11-27T01:19:09.502Z",
+    "tasks": [
+      43
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 30,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-09-26",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.523Z",
+    "updated_at": "2025-11-27T01:19:09.523Z",
+    "tasks": [
+      53
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 31,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-09-26",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.564Z",
+    "updated_at": "2025-11-27T01:19:09.564Z",
+    "tasks": [
+      15
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 32,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-09-26",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.586Z",
+    "updated_at": "2025-11-27T01:19:09.586Z",
+    "tasks": [
+      19
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 33,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-09-26",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.619Z",
+    "updated_at": "2025-11-27T01:19:09.619Z",
+    "tasks": [
+      13
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 34,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-09-26",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.656Z",
+    "updated_at": "2025-11-27T01:19:09.656Z",
+    "tasks": [
+      18
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 35,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-09-26",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.689Z",
+    "updated_at": "2025-11-27T01:19:09.689Z",
+    "tasks": [
+      22
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 36,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-09-26",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.720Z",
+    "updated_at": "2025-11-27T01:19:09.721Z",
+    "tasks": [
+      8
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 37,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-09-26",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.751Z",
+    "updated_at": "2025-11-27T01:19:09.751Z",
+    "tasks": [
+      16
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 38,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-09-26",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.772Z",
+    "updated_at": "2025-11-27T01:19:09.772Z",
+    "tasks": [
+      56
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 39,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-09-26",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.795Z",
+    "updated_at": "2025-11-27T01:19:09.795Z",
+    "tasks": [
+      62
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 40,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-09-26",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.814Z",
+    "updated_at": "2025-11-27T01:19:09.814Z",
+    "tasks": [
+      60
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 41,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-09-26",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.837Z",
+    "updated_at": "2025-11-27T01:19:09.837Z",
+    "tasks": [
+      61
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 42,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-09-26",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.860Z",
+    "updated_at": "2025-11-27T01:19:09.860Z",
+    "tasks": [
+      59
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 43,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-09-26",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.886Z",
+    "updated_at": "2025-11-27T01:19:09.886Z",
+    "tasks": [
+      51
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 44,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-09-26",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.910Z",
+    "updated_at": "2025-11-27T01:19:09.910Z",
+    "tasks": [
+      6
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 45,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-09-26",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.940Z",
+    "updated_at": "2025-11-27T01:19:09.940Z",
+    "tasks": [
+      25
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 46,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-09-26",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.966Z",
+    "updated_at": "2025-11-27T01:19:09.966Z",
+    "tasks": [
+      23
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 47,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-09-26",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:09.990Z",
+    "updated_at": "2025-11-27T01:19:09.990Z",
+    "tasks": [
+      49
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 48,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-09-26",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:10.020Z",
+    "updated_at": "2025-11-27T01:19:10.020Z",
+    "tasks": [
+      11
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 49,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-09-26",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:10.044Z",
+    "updated_at": "2025-11-27T01:19:10.044Z",
+    "tasks": [
+      57
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 50,
+  "fields": {
+    "home": 8,
+    "scheduled_date": "2026-09-26",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated (Priority: 80, Season: any)",
+    "created_at": "2025-11-27T01:19:10.136Z",
+    "updated_at": "2025-11-27T01:19:10.136Z",
+    "tasks": [
+      33
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 55,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2025-12-01",
+    "is_completed": true,
+    "completed_at": "2025-11-27T02:09:45.375Z",
+    "notes": "Auto-generated schedule with 11 task(s). Average Priority: 78",
+    "created_at": "2025-11-27T02:08:08.367Z",
+    "updated_at": "2025-11-27T02:09:45.375Z",
+    "tasks": [
+      31,
+      32,
+      38,
+      39,
       5,
       1,
-      8,
+      21,
+      55,
+      36,
+      17,
+      3
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 57,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2025-12-15",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated schedule with 8 task(s). Average Priority: 87\n[2025-11-27 03:35] Rescheduled from 2025-12-15 to 2025-12-15 - Reason: Drag-and-drop reschedule",
+    "created_at": "2025-11-27T02:08:08.743Z",
+    "updated_at": "2025-11-27T03:35:50.744Z",
+    "tasks": [
+      30,
+      40,
+      46,
+      24,
+      27,
+      10
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 58,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2025-12-22",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated schedule with 1 task(s). Average Priority: 91",
+    "created_at": "2025-11-27T02:08:08.919Z",
+    "updated_at": "2025-11-27T02:08:08.920Z",
+    "tasks": [
+      37
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 59,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2026-01-01",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated schedule with 12 task(s). Average Priority: 80",
+    "created_at": "2025-11-27T02:08:08.961Z",
+    "updated_at": "2025-11-27T02:08:08.961Z",
+    "tasks": [
+      31,
+      32,
+      38,
+      39,
+      50,
+      5,
+      1,
+      21,
+      55,
+      36,
+      17,
+      3
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 60,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2026-01-15",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated schedule with 9 task(s). Average Priority: 88",
+    "created_at": "2025-11-27T02:08:09.279Z",
+    "updated_at": "2025-11-27T02:08:09.279Z",
+    "tasks": [
+      9,
+      4,
+      26,
+      30,
+      40,
+      46,
+      24,
+      27,
+      10
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 61,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2026-02-01",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated schedule with 12 task(s). Average Priority: 79",
+    "created_at": "2025-11-27T02:08:09.500Z",
+    "updated_at": "2025-11-27T02:08:09.500Z",
+    "tasks": [
+      31,
+      32,
+      38,
+      39,
+      5,
+      1,
+      21,
+      55,
+      51,
+      36,
+      17,
+      3
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 62,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2026-02-08",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated schedule with 1 task(s). Average Priority: 100",
+    "created_at": "2025-11-27T02:08:09.795Z",
+    "updated_at": "2025-11-27T02:08:09.795Z",
+    "tasks": [
+      15
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 63,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2026-02-15",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated schedule with 8 task(s). Average Priority: 87",
+    "created_at": "2025-11-27T02:08:09.845Z",
+    "updated_at": "2025-11-27T02:08:09.845Z",
+    "tasks": [
+      9,
+      4,
+      30,
+      40,
+      46,
+      24,
+      27,
+      10
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 64,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2026-03-01",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated schedule with 11 task(s). Average Priority: 78",
+    "created_at": "2025-11-27T02:08:10.045Z",
+    "updated_at": "2025-11-27T02:08:10.045Z",
+    "tasks": [
+      31,
+      32,
+      38,
+      39,
+      5,
+      1,
+      21,
+      55,
+      36,
+      17,
+      3
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 65,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2026-03-08",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated schedule with 1 task(s). Average Priority: 91",
+    "created_at": "2025-11-27T02:08:10.295Z",
+    "updated_at": "2025-11-27T02:08:10.295Z",
+    "tasks": [
+      16
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 66,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2026-04-01",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated schedule with 11 task(s). Average Priority: 78",
+    "created_at": "2025-11-27T02:08:10.328Z",
+    "updated_at": "2025-11-27T02:08:10.328Z",
+    "tasks": [
+      31,
+      32,
+      38,
+      39,
+      5,
+      1,
+      21,
+      55,
+      36,
+      17,
+      3
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 67,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2026-05-01",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated schedule with 13 task(s). Average Priority: 81",
+    "created_at": "2025-11-27T02:08:10.581Z",
+    "updated_at": "2025-11-27T02:08:10.581Z",
+    "tasks": [
+      31,
+      32,
+      38,
+      39,
+      5,
+      1,
+      21,
+      55,
+      54,
+      36,
       6,
-      10,
+      17,
+      3
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 68,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2026-05-08",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated schedule with 1 task(s). Average Priority: 100",
+    "created_at": "2025-11-27T02:08:10.890Z",
+    "updated_at": "2025-11-27T02:08:10.890Z",
+    "tasks": [
+      18
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 69,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2026-05-15",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated schedule with 10 task(s). Average Priority: 94",
+    "created_at": "2025-11-27T02:08:10.927Z",
+    "updated_at": "2025-11-27T02:08:10.927Z",
+    "tasks": [
+      28,
+      12,
+      29,
+      41,
+      47,
+      2,
+      14,
+      7,
+      52,
+      20
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 70,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2026-06-01",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated schedule with 11 task(s). Average Priority: 78",
+    "created_at": "2025-11-27T02:08:11.174Z",
+    "updated_at": "2025-11-27T02:08:11.174Z",
+    "tasks": [
+      31,
+      32,
+      38,
+      39,
+      5,
+      1,
+      21,
+      55,
+      36,
+      17,
+      3
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 71,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2026-06-08",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated schedule with 1 task(s). Average Priority: 100",
+    "created_at": "2025-11-27T02:08:11.449Z",
+    "updated_at": "2025-11-27T02:08:11.449Z",
+    "tasks": [
+      19
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 72,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2026-07-01",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated schedule with 12 task(s). Average Priority: 79",
+    "created_at": "2025-11-27T02:08:11.490Z",
+    "updated_at": "2025-11-27T02:08:11.491Z",
+    "tasks": [
+      31,
+      32,
+      38,
+      39,
+      5,
+      1,
+      21,
+      8,
+      55,
+      36,
+      17,
+      3
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 73,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2026-08-01",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated schedule with 11 task(s). Average Priority: 78",
+    "created_at": "2025-11-27T02:08:11.757Z",
+    "updated_at": "2025-11-27T02:08:11.757Z",
+    "tasks": [
+      31,
+      32,
+      38,
+      39,
+      5,
+      1,
+      21,
+      55,
+      36,
+      17,
+      3
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 74,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2026-08-15",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated schedule with 1 task(s). Average Priority: 91",
+    "created_at": "2025-11-27T02:08:12.028Z",
+    "updated_at": "2025-11-27T02:08:12.028Z",
+    "tasks": [
+      33
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 75,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2026-08-22",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated schedule with 1 task(s). Average Priority: 91",
+    "created_at": "2025-11-27T02:08:12.071Z",
+    "updated_at": "2025-11-27T02:08:12.071Z",
+    "tasks": [
+      45
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 76,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2026-09-01",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated schedule with 12 task(s). Average Priority: 80",
+    "created_at": "2025-11-27T02:08:12.112Z",
+    "updated_at": "2025-11-27T02:08:12.112Z",
+    "tasks": [
+      31,
+      32,
+      38,
+      39,
+      58,
+      5,
+      1,
+      21,
+      55,
+      36,
+      17,
+      3
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 77,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2026-09-08",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated schedule with 1 task(s). Average Priority: 100",
+    "created_at": "2025-11-27T02:08:12.393Z",
+    "updated_at": "2025-11-27T02:08:12.393Z",
+    "tasks": [
+      22
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 78,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2026-09-15",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated schedule with 1 task(s). Average Priority: 91",
+    "created_at": "2025-11-27T02:08:12.430Z",
+    "updated_at": "2025-11-27T02:08:12.430Z",
+    "tasks": [
+      34
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 79,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2026-10-01",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated schedule with 13 task(s). Average Priority: 80",
+    "created_at": "2025-11-27T02:08:12.473Z",
+    "updated_at": "2025-11-27T02:08:12.473Z",
+    "tasks": [
+      31,
+      32,
+      38,
+      39,
+      5,
+      1,
+      21,
+      55,
+      59,
+      36,
+      17,
       3,
       11
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 80,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2026-10-08",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated schedule with 1 task(s). Average Priority: 100",
+    "created_at": "2025-11-27T02:08:12.760Z",
+    "updated_at": "2025-11-27T02:08:12.760Z",
+    "tasks": [
+      13,
+      61,
+      23
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 81,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2026-10-15",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated schedule with 1 task(s). Average Priority: 91",
+    "created_at": "2025-11-27T02:08:12.799Z",
+    "updated_at": "2025-11-27T02:08:12.799Z",
+    "tasks": [
+      35
+    ]
+  }
+},
+{
+  "model": "maintenance.schedule",
+  "pk": 82,
+  "fields": {
+    "home": 9,
+    "scheduled_date": "2026-02-28",
+    "is_completed": false,
+    "completed_at": null,
+    "notes": "Auto-generated: Clean Range Hood Filter (Quarterly maintenance)",
+    "created_at": "2025-11-27T02:25:52.962Z",
+    "updated_at": "2025-11-27T02:25:52.962Z",
+    "tasks": [
+      9,
+      4
     ]
   }
 }

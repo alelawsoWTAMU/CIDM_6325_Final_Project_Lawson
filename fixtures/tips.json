@@ -4,9 +4,7 @@
   "pk": 6,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "HVAC1234"
-    ],
+    "author": 6,
     "title": "Change Your Air Filter Every 3 Months",
     "slug": "change-air-filter-every-3-months",
     "category": "hvac",
@@ -29,9 +27,7 @@
   "pk": 7,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "HVAC1234"
-    ],
+    "author": 6,
     "title": "Schedule Bi-Annual HVAC Maintenance",
     "slug": "schedule-biannual-hvac-maintenance",
     "category": "hvac",
@@ -54,9 +50,7 @@
   "pk": 8,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "HVAC1234"
-    ],
+    "author": 6,
     "title": "Keep Outdoor Unit Clear of Debris",
     "slug": "keep-outdoor-unit-clear-debris",
     "category": "hvac",
@@ -79,13 +73,11 @@
   "pk": 9,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "HVAC1234"
-    ],
+    "author": 6,
     "title": "Use a Programmable Thermostat to Save Energy",
     "slug": "programmable-thermostat-save-energy",
     "category": "hvac",
-    "content": "A programmable or smart thermostat can cut heating/cooling costs by 10-20%. Set it to adjust temperatures when you are away or sleeping. Recommended settings: 68Â°F in winter (lower at night), 78Â°F in summer. Every degree adjustment saves about 3% on energy bills.",
+    "content": "A programmable or smart thermostat can cut heating/cooling costs by 10-20%. Set it to adjust temperatures when you are away or sleeping. Recommended settings: 68°F in winter (lower at night), 78°F in summer. Every degree adjustment saves about 3% on energy bills.",
     "location": "Valparaiso, IN",
     "climate_zone": "",
     "status": "approved",
@@ -104,9 +96,7 @@
   "pk": 10,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "HVAC1234"
-    ],
+    "author": 6,
     "title": "Check for Air Leaks Around Ductwork",
     "slug": "check-air-leaks-ductwork",
     "category": "hvac",
@@ -129,9 +119,7 @@
   "pk": 11,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "HVAC1234"
-    ],
+    "author": 6,
     "title": "Listen for Unusual HVAC Noises",
     "slug": "listen-unusual-hvac-noises",
     "category": "hvac",
@@ -154,9 +142,7 @@
   "pk": 12,
   "fields": {
     "post_type": "question",
-    "author": [
-      "homeowner1"
-    ],
+    "author": 7,
     "title": "How often should I replace my water heater?",
     "slug": "how-often-replace-water-heater",
     "category": "plumbing",
@@ -179,9 +165,7 @@
   "pk": 13,
   "fields": {
     "post_type": "question",
-    "author": [
-      "homeowner1"
-    ],
+    "author": 7,
     "title": "Strange noise from HVAC - should I be worried?",
     "slug": "strange-noise-from-hvac",
     "category": "hvac",
@@ -204,9 +188,7 @@
   "pk": 14,
   "fields": {
     "post_type": "question",
-    "author": [
-      "homeowner1"
-    ],
+    "author": 7,
     "title": "Best way to prevent frozen pipes this winter?",
     "slug": "prevent-frozen-pipes-winter",
     "category": "plumbing",
@@ -229,9 +211,7 @@
   "pk": 15,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "HVAC1234"
-    ],
+    "author": 6,
     "title": "Change Your Air Filter Every 90 Days",
     "slug": "change-air-filter-every-90-days",
     "category": "hvac",
@@ -254,9 +234,7 @@
   "pk": 16,
   "fields": {
     "post_type": "question",
-    "author": [
-      "homeowner1"
-    ],
+    "author": 7,
     "title": "What temperature should I set my thermostat in summer?",
     "slug": "thermostat-temperature-summer",
     "category": "hvac",
@@ -279,9 +257,7 @@
   "pk": 17,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "PlumbingPro"
-    ],
+    "author": 8,
     "title": "Know Where Your Main Water Shutoff Is",
     "slug": "know-main-water-shutoff",
     "category": "plumbing",
@@ -304,9 +280,7 @@
   "pk": 18,
   "fields": {
     "post_type": "question",
-    "author": [
-      "homeowner1"
-    ],
+    "author": 7,
     "title": "Low water pressure in kitchen sink only",
     "slug": "low-water-pressure-kitchen",
     "category": "plumbing",
@@ -329,9 +303,7 @@
   "pk": 19,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "ElectricianExpert"
-    ],
+    "author": 9,
     "title": "Test GFCI Outlets Monthly",
     "slug": "test-gfci-outlets-monthly",
     "category": "electrical",
@@ -354,9 +326,7 @@
   "pk": 20,
   "fields": {
     "post_type": "question",
-    "author": [
-      "homeowner1"
-    ],
+    "author": 7,
     "title": "Can I replace a light switch myself?",
     "slug": "replace-light-switch-diy",
     "category": "electrical",
@@ -379,9 +349,7 @@
   "pk": 21,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "RoofingSpecialist"
-    ],
+    "author": 10,
     "title": "Inspect Your Roof Twice Yearly",
     "slug": "inspect-roof-twice-yearly",
     "category": "exterior",
@@ -404,9 +372,7 @@
   "pk": 22,
   "fields": {
     "post_type": "question",
-    "author": [
-      "homeowner1"
-    ],
+    "author": 7,
     "title": "How long should a roof last in Texas?",
     "slug": "roof-lifespan-texas",
     "category": "exterior",
@@ -429,9 +395,7 @@
   "pk": 23,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "InteriorPro"
-    ],
+    "author": 11,
     "title": "Caulk Around Tubs and Showers Annually",
     "slug": "caulk-tubs-showers-annually",
     "category": "interior",
@@ -454,9 +418,7 @@
   "pk": 24,
   "fields": {
     "post_type": "question",
-    "author": [
-      "homeowner1"
-    ],
+    "author": 7,
     "title": "Drywall crack - structural issue or cosmetic?",
     "slug": "drywall-crack-structural",
     "category": "interior",
@@ -479,9 +441,7 @@
   "pk": 25,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "ApplianceTech"
-    ],
+    "author": 12,
     "title": "Clean Refrigerator Coils Twice a Year",
     "slug": "clean-refrigerator-coils",
     "category": "appliances",
@@ -504,9 +464,7 @@
   "pk": 26,
   "fields": {
     "post_type": "question",
-    "author": [
-      "homeowner1"
-    ],
+    "author": 7,
     "title": "Dishwasher not cleaning dishes properly",
     "slug": "dishwasher-not-cleaning",
     "category": "appliances",
@@ -529,9 +487,7 @@
   "pk": 27,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "ApplianceTech"
-    ],
+    "author": 12,
     "title": "Run Garbage Disposal with Cold Water",
     "slug": "garbage-disposal-cold-water",
     "category": "appliances",
@@ -554,9 +510,7 @@
   "pk": 28,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "LandscapePro"
-    ],
+    "author": 13,
     "title": "Aerate Your Lawn in Spring and Fall",
     "slug": "aerate-lawn-spring-fall",
     "category": "yard",
@@ -579,9 +533,7 @@
   "pk": 29,
   "fields": {
     "post_type": "question",
-    "author": [
-      "homeowner1"
-    ],
+    "author": 7,
     "title": "Best time to plant trees in Texas?",
     "slug": "best-time-plant-trees-texas",
     "category": "yard",
@@ -604,9 +556,7 @@
   "pk": 30,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "LandscapePro"
-    ],
+    "author": 13,
     "title": "Mulch Around Trees and Shrubs",
     "slug": "mulch-around-trees",
     "category": "yard",
@@ -629,9 +579,7 @@
   "pk": 31,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "SafetyInspector"
-    ],
+    "author": 14,
     "title": "Replace Smoke Detector Batteries Annually",
     "slug": "replace-smoke-detector-batteries",
     "category": "safety",
@@ -654,9 +602,7 @@
   "pk": 32,
   "fields": {
     "post_type": "question",
-    "author": [
-      "homeowner1"
-    ],
+    "author": 7,
     "title": "Do I need a carbon monoxide detector?",
     "slug": "need-carbon-monoxide-detector",
     "category": "safety",
@@ -679,9 +625,7 @@
   "pk": 33,
   "fields": {
     "post_type": "tip",
-    "author": [
-      "SafetyInspector"
-    ],
+    "author": 14,
     "title": "Keep Fire Extinguisher in Kitchen",
     "slug": "fire-extinguisher-kitchen",
     "category": "safety",
@@ -697,131 +641,6 @@
     "created_at": "2025-11-24T02:40:48.297Z",
     "updated_at": "2025-11-24T02:40:48.297Z",
     "upvotes": []
-  }
-},
-{
-  "model": "tips.blogpost",
-  "pk": 1,
-  "fields": {
-    "author": [
-      "HVAC1234"
-    ],
-    "title": "Complete Guide to HVAC Maintenance: Save Money and Extend System Life",
-    "slug": "complete-guide-hvac-maintenance",
-    "category": "hvac",
-    "excerpt": "Learn essential HVAC maintenance tasks that will save you thousands in repairs and keep your system running efficiently year-round.",
-    "content": "<h2>Introduction</h2>\n<p>Your HVAC system is one of the most important investments in your home. Proper maintenance can extend its life from 10-15 years to 20+ years while saving you money on energy bills and preventing costly repairs.</p>\n\n<h2>Monthly Maintenance Tasks</h2>\n<h3>1. Change Air Filters</h3>\n<p>This is the most important maintenance task. A dirty filter restricts airflow, making your system work harder and use more energy.</p>\n<ul>\n<li>Standard filters: every 30-90 days</li>\n<li>High-efficiency filters: every 60-90 days</li>\n<li>With pets or allergies: every 30 days</li>\n</ul>\n\n<h3>2. Check Thermostat Settings</h3>\n<p>Ensure your programmable thermostat is set correctly for the season. A properly programmed thermostat can save 10-30% on heating and cooling costs.</p>\n\n<h2>Seasonal Maintenance</h2>\n<h3>Spring (Cooling Season Prep)</h3>\n<ul>\n<li>Clean outdoor condenser coils</li>\n<li>Clear debris from around outdoor unit</li>\n<li>Test system before hot weather arrives</li>\n<li>Check refrigerant levels</li>\n</ul>\n\n<h3>Fall (Heating Season Prep)</h3>\n<ul>\n<li>Inspect heat exchanger</li>\n<li>Test furnace ignition system</li>\n<li>Lubricate blower motor</li>\n<li>Check carbon monoxide detectors</li>\n</ul>\n\n<h2>Warning Signs to Watch For</h2>\n<p>Call a professional immediately if you notice:</p>\n<ul>\n<li>Strange noises (grinding, squealing, banging)</li>\n<li>Weak airflow from vents</li>\n<li>Unusual odors</li>\n<li>System cycling on/off frequently</li>\n<li>Rising energy bills without explanation</li>\n</ul>\n\n<h2>Professional Maintenance</h2>\n<p>While DIY maintenance is important, professional service is essential. Schedule a tune-up twice per year - once in spring for AC and once in fall for heating.</p>\n\n<p><strong>What professionals check:</strong></p>\n<ul>\n<li>Electrical connections and voltage</li>\n<li>Refrigerant levels and leaks</li>\n<li>Condensate drain functionality</li>\n<li>System controls and safety devices</li>\n<li>Complete system performance</li>\n</ul>\n\n<h2>Conclusion</h2>\n<p>Regular HVAC maintenance is an investment that pays for itself many times over. By following these guidelines and working with a qualified professional, you can enjoy comfortable temperatures, clean air, and lower energy bills for years to come.</p>",
-    "featured_image": "",
-    "meta_description": "Essential HVAC maintenance guide with monthly and seasonal tasks to save money and extend your system lifespan.",
-    "tags": "HVAC, maintenance, energy savings, DIY, professional service",
-    "status": "approved",
-    "is_featured": true,
-    "moderation_notes": "",
-    "moderated_by": null,
-    "moderated_at": null,
-    "view_count": 2,
-    "created_at": "2025-11-24T02:51:05.724Z",
-    "updated_at": "2025-11-24T02:51:05.724Z",
-    "published_at": "2025-11-24T02:51:05.723Z",
-    "upvotes": []
-  }
-},
-{
-  "model": "tips.blogpost",
-  "pk": 2,
-  "fields": {
-    "author": [
-      "PlumbingPro"
-    ],
-    "title": "Preventing Plumbing Emergencies: A Homeowner's Preventive Maintenance Guide",
-    "slug": "preventing-plumbing-emergencies",
-    "category": "plumbing",
-    "excerpt": "Learn how to prevent the most common plumbing emergencies with simple maintenance tasks you can do yourself.",
-    "content": "<h2>Why Preventive Plumbing Maintenance Matters</h2>\n<p>Most plumbing emergencies are preventable with regular maintenance. A burst pipe or sewage backup can cause thousands in damage, but spending 30 minutes per month on preventive tasks can save you from disaster.</p>\n\n<h2>Monthly Plumbing Checklist</h2>\n<h3>1. Check for Leaks</h3>\n<p>Walk through your home monthly looking for signs of leaks:</p>\n<ul>\n<li>Water stains on ceilings or walls</li>\n<li>Dripping faucets or pipes</li>\n<li>Musty odors indicating hidden leaks</li>\n<li>Warped flooring or loose tiles</li>\n</ul>\n\n<h3>2. Test Water Pressure</h3>\n<p>Low water pressure can indicate hidden leaks or mineral buildup. High pressure can damage pipes and fixtures. Ideal pressure is 40-60 PSI.</p>\n\n<h3>3. Clean Drains</h3>\n<p>Pour boiling water down drains monthly to prevent buildup. For stubborn clogs, use a mixture of baking soda and vinegar followed by hot water.</p>\n\n<h2>Seasonal Tasks</h2>\n<h3>Winter Preparation</h3>\n<p>In Texas, we don't deal with freezing often, but when we do, it can be catastrophic:</p>\n<ul>\n<li>Insulate exposed pipes in attics and crawl spaces</li>\n<li>Disconnect and drain garden hoses</li>\n<li>Install faucet covers on outdoor spigots</li>\n<li>Know where your main shutoff valve is</li>\n<li>During freezes: let faucets drip and open cabinet doors</li>\n</ul>\n\n<h2>Annual Professional Inspections</h2>\n<p>Some tasks require professional expertise:</p>\n<ul>\n<li>Water heater flush and inspection</li>\n<li>Sewer line camera inspection (every 2-3 years)</li>\n<li>Complete plumbing system evaluation</li>\n</ul>\n\n<h2>Emergency Prevention: Know Your Main Shutoff</h2>\n<p>Every family member should know where the main water shutoff valve is and how to turn it off. In an emergency, shutting off water quickly can mean the difference between minor and major damage.</p>\n\n<p><strong>Test your shutoff valve annually</strong> to ensure it works. Valves that sit unused for years can seize up.</p>\n\n<h2>Conclusion</h2>\n<p>Plumbing emergencies are stressful and expensive, but most are preventable. By dedicating a small amount of time to preventive maintenance, you protect your home and your wallet.</p>",
-    "featured_image": "",
-    "meta_description": "Prevent costly plumbing emergencies with this comprehensive preventive maintenance guide for homeowners.",
-    "tags": "plumbing, maintenance, leak prevention, emergency prevention, winter prep",
-    "status": "approved",
-    "is_featured": false,
-    "moderation_notes": "",
-    "moderated_by": null,
-    "moderated_at": null,
-    "view_count": 0,
-    "created_at": "2025-11-24T02:51:10.408Z",
-    "updated_at": "2025-11-24T02:51:10.408Z",
-    "published_at": "2025-11-24T02:51:05.723Z",
-    "upvotes": []
-  }
-},
-{
-  "model": "tips.blogpost",
-  "pk": 3,
-  "fields": {
-    "author": [
-      "ElectricianExpert"
-    ],
-    "title": "Home Electrical Safety: Essential Tips Every Homeowner Should Know",
-    "slug": "home-electrical-safety-tips",
-    "category": "electrical",
-    "excerpt": "Protect your family and home with these essential electrical safety practices. Learn what to watch for and when to call a professional.",
-    "content": "<h2>Why Electrical Safety Matters</h2>\n<p>Electrical issues cause over 50,000 home fires annually in the United States. Many of these fires are preventable with proper maintenance and awareness of warning signs.</p>\n\n<h2>Monthly Safety Checks</h2>\n<h3>1. Test GFCI Outlets</h3>\n<p>Ground Fault Circuit Interrupter (GFCI) outlets protect you from electrical shock in wet areas like bathrooms, kitchens, and outdoor spaces.</p>\n<ul>\n<li>Press the TEST button - outlet should shut off power</li>\n<li>Press RESET to restore power</li>\n<li>If it doesn't trip or won't reset, call an electrician immediately</li>\n</ul>\n\n<h3>2. Inspect Electrical Cords</h3>\n<p>Look for signs of damage:</p>\n<ul>\n<li>Frayed or exposed wires</li>\n<li>Cracked insulation</li>\n<li>Warm or hot plugs</li>\n<li>Discolored outlets</li>\n</ul>\n\n<h2>Warning Signs of Electrical Problems</h2>\n<p>Call a licensed electrician if you notice:</p>\n<ul>\n<li><strong>Flickering lights:</strong> Could indicate loose wiring or overloaded circuits</li>\n<li><strong>Burning smell:</strong> TURN OFF POWER immediately and call an electrician</li>\n<li><strong>Hot outlets or switches:</strong> Sign of dangerous electrical problem</li>\n<li><strong>Frequent circuit breaker trips:</strong> Circuit is overloaded or there's a short</li>\n<li><strong>Buzzing sounds:</strong> Loose connections or faulty wiring</li>\n<li><strong>Sparks from outlets:</strong> Serious safety hazard</li>\n</ul>\n\n<h2>Safe Electrical Practices</h2>\n<h3>Extension Cord Safety</h3>\n<ul>\n<li>Never daisy-chain multiple extension cords</li>\n<li>Don't run cords under rugs or through doorways</li>\n<li>Use outdoor-rated cords outside</li>\n<li>Replace damaged cords immediately</li>\n<li>Extension cords are temporary - install proper outlets if needed</li>\n</ul>\n\n<h3>Outlet Safety</h3>\n<ul>\n<li>Don't overload outlets with too many devices</li>\n<li>Use surge protectors for electronics</li>\n<li>Install tamper-resistant outlets in homes with children</li>\n<li>Replace two-prong outlets with grounded three-prong</li>\n</ul>\n\n<h2>When to DIY vs. Call a Pro</h2>\n<h3>DIY Tasks:</h3>\n<ul>\n<li>Testing GFCI outlets</li>\n<li>Replacing light bulbs</li>\n<li>Resetting tripped breakers</li>\n</ul>\n\n<h3>Call a Licensed Electrician:</h3>\n<ul>\n<li>Installing new outlets or switches</li>\n<li>Upgrading electrical panels</li>\n<li>Running new circuits</li>\n<li>Any work inside electrical panels</li>\n<li>Troubleshooting electrical problems</li>\n</ul>\n\n<h2>Emergency Response</h2>\n<p><strong>If you see sparks, smell burning, or suspect an electrical fire:</strong></p>\n<ol>\n<li>Turn off power at the breaker if safe to do so</li>\n<li>Evacuate everyone from the house</li>\n<li>Call 911</li>\n<li>NEVER use water on an electrical fire</li>\n</ol>\n\n<h2>Conclusion</h2>\n<p>Electrical safety isn't something to take lightly. By following these guidelines and addressing issues promptly, you protect your family and home. When in doubt, always call a licensed electrician - it's not worth the risk.</p>",
-    "featured_image": "",
-    "meta_description": "Essential home electrical safety tips every homeowner should know to protect their family and prevent fires.",
-    "tags": "electrical safety, fire prevention, home safety, DIY safety, GFCI",
-    "status": "approved",
-    "is_featured": false,
-    "moderation_notes": "",
-    "moderated_by": null,
-    "moderated_at": null,
-    "view_count": 1,
-    "created_at": "2025-11-24T02:53:15.976Z",
-    "updated_at": "2025-11-24T02:53:15.976Z",
-    "published_at": "2025-11-24T02:53:15.975Z",
-    "upvotes": []
-  }
-},
-{
-  "model": "tips.blogpost",
-  "pk": 4,
-  "fields": {
-    "author": [
-      "SafetyInspector"
-    ],
-    "title": "10 Home Safety Devices Every Homestead Should Have",
-    "slug": "10-essential-home-safety-devices",
-    "category": "safety",
-    "excerpt": "From smoke detectors to carbon monoxide alarms, discover the life-saving devices that should be in every home.",
-    "content": "<h2>Introduction</h2>\n<p>Home safety devices are your first line of defense against accidents, fires, and other emergencies. Here are the 10 essential safety devices every home should have.</p>\n\n<h2>1. Smoke Detectors</h2>\n<p><strong>Where to install:</strong> Every bedroom, outside sleeping areas, every level of home, basement</p>\n<p><strong>Maintenance:</strong></p>\n<ul>\n<li>Test monthly</li>\n<li>Replace batteries annually</li>\n<li>Replace entire unit every 10 years</li>\n<li>Clean regularly with vacuum</li>\n</ul>\n\n<h2>2. Carbon Monoxide Detectors</h2>\n<p><strong>Essential if you have:</strong> Gas furnace, water heater, stove, fireplace, or attached garage</p>\n<p><strong>Where to install:</strong> Outside bedrooms, each floor, near sleeping areas</p>\n<p><strong>Why critical:</strong> CO is odorless and deadly - this device can save your life</p>\n\n<h2>3. Fire Extinguishers</h2>\n<p><strong>Recommended locations:</strong></p>\n<ul>\n<li>Kitchen (Class ABC)</li>\n<li>Garage/workshop</li>\n<li>Near fireplace</li>\n<li>Upper floors</li>\n</ul>\n<p><strong>Remember PASS:</strong> Pull, Aim, Squeeze, Sweep</p>\n\n<h2>4. First Aid Kit</h2>\n<p><strong>Must-have items:</strong></p>\n<ul>\n<li>Bandages (various sizes)</li>\n<li>Gauze and tape</li>\n<li>Antibiotic ointment</li>\n<li>Pain relievers</li>\n<li>Thermometer</li>\n<li>Tweezers and scissors</li>\n<li>Emergency contacts list</li>\n</ul>\n\n<h2>5. Flashlights and Emergency Lighting</h2>\n<p><strong>Power outage preparedness:</strong></p>\n<ul>\n<li>Flashlight in every bedroom</li>\n<li>Emergency lighting near exits</li>\n<li>Fresh batteries or rechargeable options</li>\n<li>Battery-powered or hand-crank radio</li>\n</ul>\n\n<h2>6. Ladder Safety Equipment</h2>\n<p>If you use ladders for maintenance:</p>\n<ul>\n<li>Proper ladder for height needed</li>\n<li>Non-slip shoes</li>\n<li>Safety harness for roof work</li>\n<li>Ladder stabilizers</li>\n</ul>\n\n<h2>7. Automatic Shutoff Devices</h2>\n<p><strong>Gas shutoff valve:</strong> Seismic shutoff valves for earthquake-prone areas</p>\n<p><strong>Water leak detectors:</strong> Place near water heaters, washing machines, sinks</p>\n<p><strong>Smart shutoffs:</strong> Can save thousands in water damage</p>\n\n<h2>8. Door and Window Security</h2>\n<ul>\n<li>Deadbolt locks on exterior doors</li>\n<li>Security bars or locks on ground-floor windows</li>\n<li>Peepholes or security cameras at entry points</li>\n<li>Motion-sensor lighting</li>\n</ul>\n\n<h2>9. Emergency Escape Ladder</h2>\n<p>For homes with upper floors:</p>\n<ul>\n<li>Collapsible escape ladder for bedrooms</li>\n<li>Practice using it with family</li>\n<li>Store near window</li>\n<li>Ensure everyone knows location</li>\n</ul>\n\n<h2>10. Emergency Supply Kit</h2>\n<p><strong>3-day supply minimum:</strong></p>\n<ul>\n<li>Water (1 gallon per person per day)</li>\n<li>Non-perishable food</li>\n<li>Medications</li>\n<li>Important documents (copies)</li>\n<li>Cash</li>\n<li>Phone chargers and batteries</li>\n<li>Pet supplies if applicable</li>\n</ul>\n\n<h2>Creating a Family Emergency Plan</h2>\n<p>Having devices is important, but so is having a plan:</p>\n<ol>\n<li>Establish meeting points outside home</li>\n<li>Practice fire drills twice annually</li>\n<li>Assign emergency tasks to family members</li>\n<li>Keep emergency contacts accessible</li>\n<li>Review and update plan annually</li>\n</ol>\n\n<h2>Conclusion</h2>\n<p>These safety devices and practices can mean the difference between a minor incident and a tragedy. Invest in your family's safety - you'll sleep better knowing you're prepared.</p>",
-    "featured_image": "",
-    "meta_description": "Comprehensive guide to 10 essential home safety devices every homestead should have to protect family and property.",
-    "tags": "home safety, fire safety, emergency preparedness, safety devices, family safety",
-    "status": "approved",
-    "is_featured": true,
-    "moderation_notes": "",
-    "moderated_by": null,
-    "moderated_at": null,
-    "view_count": 6,
-    "created_at": "2025-11-24T02:53:15.987Z",
-    "updated_at": "2025-11-24T02:53:15.987Z",
-    "published_at": "2025-11-24T02:53:15.975Z",
-    "upvotes": [
-      [
-        "alelawso3"
-      ]
-    ]
-  }
-},
-{
-  "model": "tips.blogcomment",
-  "pk": 1,
-  "fields": {
-    "blog_post": 4,
-    "author": [
-      "alelawso3"
-    ],
-    "content": "Love this!!",
-    "created_at": "2025-11-24T03:11:34.023Z",
-    "updated_at": "2025-11-24T03:11:34.023Z"
   }
 }
 ]

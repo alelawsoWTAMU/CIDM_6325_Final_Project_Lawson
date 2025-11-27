@@ -1,0 +1,223 @@
+[
+{
+  "model": "maintenance.scheduletaskcustomization",
+  "pk": 1,
+  "fields": {
+    "schedule": 57,
+    "task": 30,
+    "custom_description": "",
+    "custom_instructions": "",
+    "custom_notes": "",
+    "created_at": "2025-11-27T03:37:51.525Z",
+    "updated_at": "2025-11-27T03:37:51.525Z"
+  }
+},
+{
+  "model": "maintenance.scheduletaskcustomization",
+  "pk": 2,
+  "fields": {
+    "schedule": 57,
+    "task": 40,
+    "custom_description": "",
+    "custom_instructions": "",
+    "custom_notes": "",
+    "created_at": "2025-11-27T03:37:51.568Z",
+    "updated_at": "2025-11-27T03:37:51.568Z"
+  }
+},
+{
+  "model": "maintenance.scheduletaskcustomization",
+  "pk": 3,
+  "fields": {
+    "schedule": 57,
+    "task": 46,
+    "custom_description": "",
+    "custom_instructions": "",
+    "custom_notes": "",
+    "created_at": "2025-11-27T03:37:51.589Z",
+    "updated_at": "2025-11-27T03:37:51.589Z"
+  }
+},
+{
+  "model": "maintenance.scheduletaskcustomization",
+  "pk": 4,
+  "fields": {
+    "schedule": 57,
+    "task": 24,
+    "custom_description": "",
+    "custom_instructions": "",
+    "custom_notes": "",
+    "created_at": "2025-11-27T03:37:51.612Z",
+    "updated_at": "2025-11-27T03:37:51.612Z"
+  }
+},
+{
+  "model": "maintenance.scheduletaskcustomization",
+  "pk": 5,
+  "fields": {
+    "schedule": 57,
+    "task": 27,
+    "custom_description": "",
+    "custom_instructions": "",
+    "custom_notes": "",
+    "created_at": "2025-11-27T03:37:51.632Z",
+    "updated_at": "2025-11-27T03:37:51.632Z"
+  }
+},
+{
+  "model": "maintenance.scheduletaskcustomization",
+  "pk": 6,
+  "fields": {
+    "schedule": 57,
+    "task": 10,
+    "custom_description": "",
+    "custom_instructions": "",
+    "custom_notes": "",
+    "created_at": "2025-11-27T03:37:51.653Z",
+    "updated_at": "2025-11-27T03:37:51.653Z"
+  }
+},
+{
+  "model": "maintenance.scheduletaskcustomization",
+  "pk": 7,
+  "fields": {
+    "schedule": 55,
+    "task": 31,
+    "custom_description": "",
+    "custom_instructions": "",
+    "custom_notes": "",
+    "created_at": "2025-11-27T03:37:56.208Z",
+    "updated_at": "2025-11-27T03:37:56.208Z"
+  }
+},
+{
+  "model": "maintenance.scheduletaskcustomization",
+  "pk": 8,
+  "fields": {
+    "schedule": 55,
+    "task": 32,
+    "custom_description": "",
+    "custom_instructions": "",
+    "custom_notes": "",
+    "created_at": "2025-11-27T03:37:56.244Z",
+    "updated_at": "2025-11-27T03:37:56.244Z"
+  }
+},
+{
+  "model": "maintenance.scheduletaskcustomization",
+  "pk": 9,
+  "fields": {
+    "schedule": 55,
+    "task": 38,
+    "custom_description": "",
+    "custom_instructions": "",
+    "custom_notes": "",
+    "created_at": "2025-11-27T03:37:56.273Z",
+    "updated_at": "2025-11-27T03:37:56.273Z"
+  }
+},
+{
+  "model": "maintenance.scheduletaskcustomization",
+  "pk": 10,
+  "fields": {
+    "schedule": 55,
+    "task": 39,
+    "custom_description": "",
+    "custom_instructions": "",
+    "custom_notes": "",
+    "created_at": "2025-11-27T03:37:56.296Z",
+    "updated_at": "2025-11-27T03:37:56.296Z"
+  }
+},
+{
+  "model": "maintenance.scheduletaskcustomization",
+  "pk": 11,
+  "fields": {
+    "schedule": 55,
+    "task": 5,
+    "custom_description": "",
+    "custom_instructions": "",
+    "custom_notes": "",
+    "created_at": "2025-11-27T03:37:56.325Z",
+    "updated_at": "2025-11-27T03:37:56.325Z"
+  }
+},
+{
+  "model": "maintenance.scheduletaskcustomization",
+  "pk": 12,
+  "fields": {
+    "schedule": 55,
+    "task": 1,
+    "custom_description": "",
+    "custom_instructions": "",
+    "custom_notes": "",
+    "created_at": "2025-11-27T03:37:56.351Z",
+    "updated_at": "2025-11-27T03:37:56.351Z"
+  }
+},
+{
+  "model": "maintenance.scheduletaskcustomization",
+  "pk": 13,
+  "fields": {
+    "schedule": 55,
+    "task": 21,
+    "custom_description": "",
+    "custom_instructions": "",
+    "custom_notes": "",
+    "created_at": "2025-11-27T03:37:56.376Z",
+    "updated_at": "2025-11-27T03:37:56.376Z"
+  }
+},
+{
+  "model": "maintenance.scheduletaskcustomization",
+  "pk": 14,
+  "fields": {
+    "schedule": 55,
+    "task": 55,
+    "custom_description": "",
+    "custom_instructions": "",
+    "custom_notes": "",
+    "created_at": "2025-11-27T03:37:56.404Z",
+    "updated_at": "2025-11-27T03:37:56.404Z"
+  }
+},
+{
+  "model": "maintenance.scheduletaskcustomization",
+  "pk": 15,
+  "fields": {
+    "schedule": 55,
+    "task": 36,
+    "custom_description": "",
+    "custom_instructions": "",
+    "custom_notes": "",
+    "created_at": "2025-11-27T03:37:56.432Z",
+    "updated_at": "2025-11-27T03:37:56.433Z"
+  }
+},
+{
+  "model": "maintenance.scheduletaskcustomization",
+  "pk": 16,
+  "fields": {
+    "schedule": 55,
+    "task": 17,
+    "custom_description": "",
+    "custom_instructions": "",
+    "custom_notes": "",
+    "created_at": "2025-11-27T03:37:56.463Z",
+    "updated_at": "2025-11-27T03:37:56.463Z"
+  }
+},
+{
+  "model": "maintenance.scheduletaskcustomization",
+  "pk": 17,
+  "fields": {
+    "schedule": 55,
+    "task": 3,
+    "custom_description": "",
+    "custom_instructions": "",
+    "custom_notes": "",
+    "created_at": "2025-11-27T03:37:56.488Z",
+    "updated_at": "2025-11-27T03:37:56.488Z"
+  }
+}
+]

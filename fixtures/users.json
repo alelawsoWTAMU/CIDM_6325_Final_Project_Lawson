@@ -21,6 +21,7 @@
     "expertise_areas": "",
     "email_notifications": true,
     "newsletter_subscription": false,
+    "schedule_preferences": {},
     "profile_updated_at": "2025-11-23T16:33:55.151Z",
     "groups": [],
     "user_permissions": []
@@ -48,6 +49,7 @@
     "expertise_areas": "",
     "email_notifications": true,
     "newsletter_subscription": false,
+    "schedule_preferences": {},
     "profile_updated_at": "2025-11-24T00:59:41.567Z",
     "groups": [],
     "user_permissions": []
@@ -75,6 +77,7 @@
     "expertise_areas": "",
     "email_notifications": true,
     "newsletter_subscription": false,
+    "schedule_preferences": {},
     "profile_updated_at": "2025-11-24T01:21:32.406Z",
     "groups": [],
     "user_permissions": []
@@ -102,6 +105,7 @@
     "expertise_areas": "",
     "email_notifications": true,
     "newsletter_subscription": false,
+    "schedule_preferences": {},
     "profile_updated_at": "2025-11-24T01:52:09.428Z",
     "groups": [],
     "user_permissions": []
@@ -129,6 +133,7 @@
     "expertise_areas": "",
     "email_notifications": true,
     "newsletter_subscription": false,
+    "schedule_preferences": {},
     "profile_updated_at": "2025-11-24T02:30:48.521Z",
     "groups": [],
     "user_permissions": []
@@ -156,6 +161,7 @@
     "expertise_areas": "",
     "email_notifications": true,
     "newsletter_subscription": false,
+    "schedule_preferences": {},
     "profile_updated_at": "2025-11-24T02:36:41.719Z",
     "groups": [],
     "user_permissions": []
@@ -183,6 +189,7 @@
     "expertise_areas": "",
     "email_notifications": true,
     "newsletter_subscription": false,
+    "schedule_preferences": {},
     "profile_updated_at": "2025-11-24T02:36:42.105Z",
     "groups": [],
     "user_permissions": []
@@ -210,6 +217,7 @@
     "expertise_areas": "",
     "email_notifications": true,
     "newsletter_subscription": false,
+    "schedule_preferences": {},
     "profile_updated_at": "2025-11-24T02:36:42.513Z",
     "groups": [],
     "user_permissions": []
@@ -237,6 +245,7 @@
     "expertise_areas": "",
     "email_notifications": true,
     "newsletter_subscription": false,
+    "schedule_preferences": {},
     "profile_updated_at": "2025-11-24T02:36:42.950Z",
     "groups": [],
     "user_permissions": []
@@ -264,6 +273,7 @@
     "expertise_areas": "",
     "email_notifications": true,
     "newsletter_subscription": false,
+    "schedule_preferences": {},
     "profile_updated_at": "2025-11-24T02:36:43.365Z",
     "groups": [],
     "user_permissions": []
@@ -291,6 +301,7 @@
     "expertise_areas": "",
     "email_notifications": true,
     "newsletter_subscription": false,
+    "schedule_preferences": {},
     "profile_updated_at": "2025-11-24T02:36:43.802Z",
     "groups": [],
     "user_permissions": []
@@ -318,6 +329,7 @@
     "expertise_areas": "",
     "email_notifications": true,
     "newsletter_subscription": false,
+    "schedule_preferences": {},
     "profile_updated_at": "2025-11-24T02:36:44.333Z",
     "groups": [],
     "user_permissions": []
