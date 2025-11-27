@@ -14,6 +14,7 @@ python manage.py dumpdata maintenance.Schedule --indent 2 --output fixtures/sche
 python manage.py dumpdata maintenance.ScheduleTaskCustomization --indent 2 --output fixtures/schedule_customizations.json
 python manage.py dumpdata maintenance.ScheduleTaskCompletion --indent 2 --output fixtures/task_completions.json
 python manage.py dumpdata tips.LocalTip --indent 2 --output fixtures/tips.json
+python manage.py dumpdata tips.BlogPost --indent 2 --output fixtures/blog_posts.json
 
 echo "✅ Data exported to fixtures/ directory"
 echo "To load on production:"
@@ -26,3 +27,4 @@ echo "  python manage.py loaddata fixtures/schedules.json"
 echo "  python manage.py loaddata fixtures/schedule_customizations.json"
 echo "  python manage.py loaddata fixtures/task_completions.json"
 echo "  python manage.py loaddata fixtures/tips.json"
+echo "  python manage.py loaddata fixtures/blog_posts.json"

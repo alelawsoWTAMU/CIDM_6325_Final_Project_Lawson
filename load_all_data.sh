@@ -40,8 +40,11 @@ python manage.py loaddata fixtures/schedule_customizations.json || echo "⚠️ 
 echo "8/9 Loading task completions..."
 python manage.py loaddata fixtures/task_completions.json || echo "⚠️  Skipped completions (empty or error)"
 
-echo "9/9 Loading tips..."
+echo "9/10 Loading tips..."
 python manage.py loaddata fixtures/tips.json || echo "⚠️  Skipped tips (empty or error)"
+
+echo "10/10 Loading blog posts..."
+python manage.py loaddata fixtures/blog_posts.json || echo "⚠️  Skipped blog posts (empty or error)"
 
 echo ""
 echo "✅ All fixtures loaded successfully!"
