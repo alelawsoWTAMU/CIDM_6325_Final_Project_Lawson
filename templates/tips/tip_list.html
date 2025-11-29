@@ -75,7 +75,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <p>{{ tip.content|truncatewords:30 }}</p>
+                            <p>{{ tip.content|striptags|truncatewords:30 }}</p>
                             <div class="mb-2">
                                 <span class="badge bg-secondary">{{ tip.get_category_display }}</span>
                                 <span class="badge bg-light text-dark"><i class="bi bi-geo-alt"></i> {{ tip.location }}</span>
