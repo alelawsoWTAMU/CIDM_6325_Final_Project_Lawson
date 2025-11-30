@@ -1,4 +1,4 @@
-# Homestead Compass
+"/c/Users/a13152/OneDrive - Cleveland-Cliffs Inc/Desktop/Final_Project" && git add -A && git commit -m "docs: cleanup README and remove duplicate content" && git push homestead Final_Project# Homestead Compass
 
 A Django web application designed to help first-time homeowners adopt a proactive approach to home maintenance through personalized schedules, step-by-step task guides, and community-driven local knowledge sharing.
 
@@ -314,6 +314,78 @@ Extended user model with:
 ```
 
 ## Usage Guide
+
+### User Roles
+
+Homestead Compass supports three distinct user roles, each with specific capabilities and permissions:
+
+#### 🏠 Homeowners
+**Core Capabilities:**
+- Create and manage multiple home profiles
+- Complete 3-step onboarding wizard (basic info, features/systems, appliances)
+- Generate personalized maintenance schedules using intelligent algorithm
+- View and complete maintenance tasks with step-by-step instructions
+- Track maintenance history and completion records
+- Browse community tips filtered by location and category
+- Upvote helpful tips and comment on posts
+- **Ask questions** to the community (post_type: 'question')
+- View expert blog articles
+
+**Restrictions:**
+- Cannot create expert tips (post_type: 'tip')
+- Cannot write blog posts
+- Cannot access admin interface
+- Can only edit their own homes, schedules, and content
+
+#### 🔧 Verified Experts
+**All Homeowner Capabilities PLUS:**
+- **Share expert tips** with the community (post_type: 'tip')
+- **Write long-form blog articles** with rich text editor (CKEditor)
+- Upload featured images for blog posts
+- Answer homeowner questions with expertise
+- Display verified expert badge on profile and posts
+- Build reputation through upvotes and engagement metrics
+
+**Verification Process:**
+1. Register as standard user
+2. Apply for expert status via profile page
+3. Provide credentials (trade/specialty, location, years of experience)
+4. Admin reviews and approves/rejects application
+5. Approved experts receive verified badge and expanded permissions
+
+**Restrictions:**
+- Cannot access admin interface
+- Cannot moderate other users' content
+- Blog posts require admin approval before publication
+
+#### 👨‍💼 Administrators
+**All Expert Capabilities PLUS:**
+- Access Django admin interface at `/admin/`
+- **Moderate community content:**
+  - Approve/reject/flag community tips
+  - Approve/reject/flag blog posts
+  - Bulk actions for efficient moderation
+  - View moderation history and notes
+- **Manage users:**
+  - Verify expert credentials (approve/reject applications)
+  - Edit user profiles and permissions
+  - Grant/revoke staff and superuser status
+- **Manage maintenance tasks:**
+  - Create/edit/delete task templates
+  - Set applicability rules (home age, features)
+  - Configure seasonal priorities and difficulty levels
+- **Monitor system:**
+  - View engagement metrics (views, upvotes, comments)
+  - Feature exceptional content on homepage
+  - Review user reports and flagged content
+  - Export data to fixtures
+
+**Full Permissions:**
+- Create, read, update, delete all content
+- Bypass approval workflows
+- Access all administrative functions
+
+### Quick Start by Role
 
 **For Homeowners:**
 1. Register and complete the 3-step home onboarding wizard
