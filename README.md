@@ -1,4 +1,4 @@
-# Django Blog Project - Module 5 - Alexander Lawson
+# Django Blog Project Module 3 RETRY - Alexander Lawson
 
 ## Description
 A Django blog application featuring enhanced Django Admin with custom actions and business workflows, user authentication with registration and role-based permissions, media file handling for featured images, Class-Based Views (CBVs) for CRUD operations, HTMX-powered live search, multi-model architecture (Posts and Comments), comprehensive form validation, and WCAG 2.2 accessibility compliance. Module 5 adds administrative enhancements, complete authentication system, and image upload capabilities to the CBV architecture established in Module 4.
