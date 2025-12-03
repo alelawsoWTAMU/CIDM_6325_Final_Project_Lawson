@@ -1,0 +1,80 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Login</h2>
+                </div>
+                <div class="card-body">
+                    {% if form.errors %}
+                        <div class="alert alert-danger" role="alert" aria-live="polite">
+                            <p><strong>Error:</strong> Your username and password didn't match. Please try again.</p>
+                        </div>
+                    {% endif %}
+
+                    {% if next %}
+                        {% if user.is_authenticated %}
+                            <div class="alert alert-warning" role="alert">
+                                Your account doesn't have access to this page. To proceed,
+                                please login with an account that has access.
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info" role="alert">
+                                Please login to see this page.
+                            </div>
+                        {% endif %}
+                    {% endif %}
+
+                    <form method="post" action="{% url 'login' %}" aria-label="Login form">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="id_username" class="form-label">Username</label>
+                            <input type="text" 
+                                   name="username" 
+                                   id="id_username" 
+                                   class="form-control" 
+                                   required 
+                                   autofocus
+                                   aria-required="true"
+                                   aria-describedby="username-help">
+                            <small id="username-help" class="form-text text-muted">
+                                Enter your username
+                            </small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_password" class="form-label">Password</label>
+                            <input type="password" 
+                                   name="password" 
+                                   id="id_password" 
+                                   class="form-control" 
+                                   required
+                                   aria-required="true"
+                                   aria-describedby="password-help">
+                            <small id="password-help" class="form-text text-muted">
+                                Enter your password
+                            </small>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+                        
+                        <input type="hidden" name="next" value="{{ next }}" />
+                    </form>
+                </div>
+            </div>
+            
+            <div class="mt-3 text-center">
+                <a href="{% url 'blog:post_list' %}" class="btn btn-link">Back to Blog</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

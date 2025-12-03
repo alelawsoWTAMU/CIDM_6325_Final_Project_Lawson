@@ -1,0 +1,41 @@
+{% if posts %}
+    <div class="list-group">
+        {% for post in posts %}
+            <div class="list-group-item mb-4 p-0 border-0" id="post-{{ post.pk }}">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            <a href="{% url 'blog:post_detail' post.pk %}" class="text-decoration-none text-primary">
+                                {{ post.title }}
+                            </a>
+                        </h3>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            <strong>By:</strong> {{ post.author.username }} |
+                            <strong>Published:</strong> {{ post.date_created|date:"F j, Y" }}
+                        </h6>
+                        <div class="card-text mb-2">
+                            {{ post.content|truncatewords:50|linebreaks }}
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'blog:post_detail' post.pk %}" class="btn btn-primary btn-sm">Read more →</a>
+                            {% if user.is_authenticated %}
+                                {% if user == post.author or user.is_superuser %}
+                                    <a href="{% url 'blog:post_update' post.pk %}" 
+                                       class="btn btn-warning btn-sm"
+                                       hx-get="{% url 'blog:post_update' post.pk %}"
+                                       hx-target="#post-{{ post.pk }}"
+                                       hx-swap="outerHTML">Edit</a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <section class="alert alert-info" role="alert">
+        <h3>No blog posts found</h3>
+        <p>There are no posts matching your search. Try a different search term.</p>
+    </section>
+{% endif %}
