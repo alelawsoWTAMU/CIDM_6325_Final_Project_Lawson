@@ -1,4 +1,4 @@
-# Django Blog Project - Module 4 CBV Implementation - Alexander Lawson
+# Django Blog Project Module 3 RETRY - Alexander Lawson
 
 ## Description
 A Django blog application featuring Class-Based Views (CBVs) for CRUD operations, user authentication with role-based permissions, HTMX-powered live search, multi-model architecture (Posts and Comments), comprehensive form validation, and WCAG 2.2 accessibility compliance. Module 4 refactored all CRUD operations from Function-Based Views to CBVs while maintaining 100% feature parity with Module 3.
