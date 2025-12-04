@@ -3,17 +3,35 @@ from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+from django.contrib import messages
 from django.db.models import Q
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
 
 
-class PostListView(ListView):
+def register(request):
+    """User registration view with custom success message."""
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, f'Welcome {user.username}! Your account has been created.')
+            return redirect('blog:post_list')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/register.html', {'form': form})
+
+
+class PostListView(LoginRequiredMixin, ListView):
     model = Post
     template_name = 'blog/post_list.html'
     context_object_name = 'posts'
 
 
+@login_required
 def search_posts(request):
     query = request.GET.get('search', '')
     posts = Post.objects.all()
@@ -28,7 +46,7 @@ def search_posts(request):
     return render(request, 'blog/partials/post_list_content.html', {'posts': posts})
 
 
-class PostDetailView(DetailView):
+class PostDetailView(LoginRequiredMixin, DetailView):
     model = Post
     template_name = 'blog/blog_detail.html'
     context_object_name = 'post'

@@ -1,4 +1,3 @@
-
 {% extends 'blog/base.html' %}
 
 {% block title %}{{ post.title }} - Blog{% endblock %}
@@ -17,6 +16,12 @@
         
         <hr>
         
+        {% if post.featured_image %}
+        <div class="mb-3">
+            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="img-fluid rounded shadow">
+        </div>
+        {% endif %}
+        
         <div class="card card-body mb-3">
             {{ post.content|linebreaks }}
         </div>
@@ -25,8 +30,10 @@
         
         <div class="d-flex gap-2">
             <a href="{% url 'blog:post_list' %}" class="btn btn-secondary btn-sm">← Back to all posts</a>
-            <a href="{% url 'blog:post_update' post.pk %}" class="btn btn-warning btn-sm">Edit Post</a>
-            <a href="{% url 'blog:post_delete' post.pk %}" class="btn btn-danger btn-sm">Delete Post</a>
+            {% if user.is_authenticated and user == post.author or user.is_superuser %}
+                <a href="{% url 'blog:post_update' post.pk %}" class="btn btn-warning btn-sm">Edit Post</a>
+                <a href="{% url 'blog:post_delete' post.pk %}" class="btn btn-danger btn-sm">Delete Post</a>
+            {% endif %}
         </div>
     </article>
 {% endblock %}

@@ -6,7 +6,7 @@
 
 {% block content %}
     <h1>{% if post %}Edit Post{% else %}Create New Post{% endif %}</h1>
-    <form method="post" action="" novalidate aria-label="Post form">
+    <form method="post" action="" enctype="multipart/form-data" novalidate aria-label="Post form">
         {% csrf_token %}
         {% if form.non_field_errors %}
             <div class="alert alert-danger" role="alert" aria-live="polite">
@@ -66,10 +66,64 @@
             {% endif %}
         </div>
         <div class="mb-3">
+            <label for="{{ form.featured_image.id_for_label }}" class="form-label">{{ form.featured_image.label }}</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="file-chosen" value="No file chosen" readonly>
+                <button class="btn btn-outline-secondary" type="button" id="choose-file-btn">
+                    <i class="bi bi-folder2-open"></i> Browse...
+                </button>
+            </div>
+            {{ form.featured_image|add_class:"d-none" }}
+            {% if form.featured_image.help_text %}
+                <div class="form-text">{{ form.featured_image.help_text }}</div>
+            {% endif %}
+            {% if form.featured_image.errors %}
+                <div class="text-danger" role="alert" aria-live="polite">
+                    <ul class="mb-0">
+                        {% for error in form.featured_image.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            {% if post.featured_image %}
+                <div class="mt-2">
+                    <small class="text-muted">Current image:</small><br>
+                    <img src="{{ post.featured_image.url }}" alt="Current featured image" class="img-thumbnail mt-1" style="max-width: 200px;">
+                </div>
+            {% endif %}
+        </div>
+        <div class="mb-3">
             <button type="submit" class="btn btn-primary">{% if post %}Update Post{% else %}Create Post{% endif %}</button>
             <a href="{% url 'blog:post_list' %}" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
+
+    <!-- Bootstrap Icons for folder icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    <!-- File input custom handler -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('{{ form.featured_image.id_for_label }}');
+            const fileChosen = document.getElementById('file-chosen');
+            const chooseFileBtn = document.getElementById('choose-file-btn');
+
+            // Click the hidden file input when the button is clicked
+            chooseFileBtn.addEventListener('click', function() {
+                fileInput.click();
+            });
+
+            // Update the display when a file is selected
+            fileInput.addEventListener('change', function() {
+                if (this.files && this.files.length > 0) {
+                    fileChosen.value = this.files[0].name;
+                } else {
+                    fileChosen.value = 'No file chosen';
+                }
+            });
+        });
+    </script>
 
     <!-- EasyMDE Markdown Editor integration -->
     <!-- Font Awesome for EasyMDE toolbar icons -->

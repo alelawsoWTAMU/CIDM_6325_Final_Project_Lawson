@@ -1,7 +1,7 @@
 # Django Blog Project Module 3 RETRY - Alexander Lawson
 
 ## Description
-A Django blog application featuring Class-Based Views (CBVs) for CRUD operations, user authentication with role-based permissions, HTMX-powered live search, multi-model architecture (Posts and Comments), comprehensive form validation, and WCAG 2.2 accessibility compliance. Module 4 refactored all CRUD operations from Function-Based Views to CBVs while maintaining 100% feature parity with Module 3.
+A Django blog application featuring enhanced Django Admin with custom actions and business workflows, user authentication with registration and role-based permissions, media file handling for featured images, Class-Based Views (CBVs) for CRUD operations, HTMX-powered live search, multi-model architecture (Posts and Comments), comprehensive form validation, and WCAG 2.2 accessibility compliance. Module 5 adds administrative enhancements, complete authentication system, and image upload capabilities to the CBV architecture established in Module 4.
 
 ## Project Structure
 
@@ -38,12 +38,14 @@ Module 3/
 │   │   ├── ADR/
 │   │   │   ├── ADR-001 (Basic Blog FBV)
 │   │   │   ├── ADR-003 (Auth, HTMX, Multi-Model)
-│   │   │   └── ADR-004 (CBV Refactoring)
+│   │   │   ├── ADR-004 (CBV Refactoring)
+│   │   │   └── ADR-005 (Django Admin, Auth, Media)
 │   │   ├── briefs/
 │   │   │   ├── COPILOT-BRIEF-module3_11202025.md
-│   │   │   └── COPILOT-BRIEF-module4_11202025.md
+│   │   │   ├── COPILOT-BRIEF-module4_11202025.md
+│   │   │   └── COPILOT-BRIEF-module5_11202025.md
 │   │   ├── prd/
-│   │   │   └── blog_site_prd_1.MD     # Updated with Module 4 requirements
+│   │   │   └── blog_site_prd_1.MD     # Updated with Module 5 requirements
 │   │   ├── Module 3/
 │   │   │   ├── DATABASE_SCHEMA.md
 │   │   │   ├── ACCESSIBILITY.md
@@ -56,12 +58,29 @@ Module 3/
 │   │       ├── Part D Responses.md
 │   │       ├── Part E TravelMathLite Critique.md
 │   │       └── AI_REFLECTION.md
+│   │   └── Module 5/
+│   │       ├── Part A Admin Configuration.md
+│   │       ├── PartA_django_admin_implementation.md
+│   │       ├── PartB_authentication_implementation.md
+│   │       ├── PartC_Django_Admin_Auth_Review.md
+│   │       ├── PartD_Django_Business_Workflow_Analysis.md
+│   │       ├── PartE_static_and_uploaded_files.md
+│   │       └── AI_Disclosure_Report.md
 │   ├── manage.py
 │   └── db.sqlite3
 └── .venv/                     # Virtual environment
 ```
 
 ## Features
+
+### Module 5 - Django Admin & Authentication Enhancements
+- **Enhanced Django Admin**: Custom admin interfaces for Post and Comment models
+  - **PostAdmin**: 5 list_display fields (including word_count_display), 3 search fields, 3 list filters, date_hierarchy, fieldsets with collapsible sections, 3 custom actions (publish_posts, unpublish_posts, mark_as_featured)
+  - **CommentAdmin**: 5 list_display fields (including content_preview and is_recent), 3 search fields, 3 list filters, date_hierarchy, 2 custom actions (approve_comments, mark_as_spam)
+- **User Registration**: Function-based view for new user registration with automatic login
+- **Role-Based Permissions**: LoginRequiredMixin and UserPassesTestMixin enforce author/staff/superuser checks
+- **Media File Handling**: Featured image support with ImageField, MEDIA_URL/MEDIA_ROOT configuration
+- **Business Workflows**: Admin actions support content management, comment moderation, and publishing workflows
 
 ### Module 4 - CBV Architecture
 - **Class-Based Views**: All CRUD operations using generic CBVs (ListView, CreateView, UpdateView, DeleteView)
@@ -84,10 +103,11 @@ Module 3/
 - **WCAG 2.2 Compliance**: ARIA attributes, semantic HTML, keyboard navigation, 4.5:1 contrast ratio
 
 ### Core Functionality
-- **Blog Post Model**: Title, author (FK to User), content, timestamps
+- **Blog Post Model**: Title, author (FK to User), content, featured_image (ImageField), timestamps
 - **Comment Model**: Post (FK to Post), author (FK to User), content, timestamps
-- **Django Admin**: Full CRUD capabilities for posts and comments
+- **Django Admin**: Enhanced CRUD with custom actions, filters, and business workflow support
 - **Responsive Design**: Bootstrap 5.3 styling with mobile-first approach
+- **Media Files**: Image uploads stored in media/post_images/ directory
 
 ## Setup Instructions
 
@@ -122,13 +142,18 @@ source .venv/bin/activate
 ### 3. Install Dependencies
 
 ```bash
-pip install django django-htmx
+pip install django django-htmx pillow
 ```
 
 Or use requirements.txt if available:
 ```bash
 pip install -r requirements.txt
 ```
+
+**Dependencies:**
+- Django 5.2.7
+- django-htmx 1.19.0
+- Pillow 11.0.0 (for ImageField support)
 
 ### 4. Navigate to Project Directory
 
@@ -153,9 +178,9 @@ python manage.py createsuperuser
 Follow the prompts to create an admin account.
 
 **Default Test Credentials:**
-- Username: `admin`
-- Email: `admin@wtamu.edu`
-- Password: `admin` (change in production!)
+- Username: `Admin`
+- Email: `admin@buffs.wtamu.edu`
+- Password: `admin11225`
 
 ### 7. Run Development Server
 
@@ -174,6 +199,7 @@ Server starts at: http://127.0.0.1:8000/
 - **Post Detail**: http://127.0.0.1:8000/blog/post/1/ (replace 1 with post ID)
 - **Admin Interface**: http://127.0.0.1:8000/admin/
 - **Login Page**: http://127.0.0.1:8000/login/
+- **Register Page**: http://127.0.0.1:8000/register/
 - **Logout**: http://127.0.0.1:8000/logout/
 
 ### User Workflows
@@ -224,6 +250,7 @@ Server starts at: http://127.0.0.1:8000/
 - **Module 1-2**: Initial FBV implementation with basic CRUD
 - **Module 3**: Added authentication, HTMX, comments, validation, accessibility
 - **Module 4**: Refactored to CBVs (37% code reduction while maintaining feature parity)
+- **Module 5**: Enhanced admin interface, user registration, media file handling
 
 ### Technology Stack
 - **Framework**: Django 5.2.7
@@ -231,11 +258,13 @@ Server starts at: http://127.0.0.1:8000/
 - **Database**: SQLite (development)
 - **Frontend**: Bootstrap 5.3 (CDN), HTMX 2.0.3
 - **Middleware**: django-htmx for request detection
+- **Media**: Pillow 11.0.0 for ImageField processing
 
 ### Key Design Decisions (ADRs)
 - **ADR-001**: Function-Based Views for initial implementation
 - **ADR-003**: Authentication, HTMX, and Multi-Model Architecture
 - **ADR-004**: Class-Based Views Refactoring (Module 4)
+- **ADR-005**: Django Admin Enhancements, Authentication, and Media Files (Module 5)
 
 ### CBV Implementation Details
 
@@ -332,6 +361,25 @@ python manage.py runserver
 # Verify <500ms response time for search queries
 ```
 
+## Module 5 Deliverables
+
+### Code Implementation (60 points)
+✅ **Part A (30 pts)**: Enhanced Django Admin for 2+ models with custom configurations  
+✅ **Part B (30 pts)**: User registration and role-based authentication system  
+
+### Documentation (40 points)
+✅ **Part A**: Django Admin implementation with business use cases  
+✅ **Part B**: Authentication implementation documentation  
+✅ **Part C (15 pts)**: Peer review of admin/auth implementation  
+✅ **Part D (15 pts)**: Blog post on productivity vs security in Django  
+✅ **Part E (10 pts)**: Static and uploaded files implementation  
+
+### Supporting Documentation
+✅ ADR-005: Django Admin, Authentication, and Media Files Decision Record  
+✅ COPILOT-BRIEF-module5: Implementation guide for Module 5  
+✅ AI_Disclosure_Report: AI usage documentation  
+✅ Updated PRD with Module 5 requirements  
+
 ## Module 4 Deliverables
 
 ### Code Implementation (60 points)
@@ -383,13 +431,15 @@ python manage.py runserver
 - `docs/ADR/ADR-basic_blog 101525.md` - Initial FBV implementation
 - `docs/ADR/ADR-auth-htmx-multimodel_11202025.md` - Module 3 features
 - `docs/ADR/ADR-cbv-refactoring_11202025.md` - Module 4 CBV refactoring
+- `docs/ADR/ADR-django-admin-auth-media_11202025.md` - Module 5 admin/auth/media
 
 ### Copilot Briefs
 - `docs/briefs/COPILOT-BRIEF-module3_11202025.md` - Module 3 implementation
 - `docs/briefs/COPILOT-BRIEF-module4_11202025.md` - Module 4 refactoring
+- `docs/briefs/COPILOT-BRIEF-module5_11202025.md` - Module 5 enhancements
 
 ### Product Requirements
-- `docs/prd/blog_site_prd_1.MD` - Comprehensive PRD (updated for Module 4)
+- `docs/prd/blog_site_prd_1.MD` - Comprehensive PRD (updated for Modules 4 & 5)
 
 ### Module 3 Documentation
 - `docs/Module 3/DATABASE_SCHEMA.md` - ERD and migration notes
@@ -404,6 +454,15 @@ python manage.py runserver
 - `docs/Module 4/Part D Responses.md` - Two peer responses
 - `docs/Module 4/Part E TravelMathLite Critique.md` - Instructor code evaluation
 - `docs/Module 4/AI_REFLECTION.md` - 587-word CBV reflection
+
+### Module 5 Documentation
+- `docs/Module 5/Part A Admin Configuration.md` - Django Admin configuration
+- `docs/Module 5/PartA_django_admin_implementation.md` - Comprehensive admin implementation
+- `docs/Module 5/PartB_authentication_implementation.md` - Authentication system
+- `docs/Module 5/PartC_Django_Admin_Auth_Review.md` - Peer review
+- `docs/Module 5/PartD_Django_Business_Workflow_Analysis.md` - Blog post
+- `docs/Module 5/PartE_static_and_uploaded_files.md` - Media files implementation
+- `docs/Module 5/AI_Disclosure_Report.md` - AI usage disclosure
 
 ## Contributing
 
