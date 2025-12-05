@@ -1,6 +1,6 @@
-"/c/Users/a13152/OneDrive - Cleveland-Cliffs Inc/Desktop/Final_Project" && git add -A && git commit -m "docs: cleanup README and remove duplicate content" && git push homestead Final_Project# Homestead Compass
+## Summary
 
-A Django web application designed to help first-time homeowners adopt a proactive approach to home maintenance through personalized schedules, step-by-step task guides, and community-driven local knowledge sharing.
+A Django web application designed to help first-time homeowners adopt a proactive approach to home maintenance through personalized schedules, step-by-step task guides, and community-driven local knowledge sharing. 
 
 ## 🌐 Live Deployment
 
