@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+<<<<<<< HEAD:home_maintenance_compass/urls.py
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import HomeView
@@ -27,9 +28,27 @@ urlpatterns = [
     path('homes/', include('homes.urls', namespace='homes')),
     path('maintenance/', include('maintenance.urls', namespace='maintenance')),
     path('tips/', include('tips.urls', namespace='tips')),
+=======
+from django.views.generic import RedirectView
+from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
+from myblog import views as myblog_views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('blog/', include('myblog.urls')),
+    path('', RedirectView.as_view(url='/blog/', permanent=False), name='home'),
+    path('login/', auth_views.LoginView.as_view(), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='registration/logged_out.html'), name='logout'),
+    path('register/', myblog_views.register, name='register'),
+>>>>>>> 62b030a9a404cb466f7694b9877c63f57369d7bd:Alexander-Lawson/blog_project/urls.py
 ]
 
 # Serve media files in development
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+<<<<<<< HEAD:home_maintenance_compass/urls.py
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+=======
+>>>>>>> 62b030a9a404cb466f7694b9877c63f57369d7bd:Alexander-Lawson/blog_project/urls.py
