@@ -1,13 +1,12 @@
 ## Summary
 
-<<<<<<< HEAD
 A Django web application designed to help first-time homeowners adopt a proactive approach to home maintenance through personalized schedules, step-by-step task guides, and community-driven local knowledge sharing. 
 
 ## 🌐 Live Deployment
 
 **Production URL**: https://homestead-compass.onrender.com/
 
-**GitHub Repository**: https://github.com/alelawsoWTAMU/CIDM_6325_Final_Project_Lawson
+**GitHub Repository**: https://github.com/alelawsoWTAMU/CIDM_6325_Lawson_Retry/tree/Final_Project
 
 ### Key Features
 - User registration and authentication with custom User model
@@ -77,15 +76,10 @@ python manage.py runserver
 7. **Access the application**
 - Homepage: http://127.0.0.1:8000/
 - Admin: http://127.0.0.1:8000/admin/
-=======
-## Description
-A Django blog application featuring enhanced Django Admin with custom actions and business workflows, user authentication with registration and role-based permissions, media file handling for featured images, Class-Based Views (CBVs) for CRUD operations, HTMX-powered live search, multi-model architecture (Posts and Comments), comprehensive form validation, and WCAG 2.2 accessibility compliance. Module 5 adds administrative enhancements, complete authentication system, and image upload capabilities to the CBV architecture established in Module 4.
->>>>>>> 62b030a9a404cb466f7694b9877c63f57369d7bd
 
 ## Project Structure
 
 ```
-<<<<<<< HEAD
 Final_Project/
 ├── accounts/               # User authentication and profile management
 │   ├── models.py          # Custom User model with homeowner & expert fields
@@ -129,22 +123,8 @@ Final_Project/
 ├── requirements.txt        # Python dependencies
 ├── load_all_data.sh        # Fixture loading script for production
 └── export_data.sh          # Fixture export script
-=======
-Module 3/
-├── Alexander-Lawson/          # Django project root
-│   ├── blog_project/          # Project configuration
-│   │   ├── settings.py        # HTMX middleware, auth configs
-│   │   ├── urls.py            # Login/logout routes
-│   │   └── wsgi.py
-│   ├── myblog/                # Blog app
-│   │   ├── models.py          # Post and Comment models (ForeignKey relationships)
-│   │   ├── views.py           # CBVs: ListView, CreateView, UpdateView, DeleteView
-│   │   ├── urls.py            # URL patterns with .as_view()
-│   │   ├── forms.py           # PostForm and CommentForm with custom validation
-│   │   ├── admin.py           # Admin configuration for Post and Comment
-│   │   ├── templates/
-│   │   │   └── myblog/
-│   │   │       ├── base.html          # HTMX CDN, auth-aware navbar
+```
+
 │   │   │       ├── post_list.html     # Live search with HTMX
 │   │   │       └── post_detail.html   # Post content + comments
 │   │   └── migrations/
@@ -198,23 +178,11 @@ Module 3/
 
 ## Core Features
 
-<<<<<<< HEAD
 ### 1. Home Onboarding Wizard
 **3-step comprehensive data collection process**
 - **Step 1**: Basic home information (address, year built, construction type, climate zone)
 - **Step 2**: Features and systems (basement, attic, HVAC type/age, roof type/age, siding material)
 - **Step 3**: Appliances tracking (type, manufacturer, model, serial numbers, energy ratings)
-=======
-### Module 5 - Django Admin & Authentication Enhancements
-- **Enhanced Django Admin**: Custom admin interfaces for Post and Comment models
-  - **PostAdmin**: 5 list_display fields (including word_count_display), 3 search fields, 3 list filters, date_hierarchy, fieldsets with collapsible sections, 3 custom actions (publish_posts, unpublish_posts, mark_as_featured)
-  - **CommentAdmin**: 5 list_display fields (including content_preview and is_recent), 3 search fields, 3 list filters, date_hierarchy, 2 custom actions (approve_comments, mark_as_spam)
-- **User Registration**: Function-based view for new user registration with automatic login
-- **Role-Based Permissions**: LoginRequiredMixin and UserPassesTestMixin enforce author/staff/superuser checks
-- **Media File Handling**: Featured image support with ImageField, MEDIA_URL/MEDIA_ROOT configuration
-- **Business Workflows**: Admin actions support content management, comment moderation, and publishing workflows
-
-### Module 4 - CBV Architecture
 - **Class-Based Views**: All CRUD operations using generic CBVs (ListView, CreateView, UpdateView, DeleteView)
 - **Declarative Permissions**: LoginRequiredMixin for authentication, UserPassesTestMixin for authorization
 - **Author-Only Editing**: Users can only edit/delete their own posts (superuser override)
@@ -250,7 +218,6 @@ Module 3/
 - Task frequency enforcement (weekly to annually)
 - Automatic next-occurrence scheduling upon completion
 
-<<<<<<< HEAD
 ### 3. Maintenance Task Library
 **62 comprehensive tasks with detailed guidance**
 - Step-by-step instructions with safety notes
@@ -489,78 +456,12 @@ Homestead Compass supports three distinct user roles, each with specific capabil
   - Feature exceptional content on homepage
   - Review user reports and flagged content
   - Export data to fixtures
-=======
-### 1. Clone Repository
-
-```bash
-git clone https://github.com/alelawsoWTAMU/CIDM_6325_Lawson_Retry.git
-cd CIDM_6325_Lawson_Retry
-git checkout Module_4
-```
-
-### 2. Create and Activate Virtual Environment
-
-**Windows (PowerShell):**
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-```
-
-**Windows (Git Bash):**
-```bash
-python -m venv .venv
-source .venv/Scripts/activate
-```
-
-**macOS/Linux:**
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-### 3. Install Dependencies
-
-```bash
-pip install django django-htmx pillow
-```
-
-Or use requirements.txt if available:
-```bash
-pip install -r requirements.txt
-```
-
-**Dependencies:**
-- Django 5.2.7
-- django-htmx 1.19.0
-- Pillow 11.0.0 (for ImageField support)
-
-### 4. Navigate to Project Directory
-
-```bash
-cd Alexander-Lawson
-```
-
-### 5. Apply Database Migrations
-
-```bash
-python manage.py migrate
-```
-
-This creates the SQLite database with Post and Comment tables.
-
-### 6. Create Superuser
-
-```bash
-python manage.py createsuperuser
-```
->>>>>>> 62b030a9a404cb466f7694b9877c63f57369d7bd
 
 **Full Permissions:**
 - Create, read, update, delete all content
 - Bypass approval workflows
 - Access all administrative functions
 
-<<<<<<< HEAD
 ### Quick Start by Role
 
 **For Homeowners:**
@@ -606,25 +507,6 @@ python manage.py createsuperuser
 - **[RUBRIC_COMPLIANCE.md](docs/RUBRIC_COMPLIANCE.md)** - Django feature checklist
 - **[adr/](docs/adr/)** - Architecture Decision Records
 - **[prd/](docs/prd/)** - Product Requirements Documents
-=======
-**Default Test Credentials:**
-- Username: `Admin`
-- Email: `admin@buffs.wtamu.edu`
-- Password: `admin11225`
-
-### 7. Run Development Server
-
-```bash
-python manage.py runserver
-```
-
-Server starts at: http://127.0.0.1:8000/
-
-## Usage
-
-### Access the Application
-
-- **Homepage**: http://127.0.0.1:8000/ (redirects to blog)
 - **Blog List**: http://127.0.0.1:8000/blog/ or http://127.0.0.1:8000/blog/posts/
 - **Post Detail**: http://127.0.0.1:8000/blog/post/1/ (replace 1 with post ID)
 - **Admin Interface**: http://127.0.0.1:8000/admin/
